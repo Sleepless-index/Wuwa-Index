@@ -49,16 +49,14 @@ function snapStatsHTML() {
   const got   = allEntries.filter(e => state[e.id]?.res).length;
   const sig   = allEntries.filter(e => state[e.id]?.wep > 0).length;
   return `
-    <div class="snap-header">
-      <div class="snap-stats">
-        <div class="snap-stat">
-          <span class="snap-stat-num res">${got}/${total}</span>
-          <span class="snap-stat-label">resonators</span>
-        </div>
-        <div class="snap-stat">
-          <span class="snap-stat-num sig">${sig}/${total}</span>
-          <span class="snap-stat-label">sig weapons</span>
-        </div>
+    <div class="snap-stats-bar">
+      <div class="snap-stats-bar-item">
+        <span class="snap-stats-bar-num res">${got}/${total}</span>
+        <span class="snap-stats-bar-label">resonators</span>
+      </div>
+      <div class="snap-stats-bar-item">
+        <span class="snap-stats-bar-num sig">${sig}/${total}</span>
+        <span class="snap-stats-bar-label">sig weapons</span>
       </div>
     </div>`;
 }
@@ -451,8 +449,7 @@ function _exportCanvas(canvas, btn) {
     a.click();
     setTimeout(() => URL.revokeObjectURL(a.href), 5000);
     const msg = document.getElementById("snap-export-msg");
-    const result = copied ? "✓ copied + saved!" : "✓ saved!";
-    if (msg) { msg.textContent = result; msg.className = "snap-export-msg"; }
+    if (msg) { msg.textContent = copied ? "✓ copied + saved!" : "✓ saved!"; }
     btn.textContent = "⎘ copy + save";
     btn.disabled = false;
     setTimeout(() => { if (msg) msg.textContent = ""; }, 2500);

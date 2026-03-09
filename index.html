@@ -143,41 +143,49 @@
 
 <!-- ════════════════════ MODALS ════════════════════ -->
 
-<!-- Snapshot modal -->
+<!-- Snapshot modal — SnapshotModal.tsx (custom layout, not shared Modal) -->
 <div class="snap-modal-backdrop" id="modal-snapshot" onclick="closeSnapshot()">
   <div class="snap-modal" onclick="event.stopPropagation()">
-    <!-- Action bar -->
+
+    <!-- action bar -->
     <div class="snap-modal-actions">
       <div class="snap-view-toggle">
         <button class="snap-view-btn" id="snap-view-regions" onclick="setSnapView('regions')">list</button>
         <button class="snap-view-btn active" id="snap-view-gallery" onclick="setSnapView('gallery')">gallery</button>
       </div>
-      <label class="snap-owned-label" title="Export owned resonators only">
+      <label class="snap-owned-label">
         <input type="checkbox" id="snap-owned-only" class="cb" onchange="renderSnapContent()">
         <span>owned only</span>
       </label>
       <div class="snap-actions-right">
         <span class="snap-export-msg" id="snap-export-msg"></span>
-        <button class="snap-action-btn snap-action-primary" id="snap-copy-btn" onclick="copySnapshot()">&#x2398; copy + save</button>
+        <button class="snap-action-btn primary" id="snap-copy-btn" onclick="copySnapshot()">&#x2398; copy + save</button>
         <button class="snap-action-btn" onclick="closeSnapshot()">close</button>
       </div>
     </div>
-    <!-- Preview content (stats + cards injected by snapshot.js) -->
+
+    <!-- stats strip + preview content (injected by snapshot.js) -->
     <div id="snap-card-content"></div>
   </div>
 </div>
 
-<!-- Export modal -->
-<div class="modal-backdrop" id="modal-export">
+<!-- Export modal — ExportModal.tsx -->
+<div class="modal-backdrop" id="modal-export" onclick="if(event.target===this)closeModal('export')">
   <div class="modal">
+
+    <!-- ModalHeader title="Export Data" -->
     <div class="modal-header">
       <h2>Export Data</h2>
     </div>
+
+    <!-- ModalBody -->
     <div class="modal-body">
       <p>Copy the text below and save it somewhere safe. Paste it back using Import to restore your progress.</p>
       <textarea id="export-text" readonly></textarea>
       <div class="modal-msg" id="export-msg"></div>
     </div>
+
+    <!-- ModalFooter -->
     <div class="modal-footer">
       <button class="modal-btn primary" onclick="copyExport()">copy to clipboard</button>
       <button class="modal-btn" onclick="closeModal('export')">close</button>
@@ -185,17 +193,23 @@
   </div>
 </div>
 
-<!-- Import modal -->
-<div class="modal-backdrop" id="modal-import">
+<!-- Import modal — ImportModal.tsx -->
+<div class="modal-backdrop" id="modal-import" onclick="if(event.target===this)closeModal('import')">
   <div class="modal">
+
+    <!-- ModalHeader title="Import Data" -->
     <div class="modal-header">
       <h2>Import Data</h2>
     </div>
+
+    <!-- ModalBody -->
     <div class="modal-body">
       <p>Paste your previously exported data below. This will overwrite your current progress.</p>
       <textarea id="import-text" placeholder="Paste exported data here..."></textarea>
       <div class="modal-msg" id="import-msg"></div>
     </div>
+
+    <!-- ModalFooter -->
     <div class="modal-footer">
       <button class="modal-btn primary" onclick="doImport()">import</button>
       <button class="modal-btn" onclick="closeModal('import')">cancel</button>
@@ -203,19 +217,23 @@
   </div>
 </div>
 
-<!-- Edit upcoming modal -->
-<div class="modal-backdrop" id="modal-edit-upcoming">
+<!-- Edit upcoming modal — EditUpcomingModal.tsx -->
+<div class="modal-backdrop" id="modal-edit-upcoming" onclick="if(event.target===this)closeModal('edit-upcoming')">
   <div class="modal">
-    <div class="modal-header modal-header--upcoming">
+
+    <!-- ModalHeader title="Edit Upcoming" accent="text-upcoming" -->
+    <div class="modal-header upcoming">
       <h2>Edit Upcoming</h2>
     </div>
+
+    <!-- ModalBody -->
     <div class="modal-body">
-      <div class="modal-fields">
-        <label class="modal-field-label">
+      <div class="modal-field-group">
+        <label class="modal-field">
           <span class="modal-field-hint">Name</span>
           <input id="edit-up-name" maxlength="40">
         </label>
-        <label class="modal-field-label">
+        <label class="modal-field">
           <span class="modal-field-hint">Element</span>
           <select id="edit-up-el">
             <option value="">Unknown</option>
@@ -225,6 +243,8 @@
         </label>
       </div>
     </div>
+
+    <!-- ModalFooter -->
     <div class="modal-footer">
       <button class="modal-btn upcoming-primary" onclick="confirmEditUpcoming()">save</button>
       <button class="modal-btn" onclick="closeModal('edit-upcoming')">cancel</button>
@@ -232,20 +252,24 @@
   </div>
 </div>
 
-<!-- Release confirmation modal -->
-<div class="modal-backdrop" id="modal-release">
+<!-- Release confirmation modal — ReleaseModal.tsx -->
+<div class="modal-backdrop" id="modal-release" onclick="if(event.target===this)closeModal('release')">
   <div class="modal">
-    <div class="modal-header modal-header--upcoming">
+
+    <!-- ModalHeader title="Mark as Released" accent="text-upcoming" -->
+    <div class="modal-header upcoming">
       <h2>Mark as Released</h2>
     </div>
+
+    <!-- ModalBody -->
     <div class="modal-body">
       <p>Confirm or correct the details before moving to the main tracker.</p>
-      <div class="modal-fields">
-        <label class="modal-field-label">
+      <div class="modal-field-group">
+        <label class="modal-field">
           <span class="modal-field-hint">Name</span>
           <input id="rel-name" maxlength="40">
         </label>
-        <label class="modal-field-label">
+        <label class="modal-field">
           <span class="modal-field-hint">Element</span>
           <select id="rel-el">
             <option value="">Unknown</option>
@@ -255,6 +279,8 @@
         </label>
       </div>
     </div>
+
+    <!-- ModalFooter -->
     <div class="modal-footer">
       <button class="modal-btn confirm-primary" onclick="confirmRelease()">confirm &amp; move to tracker</button>
       <button class="modal-btn" onclick="closeModal('release')">cancel</button>

@@ -691,10 +691,13 @@ function doImport() {
 }
 
 /* ─── Init ─── */
-["export", "import", "edit-upcoming", "release"].forEach(t => {
-  document.getElementById(`modal-${t}`).addEventListener("click", function (e) {
-    if (e.target === this) closeModal(t);
+// Escape key closes any open modal
+document.addEventListener("keydown", e => {
+  if (e.key !== "Escape") return;
+  ["export", "import", "edit-upcoming", "release"].forEach(t => {
+    if (document.getElementById(`modal-${t}`)?.classList.contains("open")) closeModal(t);
   });
+  if (document.getElementById("modal-snapshot")?.classList.contains("open")) closeSnapshot();
 });
 
 document.getElementById("up-name-input").addEventListener("keydown", e => {

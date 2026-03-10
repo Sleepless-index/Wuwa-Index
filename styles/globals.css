@@ -63,14 +63,14 @@ body {
   transition: background 0.2s, color 0.2s;
 }
 
-/* On mobile, force cards to fill 4 equal columns */
+/* On mobile, tracker card sections use a 4-column grid */
 @media (max-width: 767px) {
-  .flex-wrap {
+  .card-grid {
     display: grid !important;
     grid-template-columns: repeat(4, 1fr) !important;
     gap: 6px !important;
   }
-  .flex-wrap > * {
+  .card-grid > .tracker-card-wrap {
     width: 100% !important;
   }
 }

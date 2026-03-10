@@ -53,7 +53,7 @@ export default function TrackerSection({ group, forceOpen, forceKey }: Props) {
 
       {/* ── Cards grid ── */}
       {open && (
-        <div ref={bodyRef} className="flex flex-wrap gap-2">
+        <div ref={bodyRef} className="card-grid flex flex-wrap gap-2">
           {visibleEntries.map(e => (
             <TrackerEntry key={e.id} entry={e} />
           ))}

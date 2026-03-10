@@ -42,30 +42,34 @@ export default function SnapshotModal({ onClose }: { onClose: () => void }) {
         onClick={e => e.stopPropagation()}
       >
         {/* ── Action bar ── */}
-        <div className="flex flex-wrap items-center gap-2 px-4 py-3 bg-[var(--surface2)] border-b border-[var(--border)] rounded-t-2xl">
-          {/* View toggle */}
-          <div className="flex bg-[var(--surface)] border border-[var(--border)] rounded-md overflow-hidden">
-            {(['list', 'gallery'] as const).map(v => {
-              const active = v === 'list' ? snapView === 'regions' : snapView === 'gallery';
-              return (
-                <button
-                  key={v}
-                  onClick={() => setSnapView(v === 'list' ? 'regions' : 'gallery')}
-                  className={`text-[11px] font-mono px-3 py-1.5 transition-all ${active ? 'bg-[var(--accent)]/15 text-[var(--accent)]' : 'text-[var(--subtext)] hover:text-[var(--text)]'}`}
-                >
-                  {v}
-                </button>
-              );
-            })}
+        <div className="flex flex-col gap-2 px-4 py-3 bg-[var(--surface2)] border-b border-[var(--border)] rounded-t-2xl">
+          {/* Row 1: view toggle + owned only */}
+          <div className="flex items-center gap-2">
+            {/* View toggle */}
+            <div className="flex bg-[var(--surface)] border border-[var(--border)] rounded-md overflow-hidden flex-shrink-0">
+              {(['gallery', 'list'] as const).map(v => {
+                const active = v === 'list' ? snapView === 'regions' : snapView === 'gallery';
+                return (
+                  <button
+                    key={v}
+                    onClick={() => setSnapView(v === 'list' ? 'regions' : 'gallery')}
+                    className={`text-[11px] font-mono px-3 py-1.5 transition-all ${active ? 'bg-[var(--accent)]/15 text-[var(--accent)]' : 'text-[var(--subtext)] hover:text-[var(--text)]'}`}
+                  >
+                    {v}
+                  </button>
+                );
+              })}
+            </div>
+
+            {/* Owned only */}
+            <label className="flex items-center gap-1.5 cursor-pointer">
+              <input type="checkbox" checked={ownedOnly} onChange={e => setOwnedOnly(e.target.checked)} className="cb" />
+              <span className="text-[11px] font-mono text-[var(--subtext)]">owned only</span>
+            </label>
           </div>
 
-          {/* Owned only */}
-          <label className="flex items-center gap-1.5 cursor-pointer">
-            <input type="checkbox" checked={ownedOnly} onChange={e => setOwnedOnly(e.target.checked)} className="cb" />
-            <span className="text-[11px] font-mono text-[var(--subtext)]">owned only</span>
-          </label>
-
-          <div className="flex items-center gap-2 ml-auto">
+          {/* Row 2: export + close */}
+          <div className="flex items-center gap-2">
             {exportMsg && (
               <span className={`text-[11px] font-mono ${exportMsg.startsWith('✓') ? 'text-[var(--got)]' : 'text-[var(--havoc)]'}`}>
                 {exportMsg}

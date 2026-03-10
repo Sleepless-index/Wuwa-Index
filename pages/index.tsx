@@ -62,10 +62,12 @@ export default function Home() {
         {/* ═══ SIDEBAR — hidden on mobile ═══ */}
         <aside className="hidden md:flex w-72 flex-shrink-0 flex-col border-r border-border overflow-y-auto px-5 py-6">
           <Header />
-          <StatsBar />
           <ProgressBars />
           <PriorityList />
           <ElementBreakdown />
+          <div className="mt-auto pt-4">
+            <StatsBar />
+          </div>
         </aside>
 
         {/* ═══ MOBILE SIDEBAR DRAWER ═══ */}
@@ -75,14 +77,16 @@ export default function Home() {
             onClick={() => setSidebarOpen(false)}
           >
             <aside
-              className="absolute left-0 top-0 bottom-0 w-72 bg-bg border-r border-border overflow-y-auto px-5 py-6"
+              className="absolute left-0 top-0 bottom-0 w-72 bg-bg border-r border-border overflow-y-auto px-5 py-6 flex flex-col"
               onClick={e => e.stopPropagation()}
             >
               <Header />
-              <StatsBar />
               <ProgressBars />
               <PriorityList />
               <ElementBreakdown />
+              <div className="mt-auto pt-4">
+                <StatsBar />
+              </div>
             </aside>
           </div>
         )}

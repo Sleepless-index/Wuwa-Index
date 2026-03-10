@@ -1,19 +1,19 @@
 import type { ModalType } from '@/types';
+import { EL_COLORS } from '@/data/resonators';
 
 interface Props {
-  onOpen:         (m: ModalType) => void;
-  onReset:        () => void;
-  onOpenFilter:   () => void;
-  activeFilter:   string;
+  onOpen:       (m: ModalType) => void;
+  onReset:      () => void;
+  onOpenFilter: () => void;
+  activeFilter: string;
 }
 
 const HdrBtn = ({
-  title, onClick, danger = false, active = false, children,
+  title, onClick, danger = false, children,
 }: {
   title: string;
   onClick: () => void;
   danger?: boolean;
-  active?: boolean;
   children: React.ReactNode;
 }) => (
   <button
@@ -24,9 +24,7 @@ const HdrBtn = ({
       transition-all flex-shrink-0
       ${danger
         ? 'text-subtext hover:text-havoc hover:border-havoc hover:bg-havoc/5 border-border'
-        : active
-          ? 'text-sig border-sig bg-sig/10'
-          : 'text-subtext hover:text-sig hover:border-sig hover:bg-sig/5 border-border'}
+        : 'text-subtext hover:text-sig hover:border-sig hover:bg-sig/5 border-border'}
     `}
   >
     {children}
@@ -34,10 +32,12 @@ const HdrBtn = ({
 );
 
 export default function TrackerHeader({ onOpen, onReset, onOpenFilter, activeFilter }: Props) {
+  const filterColor = activeFilter !== 'All' ? EL_COLORS[activeFilter] : undefined;
+
   return (
-    <div className="flex items-center gap-2 flex-1 min-w-0">
+    <div className="flex flex-col gap-2 flex-1 min-w-0">
+      {/* Row 1: action buttons */}
       <div className="flex items-center gap-1.5">
-        {/* Export */}
         <HdrBtn title="Export" onClick={() => onOpen('export')}>
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
             <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
@@ -45,8 +45,6 @@ export default function TrackerHeader({ onOpen, onReset, onOpenFilter, activeFil
             <line x1="12" y1="15" x2="12" y2="3"/>
           </svg>
         </HdrBtn>
-
-        {/* Import */}
         <HdrBtn title="Import" onClick={() => onOpen('import')}>
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
             <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
@@ -54,18 +52,13 @@ export default function TrackerHeader({ onOpen, onReset, onOpenFilter, activeFil
             <line x1="12" y1="3" x2="12" y2="15"/>
           </svg>
         </HdrBtn>
-
-        {/* Snapshot */}
         <HdrBtn title="Snapshot" onClick={() => onOpen('snapshot')}>
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
             <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
             <circle cx="12" cy="13" r="4"/>
           </svg>
         </HdrBtn>
-
         <div className="w-px h-5 bg-border mx-0.5" />
-
-        {/* Reset */}
         <HdrBtn title="Reset All" onClick={onReset} danger>
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
             <polyline points="3 6 5 6 21 6"/>
@@ -76,21 +69,23 @@ export default function TrackerHeader({ onOpen, onReset, onOpenFilter, activeFil
         </HdrBtn>
       </div>
 
-      {/* Filter button — right side */}
-      <button
-        onClick={onOpenFilter}
-        className="ml-auto flex items-center gap-1.5 text-[11px] font-mono font-semibold px-2.5 py-1 rounded-lg border transition-all flex-shrink-0"
-        style={{
-          background:  activeFilter !== 'All' ? 'rgba(122,168,212,0.12)' : 'transparent',
-          borderColor: activeFilter !== 'All' ? 'var(--accent)'          : 'var(--border)',
-          color:       activeFilter !== 'All' ? 'var(--accent)'          : 'var(--subtext)',
-        }}
-      >
-        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-          <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/>
-        </svg>
-        {activeFilter !== 'All' ? activeFilter : 'filter'}
-      </button>
+      {/* Row 2: filter button */}
+      <div className="flex items-center gap-2">
+        <button
+          onClick={onOpenFilter}
+          className="flex items-center gap-1.5 text-[11px] font-mono font-semibold px-2.5 py-1 rounded-lg border transition-all flex-shrink-0"
+          style={{
+            background:  filterColor ? `${filterColor}14` : 'transparent',
+            borderColor: filterColor ? filterColor         : 'var(--border)',
+            color:       filterColor ? filterColor         : 'var(--subtext)',
+          }}
+        >
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+            <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/>
+          </svg>
+          {activeFilter !== 'All' ? activeFilter : 'filter'}
+        </button>
+      </div>
     </div>
   );
 }

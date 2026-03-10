@@ -94,7 +94,7 @@ export default function SnapshotModal({ onClose }: { onClose: () => void }) {
         {/* ── Preview content ── */}
         <div className="overflow-y-auto p-4">
           {snapView === 'gallery'
-            ? <GalleryPreview owned={owned} notOwned={notOwned} ownedOnly={ownedOnly} stateMap={stateMap} />
+            ? <GalleryPreview owned={owned} stateMap={stateMap} />
             : <RegionsPreview versions={versions} ownedOnly={ownedOnly} stateMap={stateMap} />
           }
         </div>
@@ -123,14 +123,11 @@ function SnapStatsHeader({ allEntries, stateMap }: any) {
 }
 
 /* ── Gallery view — owned / not-owned card grid ── */
-function GalleryPreview({ owned, notOwned, ownedOnly, stateMap }: any) {
+function GalleryPreview({ owned, stateMap }: any) {
   return (
     <div>
       {owned.length > 0 && (
         <CardGroup label={`owned · ${owned.length}`} entries={owned} stateMap={stateMap} />
-      )}
-      {!ownedOnly && notOwned.length > 0 && (
-        <CardGroup label={`not owned · ${notOwned.length}`} entries={notOwned} stateMap={stateMap} />
       )}
     </div>
   );

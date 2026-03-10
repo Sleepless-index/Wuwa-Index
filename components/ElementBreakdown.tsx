@@ -9,7 +9,7 @@ export default function ElementBreakdown() {
   const allEntries = versions.flatMap(g => g.entries);
 
   return (
-    <div className="flex gap-1.5 mb-5 overflow-x-auto pb-1">
+    <div className="flex flex-wrap gap-1.5 mb-5">
       {EL_ORDER.map(el => {
         const color  = EL_COLORS[el];
         const entries = allEntries.filter(e => e.element === el);

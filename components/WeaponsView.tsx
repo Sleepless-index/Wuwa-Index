@@ -8,14 +8,14 @@ export default function WeaponsView() {
         Signature Weapons
       </p>
       <div className="card-grid flex flex-wrap gap-2 mb-8">
-        {SIG_WEAPONS.map(w => <WeaponEntry key={w.slug} weapon={w} />)}
+        {SIG_WEAPONS.map(w => <WeaponEntry key={w.file} weapon={w} />)}
       </div>
 
       <p className="text-[10px] font-mono font-semibold text-subtext uppercase tracking-widest mb-3">
         Standard Weapons
       </p>
       <div className="card-grid flex flex-wrap gap-2">
-        {STD_WEAPONS.map(w => <WeaponEntry key={w.slug} weapon={w} />)}
+        {STD_WEAPONS.map(w => <WeaponEntry key={w.file} weapon={w} />)}
       </div>
     </div>
   );

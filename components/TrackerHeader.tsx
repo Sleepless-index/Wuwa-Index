@@ -32,7 +32,7 @@ const HdrBtn = ({
 
 export default function TrackerHeader({ allOpen, onToggleAll, onOpen, onReset }: Props) {
   return (
-    <div className="flex items-center gap-2 mb-3">
+    <div className="flex items-center gap-2 flex-1 min-w-0">
       <div className="flex items-center gap-1.5">
         {/* Export */}
         <HdrBtn title="Export" onClick={() => onOpen('export')}>

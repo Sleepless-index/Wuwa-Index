@@ -116,6 +116,7 @@ export default function Home() {
 
           {/* Scrollable tracker */}
           <div className="flex-1 overflow-y-auto px-4 py-4">
+            <FilterPopover />
             {activeFilter !== 'All' ? (
               <div className="card-grid flex flex-wrap gap-2">
                 {versions
@@ -126,7 +127,6 @@ export default function Home() {
               </div>
             ) : (
               <>
-                <FilterPopover />
                 {versions.map(group => (
                   <TrackerSection
                     key={group.label}

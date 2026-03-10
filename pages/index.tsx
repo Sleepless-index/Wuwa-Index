@@ -23,35 +23,31 @@ import type { ModalType } from '@/types';
 export default function Home() {
   const { theme, toggleTheme } = useTheme();
 
-  const versions  = useTrackerStore(s => s.versions);
-  const resetAll  = useTrackerStore(s => s.resetAll);
+  const versions = useTrackerStore(s => s.versions);
+  const resetAll = useTrackerStore(s => s.resetAll);
 
   const [openModal,    setOpenModal]    = useState<ModalType>(null);
   const [editingUid,   setEditingUid]   = useState<number | null>(null);
   const [releasingUid, setReleasingUid] = useState<number | null>(null);
 
-  // Collapse-all state: we drive this by toggling a key that TrackerSection reads
-  const [allOpen, setAllOpen] = useState(true);
-  const [collapseKey, setCollapseKey] = useState(0); // bump to signal sections
+  // Collapse-all: allOpen drives the next forced state, forceKey triggers it
+  const [allOpen,    setAllOpen]    = useState(true);
+  const [forceKey,   setForceKey]   = useState(0);
 
   const handleToggleAll = useCallback(() => {
-    setAllOpen(v => !v);
-    setCollapseKey(k => k + 1);
+    setAllOpen(v => {
+      const next = !v;
+      setForceKey(k => k + 1);
+      return next;
+    });
   }, []);
 
   const handleReset = () => {
     if (confirm('Reset everything including priority and upcoming?')) resetAll();
   };
 
-  const handleOpenEdit = (uid: number) => {
-    setEditingUid(uid);
-    setOpenModal('edit-upcoming');
-  };
-
-  const handleOpenRelease = (uid: number) => {
-    setReleasingUid(uid);
-    setOpenModal('release');
-  };
+  const handleOpenEdit    = (uid: number) => { setEditingUid(uid);   setOpenModal('edit-upcoming'); };
+  const handleOpenRelease = (uid: number) => { setReleasingUid(uid); setOpenModal('release'); };
 
   const close = () => {
     setOpenModal(null);
@@ -68,39 +64,55 @@ export default function Home() {
         <link rel="icon" href="favicon.ico" />
       </Head>
 
-      <main className="bg-bg min-h-screen">
-        <div className="max-w-[680px] mx-auto px-4 sm:px-7 py-8">
-          <Header theme={theme} onToggleTheme={toggleTheme} />
+      {/* ── Full-viewport horizontal layout ── */}
+      <div className="bg-bg flex h-screen overflow-hidden">
 
+        {/* ═══ LEFT PANEL — stats, priority, elements ═══ */}
+        <aside className="
+          w-72 flex-shrink-0 flex flex-col
+          border-r border-border overflow-y-auto
+          px-5 py-6
+        ">
+          <Header theme={theme} onToggleTheme={toggleTheme} />
           <StatsBar />
           <ProgressBars />
           <PriorityList />
           <ElementBreakdown />
+        </aside>
 
-          <TrackerHeader
-            allOpen={allOpen}
-            onToggleAll={handleToggleAll}
-            onOpen={setOpenModal}
-            onReset={handleReset}
-          />
+        {/* ═══ RIGHT PANEL — tracker rows with own scroll ═══ */}
+        <main className="flex-1 flex flex-col overflow-hidden">
 
-          <div>
-            {versions.map(group => (
-              <TrackerSection
-                key={group.label + collapseKey}
-                group={group}
-              />
-            ))}
+          {/* Fixed top bar with action buttons + collapse toggle */}
+          <div className="flex-shrink-0 px-5 pt-5 pb-3 border-b border-border">
+            <TrackerHeader
+              allOpen={allOpen}
+              onToggleAll={handleToggleAll}
+              onOpen={setOpenModal}
+              onReset={handleReset}
+            />
           </div>
 
-          <UpcomingSection
-            onOpenRelease={handleOpenRelease}
-            onOpenEdit={handleOpenEdit}
-          />
-        </div>
-      </main>
+          {/* Scrollable tracker list */}
+          <div className="flex-1 overflow-y-auto px-5 py-3">
+            {versions.map(group => (
+              <TrackerSection
+                key={group.label}
+                group={group}
+                forceOpen={allOpen}
+                forceKey={forceKey}
+              />
+            ))}
 
-      {/* Modals */}
+            <UpcomingSection
+              onOpenRelease={handleOpenRelease}
+              onOpenEdit={handleOpenEdit}
+            />
+          </div>
+        </main>
+      </div>
+
+      {/* ── Modals ── */}
       {openModal === 'export'        && <ExportModal onClose={close} />}
       {openModal === 'import'        && <ImportModal onClose={close} />}
       {openModal === 'snapshot'      && <SnapshotModal onClose={close} />}

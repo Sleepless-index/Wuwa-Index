@@ -59,7 +59,7 @@ body {
   background: var(--bg);
   color: var(--text);
   font-family: 'DM Sans', sans-serif;
-  min-height: 100vh;
+  overflow: hidden; /* layout uses its own scroll columns */
   transition: background 0.2s, color 0.2s;
 }
 

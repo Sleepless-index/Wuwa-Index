@@ -179,30 +179,38 @@ async function gallerySnapshot(opts: SnapshotOptions): Promise<boolean> {
 
       ctx.font      = '600 10px "DM Sans",sans-serif';
       ctx.fillStyle = s.res ? '#f5f0e8' : '#45495a';
-      ctx.textAlign = 'center';
+      ctx.textAlign = 'left';
+      ctx.textBaseline = 'alphabetic';
+
+      // Reserve space for S#R# badge if owned
+      const BADGE_W = s.res ? 28 : 0;
+      const nameMaxW = CARD_W - 10 - BADGE_W;
       let name = e.name;
-      while (ctx.measureText(name).width > CARD_W - 10 && name.length > 1) name = name.slice(0, -1);
+      while (ctx.measureText(name).width > nameMaxW && name.length > 1) name = name.slice(0, -1);
       if (name !== e.name) name += '…';
-      ctx.fillText(name, cx + CARD_W / 2, cy + CARD_H - 7);
+      ctx.fillText(name, cx + 5, cy + CARD_H - 7);
 
       if (s.res) {
         const isMaxS = s.seq === 6, isMaxR = s.wep === 5;
         const sText = `S${s.seq || 0}`, rText = `R${s.wep || 0}`;
         const BFONT = '800 8px "JetBrains Mono",monospace';
+        const RFONT = '500 8px "JetBrains Mono",monospace';
         ctx.font = BFONT;
-        const sW = ctx.measureText(sText).width + 10;
-        ctx.font = '500 8px "JetBrains Mono",monospace';
-        const rW = ctx.measureText(rText).width + 10;
-        const bH = 14, bX = cx + 6, bY = cy + 6;
-        rr(ctx, bX, bY, sW + rW, bH, 3);
+        const sW = ctx.measureText(sText).width + 4;
+        ctx.font = RFONT;
+        const rW = ctx.measureText(rText).width + 4;
+        const bW = sW + rW + 2, bH = 13;
+        const bX = cx + CARD_W - bW - 4;
+        const bY = cy + CARD_H - bH - 4;
+        rr(ctx, bX, bY, bW, bH, 3);
         ctx.fillStyle = 'rgba(13,13,25,0.88)'; ctx.fill();
         ctx.strokeStyle = (isMaxS && isMaxR) ? 'rgba(245,216,138,0.7)' : 'rgba(255,255,255,0.08)';
-        ctx.lineWidth = 0.75; rr(ctx, bX, bY, sW + rW, bH, 3); ctx.stroke();
-        ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+        ctx.lineWidth = 0.75; rr(ctx, bX, bY, bW, bH, 3); ctx.stroke();
+        ctx.textAlign = 'left'; ctx.textBaseline = 'middle';
         ctx.fillStyle = isMaxS ? '#f5d88a' : '#b794f4'; ctx.font = BFONT;
-        ctx.fillText(sText, bX + sW / 2, bY + bH / 2);
-        ctx.fillStyle = isMaxR ? '#f5d88a' : '#7eb8f7'; ctx.font = '500 8px "JetBrains Mono",monospace';
-        ctx.fillText(rText, bX + sW + rW / 2, bY + bH / 2);
+        ctx.fillText(sText, bX + 2, bY + bH / 2);
+        ctx.fillStyle = isMaxR ? '#f5d88a' : '#7eb8f7'; ctx.font = RFONT;
+        ctx.fillText(rText, bX + sW + 2, bY + bH / 2);
         ctx.textBaseline = 'alphabetic';
       }
     }

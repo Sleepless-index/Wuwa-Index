@@ -16,6 +16,7 @@ interface TrackerStore {
 
   // UI state (not persisted)
   activeFilter: string;
+  weaponState: Record<string, number>; // slug → rank 0-5 for standard weapons
 
   // Derived helpers (computed on access)
   allEntries: () => Resonator[];
@@ -24,6 +25,9 @@ interface TrackerStore {
   setRes:  (id: number, val: boolean) => void;
   setSeq:  (id: number, val: number) => void;
   setWep:  (id: number, val: number) => void;
+
+  // Standard weapon action
+  setStdWeaponRank: (slug: string, rank: number) => void;
 
   // Priority actions
   togglePriority:    (id: number) => void;
@@ -89,6 +93,7 @@ export const useTrackerStore = create<TrackerStore>()(
       versions:         buildVersions([]),
       uidCounter:       200,
       activeFilter:     'All',
+      weaponState:      {},
 
       // ── Derived ──
       allEntries: () => get().versions.flatMap(g => g.entries),
@@ -189,6 +194,12 @@ export const useTrackerStore = create<TrackerStore>()(
 
       // ── Filter ──
       setFilter: (el) => set({ activeFilter: el }),
+
+      // ── Standard weapon rank ──
+      setStdWeaponRank: (slug, rank) =>
+        set(s => ({
+          weaponState: { ...s.weaponState, [slug]: s.weaponState[slug] === rank ? 0 : rank },
+        })),
 
       // ── Import ──
       importData: (raw) => {

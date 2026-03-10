@@ -31,27 +31,6 @@ const HdrBtn = ({
 export default function TrackerHeader({ onOpen, onReset }: Props) {
   return (
     <div className="flex items-center gap-1.5 flex-1 min-w-0">
-      {/* Import / Export combined */}
-      <button
-        onClick={() => onOpen('export')}
-        onContextMenu={e => { e.preventDefault(); onOpen('import'); }}
-        title="Export (right-click to Import)"
-        className="h-8 px-2.5 rounded-lg border border-border bg-transparent flex items-center gap-1.5 text-subtext hover:text-sig hover:border-sig hover:bg-sig/5 transition-all flex-shrink-0"
-      >
-        {/* Up arrow */}
-        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
-          <polyline points="17 8 12 3 7 8"/>
-          <line x1="12" y1="3" x2="12" y2="15"/>
-        </svg>
-        {/* Down arrow */}
-        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
-          <polyline points="7 10 12 15 17 10"/>
-          <line x1="12" y1="15" x2="12" y2="3"/>
-        </svg>
-      </button>
-
       {/* Snapshot */}
       <HdrBtn title="Snapshot" onClick={() => onOpen('snapshot')}>
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
@@ -59,9 +38,7 @@ export default function TrackerHeader({ onOpen, onReset }: Props) {
           <circle cx="12" cy="13" r="4"/>
         </svg>
       </HdrBtn>
-
       <div className="w-px h-5 bg-border mx-0.5" />
-
       {/* Reset */}
       <HdrBtn title="Reset All" onClick={onReset} danger>
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">

@@ -1,17 +1,13 @@
-import { useState, useCallback } from 'react';
+import { useState } from 'react';
 import Head from 'next/head';
 import { useTrackerStore } from '@/store/trackerStore';
 import { useTheme } from '@/hooks/useTheme';
 
-import Header           from '@/components/Header';
-import StatsBar         from '@/components/StatsBar';
-import ProgressBars     from '@/components/ProgressBars';
-import ElementBreakdown from '@/components/ElementBreakdown';
-import PriorityList     from '@/components/PriorityList';
+import Sidebar          from '@/components/Sidebar';
 import TrackerHeader    from '@/components/TrackerHeader';
+import FilterPopover    from '@/components/FilterPopover';
 import TrackerSection   from '@/components/TrackerSection';
 import TrackerEntry     from '@/components/TrackerEntry';
-import FilterPopover    from '@/components/FilterPopover';
 import UpcomingSection  from '@/components/UpcomingSection';
 
 import ExportModal       from '@/components/modals/ExportModal';
@@ -59,14 +55,8 @@ export default function Home() {
       <div className="bg-bg flex h-screen overflow-hidden">
 
         {/* ═══ SIDEBAR — hidden on mobile ═══ */}
-        <aside className="hidden md:flex w-72 flex-shrink-0 flex-col border-r border-border overflow-y-auto px-5 py-6">
-          <Header />
-          <ProgressBars />
-          <PriorityList />
-          <ElementBreakdown />
-          <div className="mt-auto pt-4">
-            <StatsBar />
-          </div>
+        <aside className="hidden md:flex w-72 flex-shrink-0 flex-col border-r border-border overflow-hidden">
+          <Sidebar onOpen={setOpenModal} />
         </aside>
 
         {/* ═══ MOBILE SIDEBAR DRAWER ═══ */}
@@ -76,16 +66,10 @@ export default function Home() {
             onClick={() => setSidebarOpen(false)}
           >
             <aside
-              className="absolute left-0 top-0 bottom-0 w-72 bg-bg border-r border-border overflow-y-auto px-5 py-6 flex flex-col"
+              className="absolute left-0 top-0 bottom-0 w-72 bg-bg border-r border-border flex flex-col overflow-hidden"
               onClick={e => e.stopPropagation()}
             >
-              <Header />
-              <ProgressBars />
-              <PriorityList />
-              <ElementBreakdown />
-              <div className="mt-auto pt-4">
-                <StatsBar />
-              </div>
+              <Sidebar onOpen={setOpenModal} />
             </aside>
           </div>
         )}

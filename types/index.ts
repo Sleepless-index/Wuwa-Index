@@ -42,3 +42,5 @@ export type ModalType =
   | 'edit-upcoming'
   | 'release'
   | null;
+
+export type SidebarTab = 'characters' | 'weapons';

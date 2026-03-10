@@ -1,0 +1,128 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap');
+
+/* ─── Light theme (default) ─── */
+:root {
+  --bg:       #f5f4fb;
+  --surface:  #ffffff;
+  --surface2: #eeecf8;
+  --border:   #dddaf0;
+  --accent:   #4e7db5;
+  --text:     #1c1a2e;
+  --subtext:  #7c7898;
+  --muted:    #b0adc8;
+  --got:      #2a9e5a;
+  --sig:      #3378cc;
+  --wish:     #a87d10;
+  --upcoming: #1d9e96;
+  --spectro:  #c9a800;
+  --aero:     #0d9e8a;
+  --glacio:   #1098b0;
+  --fusion:   #d05a10;
+  --electro:  #8840cc;
+  --havoc:    #c4206a;
+}
+
+/* ─── Dark theme ─── */
+.dark {
+  --bg:       #1d1f23;
+  --surface:  #262a33;
+  --surface2: #2e3340;
+  --border:   #363c47;
+  --accent:   #7aa8d4;
+  --text:     #dddbe8;
+  --subtext:  #6b6985;
+  --muted:    #45495a;
+  --got:      #89d9a0;
+  --sig:      #7eb8f7;
+  --wish:     #f5d88a;
+  --upcoming: #7ed4c4;
+  --spectro:  #fde68a;
+  --aero:     #5eead4;
+  --glacio:   #67e8f9;
+  --fusion:   #fb923c;
+  --electro:  #c084fc;
+  --havoc:    #f472b6;
+}
+
+/* ─── Base ─── */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'DM Sans', sans-serif;
+  min-height: 100vh;
+  transition: background 0.2s, color 0.2s;
+}
+
+/* ─── Custom checkbox ─── */
+.cb {
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  border: 1.5px solid var(--border);
+  border-radius: 4px;
+  background: transparent;
+  cursor: pointer;
+  position: relative;
+  flex-shrink: 0;
+  transition: all 0.15s;
+}
+.cb:checked {
+  background: var(--got);
+  border-color: var(--got);
+}
+.cb:checked::after {
+  content: '';
+  position: absolute;
+  left: 4px;
+  top: 1px;
+  width: 5px;
+  height: 9px;
+  border: 2px solid #111;
+  border-top: none;
+  border-left: none;
+  transform: rotate(45deg);
+}
+
+/* ─── Collapsible animation ─── */
+.section-body {
+  overflow: hidden;
+  transition: max-height 0.25s ease;
+}
+.section-body.collapsed {
+  max-height: 0 !important;
+}
+
+/* ─── Scrollbar (webkit) ─── */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--muted); }
+
+/* ─── Seq / wep dropdown panels ─── */
+.seq-panel,
+.wep-panel {
+  display: none;
+  position: absolute;
+  top: calc(100% + 4px);
+  right: 0;
+  z-index: 50;
+  padding: 6px 8px;
+  border-radius: 8px;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  white-space: nowrap;
+  align-items: center;
+  gap: 4px;
+}
+.seq-panel.open  { display: flex; border-color: rgba(196,160,245,0.5); box-shadow: 0 0 12px rgba(196,160,245,0.15); }
+.wep-panel.open  { display: flex; border-color: rgba(126,184,247,0.5); box-shadow: 0 0 12px rgba(126,184,247,0.15); }

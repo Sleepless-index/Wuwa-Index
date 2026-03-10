@@ -190,6 +190,7 @@ export default function TrackerEntry({ entry }: Props) {
             </div>
           )}
         </div>
+        </div>
       )}
     </div>
   );

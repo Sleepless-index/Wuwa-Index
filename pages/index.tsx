@@ -9,6 +9,7 @@ import ProgressBars     from '@/components/ProgressBars';
 import ElementBreakdown from '@/components/ElementBreakdown';
 import PriorityList     from '@/components/PriorityList';
 import TrackerHeader    from '@/components/TrackerHeader';
+import FilterBar        from '@/components/FilterBar';
 import TrackerSection   from '@/components/TrackerSection';
 import TrackerEntry     from '@/components/TrackerEntry';
 import UpcomingSection  from '@/components/UpcomingSection';
@@ -126,6 +127,9 @@ export default function Home() {
               onReset={handleReset}
             />
           </div>
+
+          {/* Filter bar */}
+          <FilterBar />
 
           {/* Scrollable tracker — 4 col minimum on mobile via card-grid class */}
           <div className="flex-1 overflow-y-auto px-4 py-4">

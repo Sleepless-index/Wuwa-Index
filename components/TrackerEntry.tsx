@@ -40,13 +40,13 @@ export default function TrackerEntry({ entry }: Props) {
   const isMaxR = s.wep === 5;
 
   return (
-    <div className="tracker-card-wrap flex flex-col" style={{ width: 116 }}>
+    <div className="tracker-card-wrap flex flex-col" style={{ width: 128 }}>
       {/* ── Art card ── */}
       <div
         onClick={() => setRes(id, !s.res)}
         className="relative rounded-xl overflow-hidden cursor-pointer transition-all duration-150 select-none"
         style={{
-          height: 178,
+          height: 196,
           border: `1px solid ${s.res ? 'rgba(126,184,247,0.38)' : 'rgba(54,60,71,0.6)'}`,
           boxShadow: s.res ? '0 0 10px rgba(126,184,247,0.08)' : 'none',
         }}

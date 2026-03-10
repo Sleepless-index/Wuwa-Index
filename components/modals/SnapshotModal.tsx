@@ -171,26 +171,25 @@ function SnapCard({ entry, s }: any) {
       {/* Dark gradient overlay */}
       <div className="absolute inset-0" style={{ background: 'linear-gradient(to bottom, transparent 35%, rgba(8,10,14,0.93) 100%)' }} />
 
-      {/* S/R badge (top-left) */}
-      {obtained && (
-        <div
-          className="absolute top-1 left-1 flex rounded px-1 py-0.5"
-          style={{
-            background: 'rgba(13,13,25,0.88)',
-            border: `0.75px solid ${isMaxS && isMaxR ? 'rgba(245,216,138,0.65)' : 'rgba(255,255,255,0.08)'}`,
-          }}
-        >
-          <span className="text-[8px] font-mono font-bold" style={{ color: isMaxS ? '#f5d88a' : '#b794f4' }}>
-            S{s?.seq ?? 0}
-          </span>
-          <span className="text-[8px] font-mono" style={{ color: isMaxR ? '#f5d88a' : '#7eb8f7' }}>
-            R{s?.wep ?? 0}
-          </span>
-        </div>
-      )}
-
-      {/* Name (bottom) */}
+      {/* Name + S/R badge (bottom) */}
       <div className="absolute bottom-0 inset-x-0 px-1.5 pb-1.5">
+        {/* S/R badge above name */}
+        {obtained && (
+          <div
+            className="flex rounded px-1 py-0.5 mb-0.5 self-start w-fit"
+            style={{
+              background: 'rgba(13,13,25,0.88)',
+              border: `0.75px solid ${isMaxS && isMaxR ? 'rgba(245,216,138,0.65)' : 'rgba(255,255,255,0.08)'}`,
+            }}
+          >
+            <span className="text-[8px] font-mono font-bold" style={{ color: isMaxS ? '#f5d88a' : '#b794f4' }}>
+              S{s?.seq ?? 0}
+            </span>
+            <span className="text-[8px] font-mono" style={{ color: isMaxR ? '#f5d88a' : '#7eb8f7' }}>
+              R{s?.wep ?? 0}
+            </span>
+          </div>
+        )}
         <p className="text-[9px] font-semibold leading-tight truncate" style={{ color: obtained ? '#f5f0e8' : '#45495a' }}>
           {entry.name}
         </p>

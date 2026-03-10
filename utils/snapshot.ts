@@ -57,6 +57,16 @@ function drawHeader(
   total: number,
   sig: number,
 ) {
+  // Right stat (resonators) — flush with right edge of grid
+  // Left stat (sig weapons) — flush with left edge of grid
+  ctx.textAlign  = 'left';
+  ctx.font       = '600 14px "JetBrains Mono",monospace';
+  ctx.fillStyle  = '#7eb8f7';
+  ctx.fillText(`${sig}/${total}`, PAD, PAD + 16);
+  ctx.font       = '500 9px "JetBrains Mono",monospace';
+  ctx.fillStyle  = '#45495a';
+  ctx.fillText('SIG WEAPONS', PAD, PAD + 29);
+  // Right stat (resonators) — flush with right edge of grid
   ctx.textAlign  = 'right';
   ctx.font       = '600 14px "JetBrains Mono",monospace';
   ctx.fillStyle  = '#89d9a0';
@@ -64,12 +74,6 @@ function drawHeader(
   ctx.font       = '500 9px "JetBrains Mono",monospace';
   ctx.fillStyle  = '#45495a';
   ctx.fillText('RESONATORS', totalW - PAD, PAD + 29);
-  ctx.font       = '600 14px "JetBrains Mono",monospace';
-  ctx.fillStyle  = '#7eb8f7';
-  ctx.fillText(`${sig}/${total}`, totalW - PAD - 120, PAD + 16);
-  ctx.font       = '500 9px "JetBrains Mono",monospace';
-  ctx.fillStyle  = '#45495a';
-  ctx.fillText('SIG WEAPONS', totalW - PAD - 120, PAD + 29);
   ctx.strokeStyle = 'rgba(255,255,255,0.07)';
   ctx.lineWidth   = 1;
   ctx.beginPath();

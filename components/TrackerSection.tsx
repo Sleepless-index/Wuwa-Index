@@ -44,7 +44,6 @@ export default function TrackerSection({ group, forceOpen, forceKey }: Props) {
         <span className="text-[10px] font-mono flex-shrink-0" style={{ color: 'var(--muted)', opacity: 0.6 }}>
           {got}/{total}
         </span>
-        <div className="flex-1 h-px" style={{ background: 'var(--border)' }} />
         <span
           className="text-[10px] flex-shrink-0 transition-transform duration-200"
           style={{ color: 'var(--muted)', transform: open ? 'rotate(0deg)' : 'rotate(-90deg)' }}

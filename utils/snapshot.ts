@@ -139,7 +139,7 @@ async function gallerySnapshot(opts: SnapshotOptions): Promise<boolean> {
   totalH += PAD;
 
   const { canvas, ctx } = makeCanvas(totalW, totalH);
-  ctx.fillStyle = '#1d1f23';
+  ctx.fillStyle = '#13141a';
   ctx.fillRect(0, 0, totalW, totalH);
   drawHeader(ctx, totalW, got, total, sig);
 
@@ -148,7 +148,7 @@ async function gallerySnapshot(opts: SnapshotOptions): Promise<boolean> {
     yOff += SEC_GAP;
     ctx.textAlign = 'left';
     ctx.font      = '500 9px "JetBrains Mono",monospace';
-    ctx.fillStyle = '#6b6985';
+    ctx.fillStyle = '#45495a';
     ctx.fillText(sec.label.toUpperCase(), PAD, yOff + 13);
     yOff += LABEL_H;
 
@@ -161,7 +161,7 @@ async function gallerySnapshot(opts: SnapshotOptions): Promise<boolean> {
       ctx.save();
       rr(ctx, cx, cy, CARD_W, CARD_H, CARD_R);
       ctx.clip();
-      ctx.fillStyle = '#262a33';
+      ctx.fillStyle = '#1c1f27';
       ctx.fillRect(cx, cy, CARD_W, CARD_H);
       const img = imgMap[e.id];
       if (img) {
@@ -253,7 +253,7 @@ async function regionsSnapshot(opts: SnapshotOptions): Promise<boolean> {
   const totalH  = PAD + HEADER_H + SEC_GAP + colH + PAD;
 
   const { canvas, ctx } = makeCanvas(totalW, totalH);
-  ctx.fillStyle = '#1d1f23';
+  ctx.fillStyle = '#13141a';
   ctx.fillRect(0, 0, totalW, totalH);
   drawHeader(ctx, totalW, got, total, sig);
 
@@ -268,7 +268,7 @@ async function regionsSnapshot(opts: SnapshotOptions): Promise<boolean> {
     }
     ctx.textAlign  = 'left';
     ctx.font       = '700 9px "JetBrains Mono",monospace';
-    ctx.fillStyle  = '#6b6985';
+    ctx.fillStyle  = '#45495a';
     ctx.fillText(col.label.toUpperCase(), xOff, yBase + 12);
     ctx.font       = '500 9px "JetBrains Mono",monospace';
     ctx.fillStyle  = '#45495a';

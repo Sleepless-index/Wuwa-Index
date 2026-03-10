@@ -72,7 +72,7 @@ export default function WeaponEntry({ weapon }: Props) {
         {/* Weapon image */}
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
-          src={`weapons/${slug}.webp`}
+          src={`weapons/${slug}.png`}
           alt={name}
           className="absolute inset-0 w-full h-full object-cover pointer-events-none"
           style={{ opacity: owned ? 1 : 0.22 }}

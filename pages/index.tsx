@@ -23,7 +23,7 @@ import ReleaseModal      from '@/components/modals/ReleaseModal';
 import type { ModalType } from '@/types';
 
 export default function Home() {
-  const { theme, toggleTheme } = useTheme(); // kept to avoid unused import error
+  useTheme();
 
   const versions     = useTrackerStore(s => s.versions);
   const activeFilter = useTrackerStore(s => s.activeFilter);
@@ -33,17 +33,7 @@ export default function Home() {
   const [editingUid,   setEditingUid]   = useState<number | null>(null);
   const [releasingUid, setReleasingUid] = useState<number | null>(null);
   const [sidebarOpen,  setSidebarOpen]  = useState(false);
-
-  const [allOpen,  setAllOpen]  = useState(true);
-  const [forceKey, setForceKey] = useState(0);
-
-  const handleToggleAll = useCallback(() => {
-    setAllOpen(v => {
-      const next = !v;
-      setForceKey(k => k + 1);
-      return next;
-    });
-  }, []);
+  const [filterOpen,   setFilterOpen]   = useState(false);
 
   const handleReset = () => {
     if (confirm('Reset everything including priority and upcoming?')) resetAll();
@@ -69,13 +59,8 @@ export default function Home() {
 
       <div className="bg-bg flex h-screen overflow-hidden">
 
-        {/* ═══ SIDEBAR — hidden on mobile, shown md+ ═══ */}
-        <aside className="
-          hidden md:flex
-          w-72 flex-shrink-0 flex-col
-          border-r border-border overflow-y-auto
-          px-5 py-6
-        ">
+        {/* ═══ SIDEBAR — hidden on mobile ═══ */}
+        <aside className="hidden md:flex w-72 flex-shrink-0 flex-col border-r border-border overflow-y-auto px-5 py-6">
           <Header />
           <StatsBar />
           <ProgressBars />
@@ -121,20 +106,16 @@ export default function Home() {
             </button>
 
             <TrackerHeader
-              allOpen={allOpen}
-              onToggleAll={handleToggleAll}
               onOpen={setOpenModal}
               onReset={handleReset}
+              onOpenFilter={() => setFilterOpen(true)}
+              activeFilter={activeFilter}
             />
           </div>
 
-          {/* Filter bar */}
-          <FilterBar />
-
-          {/* Scrollable tracker — 4 col minimum on mobile via card-grid class */}
+          {/* Scrollable tracker */}
           <div className="flex-1 overflow-y-auto px-4 py-4">
             {activeFilter !== 'All' ? (
-              /* ── Flat merged grid when a filter is active ── */
               <div className="card-grid flex flex-wrap gap-2">
                 {versions
                   .flatMap(g => g.entries)
@@ -143,14 +124,13 @@ export default function Home() {
                 }
               </div>
             ) : (
-              /* ── Normal grouped sections ── */
               <>
                 {versions.map(group => (
                   <TrackerSection
                     key={group.label}
                     group={group}
-                    forceOpen={allOpen}
-                    forceKey={forceKey}
+                    forceOpen={true}
+                    forceKey={0}
                   />
                 ))}
                 <UpcomingSection
@@ -163,6 +143,10 @@ export default function Home() {
         </main>
       </div>
 
+      {/* Filter drawer */}
+      {filterOpen && <FilterBar onClose={() => setFilterOpen(false)} />}
+
+      {/* Modals */}
       {openModal === 'export'        && <ExportModal onClose={close} />}
       {openModal === 'import'        && <ImportModal onClose={close} />}
       {openModal === 'snapshot'      && <SnapshotModal onClose={close} />}

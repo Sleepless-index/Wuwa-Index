@@ -1,36 +1,39 @@
 import type { ModalType } from '@/types';
 
 interface Props {
-  allOpen:     boolean;
-  onToggleAll: () => void;
-  onOpen:      (m: ModalType) => void;
-  onReset:     () => void;
+  onOpen:         (m: ModalType) => void;
+  onReset:        () => void;
+  onOpenFilter:   () => void;
+  activeFilter:   string;
 }
 
 const HdrBtn = ({
-  title, onClick, danger = false, children,
+  title, onClick, danger = false, active = false, children,
 }: {
   title: string;
   onClick: () => void;
   danger?: boolean;
+  active?: boolean;
   children: React.ReactNode;
 }) => (
   <button
     onClick={onClick}
     title={title}
     className={`
-      w-8 h-8 rounded-lg border border-border bg-transparent flex items-center justify-center
+      w-8 h-8 rounded-lg border bg-transparent flex items-center justify-center
       transition-all flex-shrink-0
       ${danger
-        ? 'text-subtext hover:text-havoc hover:border-havoc hover:bg-havoc/5'
-        : 'text-subtext hover:text-sig   hover:border-sig   hover:bg-sig/5'}
+        ? 'text-subtext hover:text-havoc hover:border-havoc hover:bg-havoc/5 border-border'
+        : active
+          ? 'text-sig border-sig bg-sig/10'
+          : 'text-subtext hover:text-sig hover:border-sig hover:bg-sig/5 border-border'}
     `}
   >
     {children}
   </button>
 );
 
-export default function TrackerHeader({ allOpen, onToggleAll, onOpen, onReset }: Props) {
+export default function TrackerHeader({ onOpen, onReset, onOpenFilter, activeFilter }: Props) {
   return (
     <div className="flex items-center gap-2 flex-1 min-w-0">
       <div className="flex items-center gap-1.5">
@@ -73,15 +76,20 @@ export default function TrackerHeader({ allOpen, onToggleAll, onOpen, onReset }:
         </HdrBtn>
       </div>
 
-      {/* Collapse / expand all */}
+      {/* Filter button — right side */}
       <button
-        onClick={onToggleAll}
-        className="
-          ml-auto text-[11px] font-mono text-subtext border border-border
-          rounded-md px-2.5 py-1 hover:border-subtext hover:text-text transition-all
-        "
+        onClick={onOpenFilter}
+        className="ml-auto flex items-center gap-1.5 text-[11px] font-mono font-semibold px-2.5 py-1 rounded-lg border transition-all flex-shrink-0"
+        style={{
+          background:  activeFilter !== 'All' ? 'rgba(122,168,212,0.12)' : 'transparent',
+          borderColor: activeFilter !== 'All' ? 'var(--accent)'          : 'var(--border)',
+          color:       activeFilter !== 'All' ? 'var(--accent)'          : 'var(--subtext)',
+        }}
       >
-        {allOpen ? 'collapse all' : 'expand all'}
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/>
+        </svg>
+        {activeFilter !== 'All' ? activeFilter : 'filter'}
       </button>
     </div>
   );

@@ -6,14 +6,13 @@ import type { Weapon } from '@/data/weapons';
 interface Props { weapon: Weapon; }
 
 export default function WeaponEntry({ weapon }: Props) {
-  const { slug, name, owner } = weapon;
+  const { file, name, owner } = weapon;
   const isSig = owner !== null;
 
-  // For sig weapons — find the owner resonator id
-  const versions        = useTrackerStore(s => s.versions);
-  const state           = useTrackerStore(s => s.state);
-  const setWep          = useTrackerStore(s => s.setWep);
-  const weaponState     = useTrackerStore(s => s.weaponState);
+  const versions         = useTrackerStore(s => s.versions);
+  const state            = useTrackerStore(s => s.state);
+  const setWep           = useTrackerStore(s => s.setWep);
+  const weaponState      = useTrackerStore(s => s.weaponState);
   const setStdWeaponRank = useTrackerStore(s => s.setStdWeaponRank);
 
   const ownerEntry = isSig
@@ -23,9 +22,7 @@ export default function WeaponEntry({ weapon }: Props) {
     : null;
 
   const ownerState = ownerEntry ? state[ownerEntry.id] : null;
-
-  // Rank: sig = owner's wep, std = weaponState[slug]
-  const rank   = isSig ? (ownerState?.wep ?? 0) : (weaponState[slug] ?? 0);
+  const rank   = isSig ? (ownerState?.wep ?? 0) : (weaponState[file] ?? 0);
   const owned  = rank > 0;
   const isMaxR = rank === 5;
 
@@ -41,25 +38,18 @@ export default function WeaponEntry({ weapon }: Props) {
   }, []);
 
   const handleToggle = () => {
-    if (isSig && ownerEntry) {
-      setWep(ownerEntry.id, rank > 0 ? 0 : 1);
-    } else if (!isSig) {
-      setStdWeaponRank(slug, rank > 0 ? 0 : 1);
-    }
+    if (isSig && ownerEntry) setWep(ownerEntry.id, rank > 0 ? 0 : 1);
+    else if (!isSig) setStdWeaponRank(file, rank > 0 ? 0 : 1);
   };
 
   const handleRank = (val: number) => {
-    if (isSig && ownerEntry) {
-      setWep(ownerEntry.id, val);
-    } else {
-      setStdWeaponRank(slug, val);
-    }
+    if (isSig && ownerEntry) setWep(ownerEntry.id, val);
+    else setStdWeaponRank(file, val);
     setRankOpen(false);
   };
 
   return (
     <div className="tracker-card-wrap flex flex-col" style={{ width: 128 }}>
-      {/* Art card */}
       <div
         onClick={handleToggle}
         className="relative rounded-xl overflow-hidden cursor-pointer transition-all duration-150 select-none"
@@ -69,69 +59,57 @@ export default function WeaponEntry({ weapon }: Props) {
           boxShadow: owned ? '0 0 10px rgba(245,216,138,0.08)' : 'none',
         }}
       >
-        {/* Weapon image */}
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
-          src={`weapons/${slug}.png`}
+          src={`weapons/${file}.avif`}
           alt={name}
           className="absolute inset-0 w-full h-full object-cover pointer-events-none"
           style={{ opacity: owned ? 1 : 0.22 }}
-          onError={e => { (e.currentTarget as HTMLImageElement).style.opacity = '0.1'; }}
+          onError={e => { (e.currentTarget as HTMLImageElement).style.opacity = '0.05'; }}
         />
-
-        {/* Bottom gradient */}
         <div
           className="absolute inset-0 pointer-events-none"
           style={{ background: 'linear-gradient(to bottom, transparent 28%, rgba(6,8,12,0.94) 100%)' }}
         />
-
-        {/* Name + owner */}
         <div className="absolute bottom-0 left-0 right-0 px-2 pb-2 z-10">
           {isSig && owner && (
-            <p className="text-[8px] font-mono text-wish/70 leading-none mb-0.5 truncate">{owner.replace(/_/g, ' ')}</p>
+            <p className="text-[8px] font-mono text-wish/70 leading-none mb-0.5 truncate">
+              {owner.replace(/_/g, ' ')}
+            </p>
           )}
-          <p
-            className="text-[10px] font-semibold leading-tight truncate"
-            style={{ color: owned ? '#e8e3f0' : 'var(--subtext)' }}
-          >
+          <p className="text-[10px] font-semibold leading-tight truncate"
+            style={{ color: owned ? '#e8e3f0' : 'var(--subtext)' }}>
             {name}
           </p>
         </div>
       </div>
 
-      {/* Rank control — only when owned */}
       {owned && (
         <div className="mt-1 px-0.5">
           <div ref={rankRef} className="relative">
             <button
-              onClick={(e) => { e.stopPropagation(); setRankOpen(v => !v); }}
+              onClick={e => { e.stopPropagation(); setRankOpen(v => !v); }}
               className="w-full h-5 rounded text-[8px] font-mono font-semibold border flex items-center justify-center transition-all"
               style={{
                 background:  isMaxR ? 'rgba(13,13,25,0.88)' : 'rgba(245,216,138,0.12)',
                 borderColor: isMaxR ? 'rgba(245,216,138,0.65)' : 'rgba(245,216,138,0.35)',
-                color:       '#f5d88a',
+                color: '#f5d88a',
               }}
             >
               R{rank}
             </button>
-            <div
-              className={`wep-panel ${rankOpen ? 'open' : ''}`}
-              style={{ bottom: 'calc(100% + 4px)', top: 'auto', left: 0, right: 'auto' }}
-            >
+            <div className={`wep-panel ${rankOpen ? 'open' : ''}`}
+              style={{ bottom: 'calc(100% + 4px)', top: 'auto', left: 0, right: 'auto' }}>
               <span className="text-[9px] font-mono text-sig mr-1">rank</span>
               {[1,2,3,4,5].map(i => (
-                <button
-                  key={i}
-                  onClick={() => handleRank(i)}
+                <button key={i} onClick={() => handleRank(i)}
                   className="w-6 h-6 rounded text-[10px] font-mono font-semibold transition-all border"
                   style={{
                     background:  rank === i ? 'rgba(245,216,138,0.2)' : 'transparent',
-                    color:       rank === i ? '#f5d88a'               : 'var(--subtext)',
+                    color:       rank === i ? '#f5d88a' : 'var(--subtext)',
                     borderColor: rank === i ? 'rgba(245,216,138,0.5)' : 'transparent',
                   }}
-                >
-                  {i}
-                </button>
+                >{i}</button>
               ))}
             </div>
           </div>

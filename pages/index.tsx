@@ -23,7 +23,7 @@ import ReleaseModal      from '@/components/modals/ReleaseModal';
 import type { ModalType } from '@/types';
 
 export default function Home() {
-  const { theme, toggleTheme } = useTheme();
+  const { theme, toggleTheme } = useTheme(); // kept to avoid unused import error
 
   const versions     = useTrackerStore(s => s.versions);
   const activeFilter = useTrackerStore(s => s.activeFilter);
@@ -76,7 +76,7 @@ export default function Home() {
           border-r border-border overflow-y-auto
           px-5 py-6
         ">
-          <Header theme={theme} onToggleTheme={toggleTheme} />
+          <Header />
           <StatsBar />
           <ProgressBars />
           <PriorityList />
@@ -93,7 +93,7 @@ export default function Home() {
               className="absolute left-0 top-0 bottom-0 w-72 bg-bg border-r border-border overflow-y-auto px-5 py-6"
               onClick={e => e.stopPropagation()}
             >
-              <Header theme={theme} onToggleTheme={toggleTheme} />
+              <Header />
               <StatsBar />
               <ProgressBars />
               <PriorityList />

@@ -4,34 +4,12 @@
 
 @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap');
 
-/* ─── Light theme (default) ─── */
+/* ─── Always dark ─── */
 :root {
-  --bg:       #f5f4fb;
-  --surface:  #ffffff;
-  --surface2: #eeecf8;
-  --border:   #dddaf0;
-  --accent:   #4e7db5;
-  --text:     #1c1a2e;
-  --subtext:  #7c7898;
-  --muted:    #b0adc8;
-  --got:      #2a9e5a;
-  --sig:      #3378cc;
-  --wish:     #a87d10;
-  --upcoming: #1d9e96;
-  --spectro:  #c9a800;
-  --aero:     #0d9e8a;
-  --glacio:   #1098b0;
-  --fusion:   #d05a10;
-  --electro:  #8840cc;
-  --havoc:    #c4206a;
-}
-
-/* ─── Dark theme ─── */
-.dark {
-  --bg:       #1d1f23;
-  --surface:  #262a33;
-  --surface2: #2e3340;
-  --border:   #363c47;
+  --bg:       #13141a;
+  --surface:  #1c1f27;
+  --surface2: #242830;
+  --border:   #2e333f;
   --accent:   #7aa8d4;
   --text:     #dddbe8;
   --subtext:  #6b6985;
@@ -55,15 +33,47 @@
   box-sizing: border-box;
 }
 
+html { color-scheme: dark; }
+
 body {
   background: var(--bg);
   color: var(--text);
   font-family: 'DM Sans', sans-serif;
   overflow: hidden;
-  transition: background 0.2s, color 0.2s;
+  min-height: 100vh;
+  position: relative;
 }
 
-/* On mobile, tracker card sections use a 4-column grid */
+/* ─── Background ambient blobs ─── */
+body::before,
+body::after {
+  content: '';
+  position: fixed;
+  pointer-events: none;
+  z-index: 0;
+  border-radius: 50%;
+  filter: blur(120px);
+  opacity: 0.07;
+}
+body::before {
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, #c084fc, transparent 70%);
+  top: -150px;
+  left: -100px;
+}
+body::after {
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, #7eb8f7, transparent 70%);
+  bottom: -100px;
+  right: -80px;
+}
+
+/* All content above the bg blobs */
+#__next { position: relative; z-index: 1; }
+
+/* ─── On mobile, tracker card sections use a 4-column grid ─── */
 @media (max-width: 767px) {
   .card-grid {
     display: grid !important;

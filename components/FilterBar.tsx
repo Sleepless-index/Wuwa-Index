@@ -6,21 +6,7 @@ export default function FilterBar() {
   const setFilter = useTrackerStore(s => s.setFilter);
 
   return (
-    <div className="flex items-center gap-2 px-4 py-2.5 border-b border-border overflow-x-auto flex-shrink-0">
-      {/* All pill */}
-      <button
-        onClick={() => setFilter('All')}
-        className="flex-shrink-0 px-3.5 py-1.5 rounded-full text-[11px] font-mono font-semibold border transition-all"
-        style={{
-          background:  filter === 'All' ? 'rgba(255,255,255,0.12)' : 'transparent',
-          borderColor: filter === 'All' ? 'rgba(255,255,255,0.35)' : 'var(--border)',
-          color:       filter === 'All' ? '#fff' : 'var(--subtext)',
-        }}
-      >
-        All
-      </button>
-
-      {/* Element pills */}
+    <div className="grid grid-cols-6 gap-1.5 px-4 py-2.5 border-b border-border flex-shrink-0">
       {EL_ORDER.map(el => {
         const color  = EL_COLORS[el];
         const active = filter === el;
@@ -28,20 +14,21 @@ export default function FilterBar() {
           <button
             key={el}
             onClick={() => setFilter(active ? 'All' : el)}
-            className="flex-shrink-0 flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-[11px] font-mono font-semibold border transition-all"
+            className="flex items-center justify-center gap-1.5 py-1.5 rounded-full text-[11px] font-mono font-semibold border transition-all"
             style={{
               background:  active ? `${color}18` : 'transparent',
               borderColor: active ? color         : 'var(--border)',
               color:       active ? color         : 'var(--subtext)',
             }}
           >
+            {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src={`icons/icon_${el}.webp`}
               alt=""
-              className="w-3.5 h-3.5 object-contain"
+              className="w-3.5 h-3.5 object-contain flex-shrink-0"
               onError={e => (e.currentTarget.style.display = 'none')}
             />
-            {el}
+            <span className="truncate">{el}</span>
           </button>
         );
       })}

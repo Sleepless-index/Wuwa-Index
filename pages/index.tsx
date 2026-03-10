@@ -29,10 +29,10 @@ export default function Home() {
   const [openModal,    setOpenModal]    = useState<ModalType>(null);
   const [editingUid,   setEditingUid]   = useState<number | null>(null);
   const [releasingUid, setReleasingUid] = useState<number | null>(null);
+  const [sidebarOpen,  setSidebarOpen]  = useState(false);
 
-  // Collapse-all: allOpen drives the next forced state, forceKey triggers it
-  const [allOpen,    setAllOpen]    = useState(true);
-  const [forceKey,   setForceKey]   = useState(0);
+  const [allOpen,  setAllOpen]  = useState(true);
+  const [forceKey, setForceKey] = useState(0);
 
   const handleToggleAll = useCallback(() => {
     setAllOpen(v => {
@@ -64,12 +64,12 @@ export default function Home() {
         <link rel="icon" href="favicon.ico" />
       </Head>
 
-      {/* ── Full-viewport horizontal layout ── */}
       <div className="bg-bg flex h-screen overflow-hidden">
 
-        {/* ═══ LEFT PANEL — stats, priority, elements ═══ */}
+        {/* ═══ SIDEBAR — hidden on mobile, shown md+ ═══ */}
         <aside className="
-          w-72 flex-shrink-0 flex flex-col
+          hidden md:flex
+          w-72 flex-shrink-0 flex-col
           border-r border-border overflow-y-auto
           px-5 py-6
         ">
@@ -80,11 +80,43 @@ export default function Home() {
           <ElementBreakdown />
         </aside>
 
-        {/* ═══ RIGHT PANEL — tracker rows with own scroll ═══ */}
-        <main className="flex-1 flex flex-col overflow-hidden">
+        {/* ═══ MOBILE SIDEBAR DRAWER ═══ */}
+        {sidebarOpen && (
+          <div
+            className="fixed inset-0 z-40 bg-black/60 md:hidden"
+            onClick={() => setSidebarOpen(false)}
+          >
+            <aside
+              className="absolute left-0 top-0 bottom-0 w-72 bg-bg border-r border-border overflow-y-auto px-5 py-6"
+              onClick={e => e.stopPropagation()}
+            >
+              <Header theme={theme} onToggleTheme={toggleTheme} />
+              <StatsBar />
+              <ProgressBars />
+              <PriorityList />
+              <ElementBreakdown />
+            </aside>
+          </div>
+        )}
 
-          {/* Fixed top bar with action buttons + collapse toggle */}
-          <div className="flex-shrink-0 px-5 pt-5 pb-3 border-b border-border">
+        {/* ═══ MAIN ═══ */}
+        <main className="flex-1 flex flex-col overflow-hidden min-w-0">
+
+          {/* Top bar */}
+          <div className="flex-shrink-0 px-4 pt-4 pb-3 border-b border-border flex items-center gap-2">
+            {/* Mobile sidebar toggle */}
+            <button
+              className="md:hidden w-8 h-8 rounded-lg border border-border flex items-center justify-center text-subtext hover:text-text transition-all flex-shrink-0"
+              onClick={() => setSidebarOpen(v => !v)}
+              title="Menu"
+            >
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round">
+                <line x1="3" y1="6"  x2="21" y2="6"/>
+                <line x1="3" y1="12" x2="21" y2="12"/>
+                <line x1="3" y1="18" x2="21" y2="18"/>
+              </svg>
+            </button>
+
             <TrackerHeader
               allOpen={allOpen}
               onToggleAll={handleToggleAll}
@@ -93,8 +125,8 @@ export default function Home() {
             />
           </div>
 
-          {/* Scrollable tracker list */}
-          <div className="flex-1 overflow-y-auto px-5 py-3">
+          {/* Scrollable tracker — 4 col minimum on mobile via card-grid class */}
+          <div className="flex-1 overflow-y-auto px-4 py-4">
             {versions.map(group => (
               <TrackerSection
                 key={group.label}
@@ -112,7 +144,6 @@ export default function Home() {
         </main>
       </div>
 
-      {/* ── Modals ── */}
       {openModal === 'export'        && <ExportModal onClose={close} />}
       {openModal === 'import'        && <ImportModal onClose={close} />}
       {openModal === 'snapshot'      && <SnapshotModal onClose={close} />}

@@ -59,8 +59,20 @@ body {
   background: var(--bg);
   color: var(--text);
   font-family: 'DM Sans', sans-serif;
-  overflow: hidden; /* layout uses its own scroll columns */
+  overflow: hidden;
   transition: background 0.2s, color 0.2s;
+}
+
+/* On mobile, force cards to fill 4 equal columns */
+@media (max-width: 767px) {
+  .flex-wrap {
+    display: grid !important;
+    grid-template-columns: repeat(4, 1fr) !important;
+    gap: 6px !important;
+  }
+  .flex-wrap > * {
+    width: 100% !important;
+  }
 }
 
 /* ─── Custom checkbox ─── */

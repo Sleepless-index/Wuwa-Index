@@ -4,9 +4,9 @@ import TrackerEntry from './TrackerEntry';
 import type { VersionGroup } from '@/types';
 
 interface Props {
-  group:      VersionGroup;
-  forceOpen:  boolean;
-  forceKey:   number;
+  group:     VersionGroup;
+  forceOpen: boolean;
+  forceKey:  number;
 }
 
 export default function TrackerSection({ group, forceOpen, forceKey }: Props) {
@@ -15,7 +15,6 @@ export default function TrackerSection({ group, forceOpen, forceKey }: Props) {
   const filter   = useTrackerStore(s => s.activeFilter);
   const bodyRef  = useRef<HTMLDivElement>(null);
 
-  // Respond to collapse-all / expand-all signal from parent
   useEffect(() => {
     setOpen(forceOpen);
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -30,26 +29,31 @@ export default function TrackerSection({ group, forceOpen, forceKey }: Props) {
   const total = group.entries.length;
 
   return (
-    <div className="version-group mb-2">
+    <div className="mb-6">
+      {/* ── Section divider header (image-2 style) ── */}
       <button
         onClick={() => setOpen(v => !v)}
-        className="
-          w-full flex items-center justify-between
-          px-3 py-2 rounded-lg bg-surface2 border border-border
-          hover:bg-surface hover:border-subtext/50 transition-all mb-1
-        "
+        className="w-full flex items-center gap-3 mb-3 group"
       >
-        <div className="flex items-center gap-2">
-          <span className="text-xs font-semibold text-text">{group.label}</span>
-          <span className="text-[10px] font-mono text-subtext">{got}/{total}</span>
-        </div>
-        <span className={`text-subtext text-xs transition-transform duration-200 ${open ? '' : '-rotate-90'}`}>
-          ▼
+        <span className="text-[10px] font-mono font-bold tracking-[0.18em] uppercase whitespace-nowrap flex-shrink-0"
+          style={{ color: 'var(--muted)' }}>
+          {group.label}
+        </span>
+        <span className="text-[10px] font-mono flex-shrink-0" style={{ color: 'var(--muted)', opacity: 0.6 }}>
+          {got}/{total}
+        </span>
+        <div className="flex-1 h-px" style={{ background: 'var(--border)' }} />
+        <span
+          className="text-[10px] flex-shrink-0 transition-transform duration-200"
+          style={{ color: 'var(--muted)', transform: open ? 'rotate(0deg)' : 'rotate(-90deg)' }}
+        >
+          ▾
         </span>
       </button>
 
+      {/* ── Cards grid ── */}
       {open && (
-        <div ref={bodyRef} className="flex flex-wrap gap-2 pt-1">
+        <div ref={bodyRef} className="flex flex-wrap gap-2">
           {visibleEntries.map(e => (
             <TrackerEntry key={e.id} entry={e} />
           ))}

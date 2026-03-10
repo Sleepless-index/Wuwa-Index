@@ -114,18 +114,12 @@ export default function TrackerEntry({ entry }: Props) {
         {/* Sequence */}
         <div ref={seqRef} className="relative flex-1">
           <button
-            onClick={(e) => { e.stopPropagation(); if (!s.res) return; setWepOpen(false); setSeqOpen(v => !v); }}
-            disabled={!s.res}
+            onClick={(e) => { e.stopPropagation(); setWepOpen(false); setSeqOpen(v => !v); }}
             className="w-full h-5 rounded text-[8px] font-mono font-semibold border flex items-center justify-center transition-all"
             style={{
-              background:  !s.res ? 'var(--surface2)'
-                         : s.seq > 0 ? 'rgba(196,160,245,0.15)' : 'var(--surface2)',
-              borderColor: !s.res ? 'var(--border)'
-                         : s.seq > 0 ? 'rgba(196,160,245,0.45)' : 'var(--border)',
-              color:       !s.res ? 'var(--muted)'
-                         : s.seq > 0 ? (isMaxS ? '#f5d88a' : '#c4a0f5') : 'var(--subtext)',
-              opacity:     !s.res ? 0.4 : 1,
-              cursor:      !s.res ? 'default' : 'pointer',
+              background:  s.seq > 0 ? (isMaxS ? 'rgba(13,13,25,0.88)' : 'rgba(196,160,245,0.15)') : 'var(--surface2)',
+              borderColor: s.seq > 0 ? (isMaxS ? 'rgba(245,216,138,0.65)' : 'rgba(196,160,245,0.45)') : 'var(--border)',
+              color:       s.seq > 0 ? (isMaxS ? '#f5d88a' : '#c4a0f5') : 'var(--subtext)',
             }}
           >
             S{s.seq > 0 ? s.seq : ''}
@@ -154,18 +148,12 @@ export default function TrackerEntry({ entry }: Props) {
         {/* Weapon rank */}
         <div ref={wepRef} className="relative flex-1">
           <button
-            onClick={(e) => { e.stopPropagation(); if (!s.res) return; setSeqOpen(false); setWepOpen(v => !v); }}
-            disabled={!s.res}
+            onClick={(e) => { e.stopPropagation(); setSeqOpen(false); setWepOpen(v => !v); }}
             className="w-full h-5 rounded text-[8px] font-mono font-semibold border flex items-center justify-center transition-all"
             style={{
-              background:  !s.res ? 'var(--surface2)'
-                         : s.wep > 0 ? 'rgba(126,184,247,0.15)' : 'var(--surface2)',
-              borderColor: !s.res ? 'var(--border)'
-                         : s.wep > 0 ? 'rgba(126,184,247,0.45)' : 'var(--border)',
-              color:       !s.res ? 'var(--muted)'
-                         : s.wep > 0 ? (isMaxR ? '#f5d88a' : '#7eb8f7') : 'var(--subtext)',
-              opacity:     !s.res ? 0.4 : 1,
-              cursor:      !s.res ? 'default' : 'pointer',
+              background:  s.wep > 0 ? (isMaxR ? 'rgba(13,13,25,0.88)' : 'rgba(126,184,247,0.15)') : 'var(--surface2)',
+              borderColor: s.wep > 0 ? (isMaxR ? 'rgba(245,216,138,0.65)' : 'rgba(126,184,247,0.45)') : 'var(--border)',
+              color:       s.wep > 0 ? (isMaxR ? '#f5d88a' : '#7eb8f7') : 'var(--subtext)',
             }}
           >
             R{s.wep > 0 ? s.wep : ''}

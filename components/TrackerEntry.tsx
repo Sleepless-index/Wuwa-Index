@@ -40,13 +40,13 @@ export default function TrackerEntry({ entry }: Props) {
   const isMaxR = s.wep === 5;
 
   return (
-    <div className="tracker-card-wrap flex flex-col" style={{ width: 96 }}>
+    <div className="tracker-card-wrap flex flex-col" style={{ width: 116 }}>
       {/* ── Art card ── */}
       <div
         onClick={() => setRes(id, !s.res)}
         className="relative rounded-xl overflow-hidden cursor-pointer transition-all duration-150 select-none"
         style={{
-          height: 148,
+          height: 178,
           border: `1px solid ${s.res ? 'rgba(126,184,247,0.38)' : 'rgba(54,60,71,0.6)'}`,
           boxShadow: s.res ? '0 0 10px rgba(126,184,247,0.08)' : 'none',
         }}
@@ -108,8 +108,9 @@ export default function TrackerEntry({ entry }: Props) {
         </div>
       </div>
 
-      {/* ── S / R controls below card — disabled when not owned ── */}
-      <div className="flex items-center gap-1 mt-1 px-0.5">
+      {/* ── S / R controls — only when owned ── */}
+      {s.res && (
+        <div className="flex items-center gap-1 mt-1 px-0.5">
         {/* Sequence */}
         <div ref={seqRef} className="relative flex-1">
           <button
@@ -189,7 +190,7 @@ export default function TrackerEntry({ entry }: Props) {
             </div>
           )}
         </div>
-      </div>
+      )}
     </div>
   );
 }

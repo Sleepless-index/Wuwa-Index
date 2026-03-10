@@ -11,6 +11,7 @@ import PriorityList     from '@/components/PriorityList';
 import TrackerHeader    from '@/components/TrackerHeader';
 import TrackerSection   from '@/components/TrackerSection';
 import TrackerEntry     from '@/components/TrackerEntry';
+import FilterPopover    from '@/components/FilterPopover';
 import UpcomingSection  from '@/components/UpcomingSection';
 
 import ExportModal       from '@/components/modals/ExportModal';
@@ -125,6 +126,7 @@ export default function Home() {
               </div>
             ) : (
               <>
+                <FilterPopover />
                 {versions.map(group => (
                   <TrackerSection
                     key={group.label}

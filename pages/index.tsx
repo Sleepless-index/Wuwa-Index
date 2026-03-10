@@ -10,6 +10,7 @@ import ElementBreakdown from '@/components/ElementBreakdown';
 import PriorityList     from '@/components/PriorityList';
 import TrackerHeader    from '@/components/TrackerHeader';
 import TrackerSection   from '@/components/TrackerSection';
+import TrackerEntry     from '@/components/TrackerEntry';
 import UpcomingSection  from '@/components/UpcomingSection';
 
 import ExportModal       from '@/components/modals/ExportModal';
@@ -23,8 +24,9 @@ import type { ModalType } from '@/types';
 export default function Home() {
   const { theme, toggleTheme } = useTheme();
 
-  const versions = useTrackerStore(s => s.versions);
-  const resetAll = useTrackerStore(s => s.resetAll);
+  const versions     = useTrackerStore(s => s.versions);
+  const activeFilter = useTrackerStore(s => s.activeFilter);
+  const resetAll     = useTrackerStore(s => s.resetAll);
 
   const [openModal,    setOpenModal]    = useState<ModalType>(null);
   const [editingUid,   setEditingUid]   = useState<number | null>(null);
@@ -127,19 +129,32 @@ export default function Home() {
 
           {/* Scrollable tracker — 4 col minimum on mobile via card-grid class */}
           <div className="flex-1 overflow-y-auto px-4 py-4">
-            {versions.map(group => (
-              <TrackerSection
-                key={group.label}
-                group={group}
-                forceOpen={allOpen}
-                forceKey={forceKey}
-              />
-            ))}
-
-            <UpcomingSection
-              onOpenRelease={handleOpenRelease}
-              onOpenEdit={handleOpenEdit}
-            />
+            {activeFilter !== 'All' ? (
+              /* ── Flat merged grid when a filter is active ── */
+              <div className="card-grid flex flex-wrap gap-2">
+                {versions
+                  .flatMap(g => g.entries)
+                  .filter(e => e.element === activeFilter)
+                  .map(e => <TrackerEntry key={e.id} entry={e} />)
+                }
+              </div>
+            ) : (
+              /* ── Normal grouped sections ── */
+              <>
+                {versions.map(group => (
+                  <TrackerSection
+                    key={group.label}
+                    group={group}
+                    forceOpen={allOpen}
+                    forceKey={forceKey}
+                  />
+                ))}
+                <UpcomingSection
+                  onOpenRelease={handleOpenRelease}
+                  onOpenEdit={handleOpenEdit}
+                />
+              </>
+            )}
           </div>
         </main>
       </div>

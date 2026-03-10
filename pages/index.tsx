@@ -9,7 +9,6 @@ import ProgressBars     from '@/components/ProgressBars';
 import ElementBreakdown from '@/components/ElementBreakdown';
 import PriorityList     from '@/components/PriorityList';
 import TrackerHeader    from '@/components/TrackerHeader';
-import FilterBar        from '@/components/FilterBar';
 import TrackerSection   from '@/components/TrackerSection';
 import TrackerEntry     from '@/components/TrackerEntry';
 import UpcomingSection  from '@/components/UpcomingSection';
@@ -33,7 +32,6 @@ export default function Home() {
   const [editingUid,   setEditingUid]   = useState<number | null>(null);
   const [releasingUid, setReleasingUid] = useState<number | null>(null);
   const [sidebarOpen,  setSidebarOpen]  = useState(false);
-  const [filterOpen,   setFilterOpen]   = useState(false);
 
   const handleReset = () => {
     if (confirm('Reset everything including priority and upcoming?')) resetAll();
@@ -112,8 +110,6 @@ export default function Home() {
             <TrackerHeader
               onOpen={setOpenModal}
               onReset={handleReset}
-              onOpenFilter={() => setFilterOpen(true)}
-              activeFilter={activeFilter}
             />
           </div>
 
@@ -146,9 +142,6 @@ export default function Home() {
           </div>
         </main>
       </div>
-
-      {/* Filter drawer */}
-      {filterOpen && <FilterBar onClose={() => setFilterOpen(false)} />}
 
       {/* Modals */}
       {openModal === 'export'        && <ExportModal onClose={close} />}

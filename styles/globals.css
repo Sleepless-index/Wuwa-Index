@@ -148,3 +148,9 @@ body::after {
 }
 .seq-panel.open  { display: flex; border-color: rgba(196,160,245,0.5); box-shadow: 0 0 12px rgba(196,160,245,0.15); }
 .wep-panel.open  { display: flex; border-color: rgba(126,184,247,0.5); box-shadow: 0 0 12px rgba(126,184,247,0.15); }
+
+/* ─── Filter popover slide-in ─── */
+@keyframes fadeSlideIn {
+  from { opacity: 0; transform: translateX(-6px); }
+  to   { opacity: 1; transform: translateX(0); }
+}

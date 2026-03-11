@@ -38,6 +38,8 @@ export default function WeaponSnapshotModal({ onClose }: { onClose: () => void }
       const copied = await generateWeaponSnapshot({
         sigWeapons: SIG_WEAPONS, stdWeapons: STD_WEAPONS,
         state, weaponState, versions,
+        snapView: view,
+        showNotOwned: view === 'list' ? showNotOwned : false,
       });
       setExportMsg(copied ? '✓ copied + saved!' : '✓ saved!');
     } catch {

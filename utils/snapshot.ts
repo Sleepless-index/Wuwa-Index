@@ -332,11 +332,13 @@ export async function generateSnapshot(opts: SnapshotOptions): Promise<boolean> 
 // ─── Weapon snapshot ──────────────────────────────────────────────────────────
 
 export interface WeaponSnapshotOptions {
-  sigWeapons: import('@/data/weapons').Weapon[];
-  stdWeapons: import('@/data/weapons').Weapon[];
-  state:      Record<number, import('@/types').ResonatorState>;
-  weaponState: Record<string, number>;
-  versions:   import('@/types').VersionGroup[];
+  sigWeapons:   import('@/data/weapons').Weapon[];
+  stdWeapons:   import('@/data/weapons').Weapon[];
+  state:        Record<number, import('@/types').ResonatorState>;
+  weaponState:  Record<string, number>;
+  versions:     import('@/types').VersionGroup[];
+  snapView:     'gallery' | 'list';
+  showNotOwned?: boolean;
 }
 
 async function weaponGallerySnapshot(opts: WeaponSnapshotOptions): Promise<boolean> {
@@ -492,6 +494,141 @@ async function weaponGallerySnapshot(opts: WeaponSnapshotOptions): Promise<boole
   return exportCanvas(canvas);
 }
 
+
+async function weaponListSnapshot(opts: WeaponSnapshotOptions): Promise<boolean> {
+  const { sigWeapons, stdWeapons, state, weaponState, versions, showNotOwned } = opts;
+  const ROW_H = 28, ROW_GAP = 3, THUMB_S = 20, THUMB_R = 4;
+  const COL_W = 160, COL_GAP = 1, DIVIDER_W = 1, LABEL_H = 22, SEC_GAP = 16;
+
+  const allEntries = versions.flatMap(g => g.entries);
+  const getRank = (w: import('@/data/weapons').Weapon): number => {
+    if (w.owner) {
+      const e = allEntries.find(e => toImageSlug(e.name) === toImageSlug(w.owner!));
+      return e ? (state[e.id]?.wep ?? 0) : 0;
+    }
+    return weaponState[w.file] ?? 0;
+  };
+
+  const allWeapons = [...sigWeapons, ...stdWeapons];
+  const CATEGORIES = ['Broadblade', 'Sword', 'Pistol', 'Gauntlet', 'Rectifier'] as const;
+
+  // Preload weapon images
+  const imgMap: Record<string, HTMLImageElement | null> = {};
+  await Promise.all(allWeapons.map(async w => {
+    imgMap[w.file] = await loadImg(`weapons/${w.file}.avif`);
+  }));
+
+  const cols = CATEGORIES.map(cat => {
+    const catWeapons = allWeapons.filter(w => w.category === cat);
+    const ownedInCat   = catWeapons.filter(w => getRank(w) > 0);
+    const notOwnedInCat = showNotOwned ? catWeapons.filter(w => getRank(w) === 0) : [];
+    return { label: cat, owned: ownedInCat, notOwned: notOwnedInCat };
+  }).filter(c => c.owned.length > 0 || c.notOwned.length > 0);
+
+  const totalOwned = allWeapons.filter(w => getRank(w) > 0).length;
+  const total      = allWeapons.length;
+  const maxRows    = Math.max(...cols.map(c => c.owned.length + c.notOwned.length));
+
+  const totalW = PAD * 2 + cols.length * COL_W + (cols.length - 1) * (COL_GAP + DIVIDER_W);
+  const colH   = LABEL_H + maxRows * (ROW_H + ROW_GAP) - ROW_GAP;
+  const totalH = PAD + HEADER_H + SEC_GAP + colH + PAD;
+
+  const { canvas, ctx } = makeCanvas(totalW, totalH);
+  ctx.fillStyle = '#13141a';
+  ctx.fillRect(0, 0, totalW, totalH);
+
+  // Header
+  ctx.textAlign = 'left';
+  ctx.font = '600 14px "JetBrains Mono",monospace';
+  ctx.fillStyle = '#f5d88a';
+  ctx.fillText(`${totalOwned}/${total}`, PAD, PAD + 16);
+  ctx.font = '500 9px "JetBrains Mono",monospace';
+  ctx.fillStyle = '#45495a';
+  ctx.fillText('WEAPONS OWNED', PAD, PAD + 29);
+  ctx.strokeStyle = 'rgba(255,255,255,0.07)';
+  ctx.lineWidth = 1;
+  ctx.beginPath();
+  ctx.moveTo(PAD, PAD + HEADER_H - 6);
+  ctx.lineTo(totalW - PAD, PAD + HEADER_H - 6);
+  ctx.stroke();
+
+  let xOff = PAD;
+  const yBase = PAD + HEADER_H + SEC_GAP;
+
+  for (let ci = 0; ci < cols.length; ci++) {
+    const col = cols[ci];
+    if (ci > 0) {
+      ctx.fillStyle = 'rgba(255,255,255,0.06)';
+      ctx.fillRect(xOff - COL_GAP - DIVIDER_W, yBase, DIVIDER_W, colH);
+    }
+
+    // Column label
+    ctx.textAlign = 'left';
+    ctx.font = '700 9px "JetBrains Mono",monospace';
+    ctx.fillStyle = '#45495a';
+    ctx.fillText(col.label.toUpperCase(), xOff, yBase + 12);
+    ctx.font = '500 9px "JetBrains Mono",monospace';
+    ctx.fillStyle = '#45495a';
+    const countTxt = `${col.owned.length}/${col.owned.length + col.notOwned.length}`;
+    ctx.fillText(countTxt, xOff + ctx.measureText(col.label.toUpperCase()).width + 5, yBase + 12);
+
+    let yRow = yBase + LABEL_H;
+    const drawRow = (w: import('@/data/weapons').Weapon, owned: boolean) => {
+      const rank = getRank(w);
+      if (owned) {
+        rr(ctx, xOff, yRow, COL_W, ROW_H, 5);
+        ctx.fillStyle = 'rgba(245,216,138,0.04)'; ctx.fill();
+        ctx.strokeStyle = 'rgba(245,216,138,0.2)'; ctx.lineWidth = 0.75;
+        rr(ctx, xOff + 0.5, yRow + 0.5, COL_W - 1, ROW_H - 1, 5); ctx.stroke();
+      }
+
+      const thumb = imgMap[w.file];
+      if (thumb) {
+        ctx.save();
+        rr(ctx, xOff + 5, yRow + (ROW_H - THUMB_S) / 2, THUMB_S, THUMB_S, THUMB_R);
+        ctx.clip();
+        ctx.globalAlpha = owned ? 1 : 0.3;
+        ctx.drawImage(thumb, xOff + 5, yRow + (ROW_H - THUMB_S) / 2, THUMB_S, THUMB_S);
+        ctx.globalAlpha = 1;
+        ctx.restore();
+      }
+
+      ctx.font = '500 10px "DM Sans",sans-serif';
+      ctx.fillStyle = owned ? '#f5f0e8' : '#45495a';
+      ctx.textAlign = 'left'; ctx.textBaseline = 'middle';
+      const nameMaxW = COL_W - THUMB_S - 14 - (owned ? 28 : 0);
+      let name = w.name;
+      while (ctx.measureText(name).width > nameMaxW && name.length > 1) name = name.slice(0, -1);
+      if (name !== w.name) name += '…';
+      ctx.fillText(name, xOff + THUMB_S + 9, yRow + ROW_H / 2);
+
+      if (owned) {
+        const rText = `R${rank}`;
+        ctx.font = '700 8px "JetBrains Mono",monospace';
+        const rW = ctx.measureText(rText).width + 6;
+        const bH = 14, bX = xOff + COL_W - rW - 4, bY = yRow + (ROW_H - bH) / 2;
+        rr(ctx, bX, bY, rW, bH, 3);
+        ctx.fillStyle = 'rgba(13,13,25,0.85)'; ctx.fill();
+        ctx.strokeStyle = rank === 5 ? 'rgba(245,216,138,0.5)' : 'rgba(245,216,138,0.15)';
+        ctx.lineWidth = 0.75;
+        rr(ctx, bX, bY, rW, bH, 3); ctx.stroke();
+        ctx.textBaseline = 'middle';
+        ctx.fillStyle = '#f5d88a';
+        ctx.fillText(rText, bX + 3, bY + bH / 2);
+      }
+      ctx.textBaseline = 'alphabetic';
+      yRow += ROW_H + ROW_GAP;
+    };
+
+    col.owned.forEach(w => drawRow(w, true));
+    col.notOwned.forEach(w => drawRow(w, false));
+
+    xOff += COL_W + COL_GAP + DIVIDER_W;
+  }
+
+  return exportCanvas(canvas);
+}
+
 export async function generateWeaponSnapshot(opts: WeaponSnapshotOptions): Promise<boolean> {
-  return weaponGallerySnapshot(opts);
+  return opts.snapView === 'list' ? weaponListSnapshot(opts) : weaponGallerySnapshot(opts);
 }

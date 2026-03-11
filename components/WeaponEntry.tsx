@@ -63,7 +63,7 @@ export default function WeaponEntry({ weapon }: Props) {
         <img
           src={`weapons/${file}.avif`}
           alt={name}
-          className="absolute inset-0 w-full h-full object-cover pointer-events-none"
+          className="absolute inset-0 w-full h-full object-contain pointer-events-none"
           style={{ opacity: owned ? 1 : 0.22 }}
           onError={e => { (e.currentTarget as HTMLImageElement).style.opacity = '0.05'; }}
         />

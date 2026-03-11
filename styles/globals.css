@@ -83,10 +83,11 @@ body::after {
   .card-grid > .tracker-card-wrap {
     width: 100% !important;
   }
-  /* Scale card image area to match 128:196 aspect ratio */
+  /* Card image area: fill width, height via aspect-ratio 2:3 */
   .card-grid > .tracker-card-wrap > div:first-child {
     width: 100% !important;
-    height: calc((100vw - 72px - 32px - 18px) / 4 * 1.53) !important;
+    height: auto !important;
+    aspect-ratio: 2 / 3 !important;
   }
 }
 

@@ -1,5 +1,5 @@
-export type WeaponCategory = 'Broadblade' | 'Sword' | 'Pistol' | 'Gauntlet' | 'Rectifier';
-
+import type { WeaponCategory } from '@/types';
+export type { WeaponCategory };
 export interface Weapon {
   file:     string;
   name:     string;

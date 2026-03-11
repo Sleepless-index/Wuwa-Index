@@ -2,20 +2,20 @@
 @tailwind components;
 @tailwind utilities;
 
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300&family=JetBrains+Mono:wght@400;500;600&display=swap');
 
 /* ─── Always dark ─── */
 :root {
-  --bg:       #13141a;
-  --surface:  #1c1f27;
-  --surface2: #242830;
-  --border:   #2e333f;
-  --accent:   #7aa8d4;
+  --bg:       #0e0f14;
+  --surface:  #171920;
+  --surface2: #1e2029;
+  --border:   #272b38;
+  --accent:   #f5d88a;
   --text:     #dddbe8;
-  --subtext:  #6b6985;
-  --muted:    #45495a;
+  --subtext:  #5c5a72;
+  --muted:    #3e4154;
   --got:      #89d9a0;
-  --sig:      #7eb8f7;
+  --sig:      #f5d88a;
   --wish:     #f5d88a;
   --upcoming: #7ed4c4;
   --spectro:  #fde68a;
@@ -27,12 +27,7 @@
 }
 
 /* ─── Base ─── */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
+* { margin: 0; padding: 0; box-sizing: border-box; }
 html { color-scheme: dark; }
 
 body {
@@ -44,7 +39,7 @@ body {
   position: relative;
 }
 
-/* ─── Background ambient blobs ─── */
+/* ─── Richer ambient background ─── */
 body::before,
 body::after {
   content: '';
@@ -52,38 +47,37 @@ body::after {
   pointer-events: none;
   z-index: 0;
   border-radius: 50%;
-  filter: blur(120px);
-  opacity: 0.07;
+  filter: blur(140px);
 }
 body::before {
-  width: 600px;
-  height: 600px;
-  background: radial-gradient(circle, #c084fc, transparent 70%);
-  top: -150px;
-  left: -100px;
+  width: 700px; height: 700px;
+  background: radial-gradient(circle, rgba(192,132,252,0.055), transparent 70%);
+  top: -200px; left: -150px;
 }
 body::after {
-  width: 500px;
-  height: 500px;
-  background: radial-gradient(circle, #7eb8f7, transparent 70%);
-  bottom: -100px;
-  right: -80px;
+  width: 600px; height: 600px;
+  background: radial-gradient(circle, rgba(245,216,138,0.04), transparent 70%);
+  bottom: -100px; right: -100px;
 }
 
-/* All content above the bg blobs */
 #__next { position: relative; z-index: 1; }
 
-/* ─── On mobile, tracker card sections use a 4-column grid ─── */
+/* ─── Card hover lift ─── */
+.tracker-card-wrap > div:first-child {
+  transition: transform 0.15s ease, box-shadow 0.15s ease !important;
+}
+.tracker-card-wrap:hover > div:first-child {
+  transform: translateY(-2px);
+}
+
+/* ─── Mobile: 4-column grid, aspect-ratio cards ─── */
 @media (max-width: 767px) {
   .card-grid {
     display: grid !important;
     grid-template-columns: repeat(4, 1fr) !important;
     gap: 6px !important;
   }
-  .card-grid > .tracker-card-wrap {
-    width: 100% !important;
-  }
-  /* Card image area: fill width, height via aspect-ratio 2:3 */
+  .card-grid > .tracker-card-wrap { width: 100% !important; }
   .card-grid > .tracker-card-wrap > div:first-child {
     width: 100% !important;
     height: auto !important;
@@ -94,8 +88,7 @@ body::after {
 /* ─── Custom checkbox ─── */
 .cb {
   appearance: none;
-  width: 16px;
-  height: 16px;
+  width: 16px; height: 16px;
   border: 1.5px solid var(--border);
   border-radius: 4px;
   background: transparent;
@@ -104,41 +97,19 @@ body::after {
   flex-shrink: 0;
   transition: all 0.15s;
 }
-.cb:checked {
-  background: var(--got);
-  border-color: var(--got);
-}
+.cb:checked { background: var(--got); border-color: var(--got); }
 .cb:checked::after {
   content: '';
   position: absolute;
-  left: 4px;
-  top: 1px;
-  width: 5px;
-  height: 9px;
+  left: 4px; top: 1px;
+  width: 5px; height: 9px;
   border: 2px solid #111;
-  border-top: none;
-  border-left: none;
+  border-top: none; border-left: none;
   transform: rotate(45deg);
 }
 
-/* ─── Collapsible animation ─── */
-.section-body {
-  overflow: hidden;
-  transition: max-height 0.25s ease;
-}
-.section-body.collapsed {
-  max-height: 0 !important;
-}
-
-/* ─── Scrollbar (webkit) ─── */
-::-webkit-scrollbar { width: 6px; height: 6px; }
-::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
-::-webkit-scrollbar-thumb:hover { background: var(--muted); }
-
-/* ─── Seq / wep dropdown panels ─── */
-.seq-panel,
-.wep-panel {
+/* ─── Dropdown panels ─── */
+.seq-panel, .wep-panel {
   display: none;
   position: absolute;
   top: calc(100% + 4px);
@@ -152,11 +123,15 @@ body::after {
   align-items: center;
   gap: 4px;
 }
-.seq-panel.open  { display: flex; border-color: rgba(245,216,138,0.5); box-shadow: 0 0 12px rgba(245,216,138,0.12); }
-.wep-panel.open  { display: flex; border-color: rgba(245,216,138,0.5); box-shadow: 0 0 12px rgba(245,216,138,0.12); }
-
-/* ─── Filter popover slide-in ─── */
-@keyframes fadeSlideIn {
-  from { opacity: 0; transform: translateX(-6px); }
-  to   { opacity: 1; transform: translateX(0); }
+.seq-panel.open,
+.wep-panel.open {
+  display: flex;
+  border-color: rgba(245,216,138,0.45);
+  box-shadow: 0 4px 24px rgba(0,0,0,0.4), 0 0 12px rgba(245,216,138,0.08);
 }
+
+/* ─── Scrollbar ─── */
+::-webkit-scrollbar { width: 4px; height: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--muted); border-radius: 2px; }
+::-webkit-scrollbar-thumb:hover { background: var(--subtext); }

@@ -92,7 +92,7 @@ export default function Home() {
       <div className="bg-bg flex h-screen overflow-hidden">
 
         {/* ═══ SIDEBAR — narrow icon rail, hidden on mobile ═══ */}
-        <aside className="hidden md:flex w-[72px] flex-shrink-0 flex-col border-r border-border overflow-hidden bg-surface/40">
+        <aside className="hidden md:flex w-[72px] flex-shrink-0 flex-col border-r overflow-hidden" style={{ borderColor: "var(--border)", background: "rgba(14,15,20,0.6)" }}>
           {SidebarEl}
         </aside>
 
@@ -115,7 +115,7 @@ export default function Home() {
         <main className="flex-1 flex flex-col overflow-hidden min-w-0">
 
           {/* Top bar */}
-          <div className="flex-shrink-0 px-4 pt-4 pb-3 border-b border-border flex items-center gap-2">
+          <div className="flex-shrink-0 px-4 py-3 border-b border-border flex items-center gap-2" style={{ background: "rgba(23,25,32,0.8)", backdropFilter: "blur(8px)" }}>
             <button
               className="md:hidden w-8 h-8 rounded-lg border border-border flex items-center justify-center text-subtext hover:text-text transition-all flex-shrink-0"
               onClick={() => setSidebarOpen(v => !v)}

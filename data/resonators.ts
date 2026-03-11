@@ -1,4 +1,4 @@
-import type { VersionGroup, Element, WeaponType } from '@/types';
+import type { VersionGroup, Element, WeaponType, WeaponCategory } from '@/types';
 
 export const HARDCODED: VersionGroup[] = [
   {
@@ -70,7 +70,9 @@ export const EL_ORDER: Element[] = [
   'Spectro', 'Aero', 'Glacio', 'Fusion', 'Electro', 'Havoc',
 ];
 
-export const WEP_ORDER: WeaponType[] = [
+import type { WeaponType, WeaponCategory } from '@/types';
+
+export const WEP_ORDER: WeaponCategory[] = [
   'Broadblade', 'Sword', 'Pistol', 'Gauntlet', 'Rectifier',
 ];
 

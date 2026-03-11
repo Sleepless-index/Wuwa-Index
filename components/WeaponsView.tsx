@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { SIG_WEAPONS, STD_WEAPONS } from '@/data/weapons';
 import { WEP_ORDER, WEP_ICONS } from '@/data/resonators';
 import WeaponEntry from './WeaponEntry';
-import type { WeaponCategory } from '@/data/weapons';
+import type { WeaponCategory } from '@/types';
 
 export default function WeaponsView() {
   const [activeFilter, setActiveFilter] = useState<WeaponCategory | 'All'>('All');

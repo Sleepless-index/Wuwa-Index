@@ -7,6 +7,8 @@ export type Element =
   | 'Havoc'
   | '';
 
+export type WeaponType = 'Broadblade' | 'Sword' | 'Pistol' | 'Gauntlet' | 'Rectifier' | '';
+
 export interface Resonator {
   id: number;
   ver: string;

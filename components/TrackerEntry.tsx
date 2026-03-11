@@ -47,8 +47,8 @@ export default function TrackerEntry({ entry }: Props) {
         className="relative rounded-xl overflow-hidden cursor-pointer transition-all duration-150 select-none"
         style={{
           height: 196,
-          border: `1px solid ${s.res ? 'rgba(126,184,247,0.38)' : 'rgba(54,60,71,0.6)'}`,
-          boxShadow: s.res ? '0 0 10px rgba(126,184,247,0.08)' : 'none',
+          border: `1px solid ${s.res ? 'rgba(245,216,138,0.38)' : 'rgba(54,60,71,0.6)'}`,
+          boxShadow: s.res ? '0 0 10px rgba(245,216,138,0.08)' : 'none',
         }}
       >
         {/* Art */}

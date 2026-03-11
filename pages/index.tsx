@@ -14,7 +14,8 @@ import UpcomingSection  from '@/components/UpcomingSection';
 
 import ExportModal       from '@/components/modals/ExportModal';
 import ImportModal       from '@/components/modals/ImportModal';
-import SnapshotModal     from '@/components/modals/SnapshotModal';
+import SnapshotModal       from '@/components/modals/SnapshotModal';
+import WeaponSnapshotModal from '@/components/modals/WeaponSnapshotModal';
 import EditUpcomingModal from '@/components/modals/EditUpcomingModal';
 import ReleaseModal      from '@/components/modals/ReleaseModal';
 
@@ -126,7 +127,7 @@ export default function Home() {
                 <line x1="3" y1="18" x2="21" y2="18"/>
               </svg>
             </button>
-            <TrackerHeader onOpen={setOpenModal} onReset={handleReset} />
+            <TrackerHeader onOpen={setOpenModal} onReset={handleReset} tab={tab} />
           </div>
 
           {/* Scrollable content */}
@@ -139,7 +140,8 @@ export default function Home() {
       {/* Modals */}
       {openModal === 'export'        && <ExportModal onClose={close} />}
       {openModal === 'import'        && <ImportModal onClose={close} />}
-      {openModal === 'snapshot'      && <SnapshotModal onClose={close} />}
+      {openModal === 'snapshot'        && <SnapshotModal onClose={close} />}
+      {openModal === 'weapon-snapshot' && <WeaponSnapshotModal onClose={close} />}
       {openModal === 'edit-upcoming' && editingUid   !== null && <EditUpcomingModal uid={editingUid}   onClose={close} />}
       {openModal === 'release'       && releasingUid !== null && <ReleaseModal      uid={releasingUid} onClose={close} />}
     </>

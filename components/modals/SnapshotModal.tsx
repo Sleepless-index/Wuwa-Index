@@ -153,7 +153,7 @@ function SnapCard({ entry, s }: any) {
   return (
     <div
       className={`relative rounded-xl overflow-hidden flex-shrink-0 transition-all`}
-      style={{ width: 90, height: 130, border: `1px solid ${obtained ? 'rgba(126,184,247,0.35)' : 'rgba(54,60,71,0.7)'}` }}
+      style={{ width: 90, height: 130, border: `1px solid ${obtained ? 'rgba(245,216,138,0.38)' : 'rgba(54,60,71,0.7)'}` }}
     >
       {/* Art image */}
       {/* eslint-disable-next-line @next/next/no-img-element */}

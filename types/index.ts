@@ -39,6 +39,7 @@ export type ModalType =
   | 'export'
   | 'import'
   | 'snapshot'
+  | 'weapon-snapshot'
   | 'edit-upcoming'
   | 'release'
   | null;

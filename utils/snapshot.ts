@@ -177,7 +177,7 @@ async function gallerySnapshot(opts: SnapshotOptions): Promise<boolean> {
       ctx.restore();
 
       rr(ctx, cx + 0.75, cy + 0.75, CARD_W - 1.5, CARD_H - 1.5, CARD_R);
-      ctx.strokeStyle = s.res ? 'rgba(126,184,247,0.45)' : 'rgba(54,60,71,0.8)';
+      ctx.strokeStyle = s.res ? 'rgba(245,216,138,0.45)' : 'rgba(54,60,71,0.8)';
       ctx.lineWidth = s.res ? 1.5 : 1;
       ctx.stroke();
 
@@ -334,4 +334,172 @@ export async function generateSnapshot(opts: SnapshotOptions): Promise<boolean> 
   return opts.snapView === 'gallery'
     ? gallerySnapshot(opts)
     : regionsSnapshot(opts);
+}
+
+// ─── Weapon snapshot ──────────────────────────────────────────────────────────
+
+export interface WeaponSnapshotOptions {
+  sigWeapons: import('@/data/weapons').Weapon[];
+  stdWeapons: import('@/data/weapons').Weapon[];
+  state:      Record<number, import('@/types').ResonatorState>;
+  weaponState: Record<string, number>;
+  versions:   import('@/types').VersionGroup[];
+}
+
+async function weaponGallerySnapshot(opts: WeaponSnapshotOptions): Promise<boolean> {
+  const { sigWeapons, stdWeapons, state, weaponState, versions } = opts;
+  const CARD_W = 110, CARD_H = 160, CARD_GAP = 6, CARD_R = 10;
+  const COLS = 6, LABEL_H = 22, SEC_GAP = 20;
+
+  const allEntries = versions.flatMap(g => g.entries);
+
+  // Helper: get rank for a weapon
+  const getRank = (w: import('@/data/weapons').Weapon): number => {
+    if (w.owner) {
+      const ownerEntry = allEntries.find(e =>
+        toImageSlug(e.name) === toImageSlug(w.owner!)
+      );
+      return ownerEntry ? (state[ownerEntry.id]?.wep ?? 0) : 0;
+    }
+    return weaponState[w.file] ?? 0;
+  };
+
+  const allWeapons = [...sigWeapons, ...stdWeapons];
+  const owned      = allWeapons.filter(w => getRank(w) > 0);
+  const notOwned   = allWeapons.filter(w => getRank(w) === 0);
+
+  // Preload weapon images
+  const imgMap: Record<string, HTMLImageElement | null> = {};
+  await Promise.all(allWeapons.map(async w => {
+    imgMap[w.file] = await loadImg(`weapons/${w.file}.avif`);
+  }));
+
+  const sections = [
+    { label: `owned · ${owned.length}`, entries: owned },
+    ...(notOwned.length ? [{ label: `not owned · ${notOwned.length}`, entries: notOwned }] : []),
+  ];
+
+  const totalW = PAD * 2 + COLS * CARD_W + (COLS - 1) * CARD_GAP;
+  let totalH   = PAD + HEADER_H;
+  sections.forEach(s => {
+    totalH += SEC_GAP + LABEL_H + Math.ceil(s.entries.length / COLS) * (CARD_H + CARD_GAP) - CARD_GAP;
+  });
+  totalH += PAD;
+
+  const { canvas, ctx } = makeCanvas(totalW, totalH);
+  ctx.fillStyle = '#13141a';
+  ctx.fillRect(0, 0, totalW, totalH);
+
+  // Header
+  const totalOwned = owned.length;
+  const total      = allWeapons.length;
+  ctx.textAlign = 'left';
+  ctx.font = '600 14px "JetBrains Mono",monospace';
+  ctx.fillStyle = '#f5d88a';
+  ctx.fillText(`${totalOwned}/${total}`, PAD, PAD + 16);
+  ctx.font = '500 9px "JetBrains Mono",monospace';
+  ctx.fillStyle = '#45495a';
+  ctx.fillText('WEAPONS OWNED', PAD, PAD + 29);
+  ctx.strokeStyle = 'rgba(255,255,255,0.07)';
+  ctx.lineWidth = 1;
+  ctx.beginPath();
+  ctx.moveTo(PAD, PAD + HEADER_H - 6);
+  ctx.lineTo(totalW - PAD, PAD + HEADER_H - 6);
+  ctx.stroke();
+
+  let yOff = PAD + HEADER_H;
+  for (const sec of sections) {
+    yOff += SEC_GAP;
+    ctx.textAlign = 'left';
+    ctx.font = '500 9px "JetBrains Mono",monospace';
+    ctx.fillStyle = '#45495a';
+    ctx.fillText(sec.label.toUpperCase(), PAD, yOff + 13);
+    yOff += LABEL_H;
+
+    for (let i = 0; i < sec.entries.length; i++) {
+      const w    = sec.entries[i];
+      const rank = getRank(w);
+      const isOwned = rank > 0;
+      const isMax   = rank === 5;
+      const cx = PAD + (i % COLS) * (CARD_W + CARD_GAP);
+      const cy = yOff + Math.floor(i / COLS) * (CARD_H + CARD_GAP);
+
+      ctx.save();
+      rr(ctx, cx, cy, CARD_W, CARD_H, CARD_R);
+      ctx.clip();
+      ctx.fillStyle = '#1c1f27';
+      ctx.fillRect(cx, cy, CARD_W, CARD_H);
+      const img = imgMap[w.file];
+      if (img) {
+        ctx.globalAlpha = isOwned ? 1 : 0.22;
+        ctx.drawImage(img, cx, cy, CARD_W, CARD_H);
+        ctx.globalAlpha = 1;
+      }
+      const grad = ctx.createLinearGradient(cx, cy + CARD_H * 0.35, cx, cy + CARD_H);
+      grad.addColorStop(0, 'transparent');
+      grad.addColorStop(1, 'rgba(8,10,14,0.93)');
+      ctx.fillStyle = grad;
+      ctx.fillRect(cx, cy, CARD_W, CARD_H);
+      ctx.restore();
+
+      // Border
+      rr(ctx, cx + 0.75, cy + 0.75, CARD_W - 1.5, CARD_H - 1.5, CARD_R);
+      ctx.strokeStyle = isOwned ? 'rgba(245,216,138,0.45)' : 'rgba(54,60,71,0.8)';
+      ctx.lineWidth = isOwned ? 1.5 : 1;
+      ctx.stroke();
+
+      // Owner label
+      if (w.owner) {
+        ctx.font = '500 8px "JetBrains Mono",monospace';
+        ctx.fillStyle = 'rgba(245,216,138,0.5)';
+        ctx.textAlign = 'left';
+        ctx.textBaseline = 'alphabetic';
+        let ownerTxt = w.owner.replace(/_/g, ' ');
+        while (ctx.measureText(ownerTxt).width > CARD_W - 10 && ownerTxt.length > 1)
+          ownerTxt = ownerTxt.slice(0, -1);
+        if (ownerTxt !== w.owner.replace(/_/g, ' ')) ownerTxt += '…';
+        ctx.fillText(ownerTxt, cx + 5, cy + CARD_H - 18);
+      }
+
+      // Name
+      ctx.font = '600 10px "DM Sans",sans-serif';
+      ctx.fillStyle = isOwned ? '#f5f0e8' : '#45495a';
+      ctx.textAlign = 'left';
+      ctx.textBaseline = 'alphabetic';
+      const BADGE_W = isOwned ? 22 : 0;
+      const nameMaxW = CARD_W - 10 - BADGE_W;
+      let name = w.name;
+      while (ctx.measureText(name).width > nameMaxW && name.length > 1) name = name.slice(0, -1);
+      if (name !== w.name) name += '…';
+      ctx.fillText(name, cx + 5, cy + CARD_H - 7);
+
+      // Rank badge
+      if (isOwned) {
+        const rText = `R${rank}`;
+        const RFONT = '700 8px "JetBrains Mono",monospace';
+        ctx.font = RFONT;
+        const rW = ctx.measureText(rText).width + 6;
+        const bH = 13;
+        const bX = cx + CARD_W - rW - 4;
+        const bY = cy + CARD_H - bH - 4;
+        rr(ctx, bX, bY, rW, bH, 3);
+        ctx.fillStyle = 'rgba(13,13,25,0.88)'; ctx.fill();
+        ctx.strokeStyle = isMax ? 'rgba(245,216,138,0.7)' : 'rgba(245,216,138,0.3)';
+        ctx.lineWidth = 0.75;
+        rr(ctx, bX, bY, rW, bH, 3); ctx.stroke();
+        ctx.textAlign = 'left'; ctx.textBaseline = 'middle';
+        ctx.fillStyle = '#f5d88a'; ctx.font = RFONT;
+        ctx.fillText(rText, bX + 3, bY + bH / 2);
+        ctx.textBaseline = 'alphabetic';
+      }
+    }
+    const rows = Math.ceil(sec.entries.length / COLS);
+    yOff += rows * (CARD_H + CARD_GAP) - CARD_GAP;
+  }
+
+  return exportCanvas(canvas);
+}
+
+export async function generateWeaponSnapshot(opts: WeaponSnapshotOptions): Promise<boolean> {
+  return weaponGallerySnapshot(opts);
 }

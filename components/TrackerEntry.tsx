@@ -15,7 +15,7 @@ export default function TrackerEntry({ entry }: Props) {
   const setWep         = useTrackerStore(s => s.setWep);
   const togglePriority = useTrackerStore(s => s.togglePriority);
 
-  const s       = entryState ?? { res: false, sig: false, seq: 0, wep: 0 };
+  const s       = entryState ?? { res: false, seq: 0, wep: 0 };
   const elColor = element ? EL_COLORS[element] : undefined;
   const slug    = toImageSlug(name);
 

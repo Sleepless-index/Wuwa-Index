@@ -10,7 +10,6 @@ import TrackerSection   from '@/components/TrackerSection';
 import TrackerEntry     from '@/components/TrackerEntry';
 import WeaponsView      from '@/components/WeaponsView';
 import PriorityPanel    from '@/components/PriorityPanel';
-import AstriteView      from '@/components/AstriteView';
 import UpcomingSection  from '@/components/UpcomingSection';
 
 import ExportModal       from '@/components/modals/ExportModal';
@@ -52,7 +51,6 @@ export default function Home() {
   const renderContent = () => {
     if (tab === 'weapons')  return <WeaponsView />;
     if (tab === 'priority') return <PriorityPanel />;
-    if (tab === 'astrite')  return <AstriteView />;
 
     // Characters tab
     return (

@@ -25,7 +25,6 @@ interface TrackerStore {
   setRes:  (id: number, val: boolean) => void;
   setSeq:  (id: number, val: number) => void;
   setWep:  (id: number, val: number) => void;
-  setPulls:(id: number, val: number) => void;
 
   // Standard weapon action
   setStdWeaponRank: (slug: string, rank: number) => void;
@@ -51,7 +50,7 @@ interface TrackerStore {
 
 // ─── Default resonator state ─────────────────────────────────────────────────
 
-const defaultResState = (): ResonatorState => ({ res: false, sig: false, seq: 0, wep: 0 });
+const defaultResState = (): ResonatorState => ({ res: false, seq: 0, wep: 0 });
 
 // ─── Build versions from HARDCODED + released upcoming ───────────────────────
 
@@ -126,14 +125,6 @@ export const useTrackerStore = create<TrackerStore>()(
           state: {
             ...s.state,
             [id]: { ...s.state[id], wep: s.state[id]?.wep === val ? 0 : val },
-          },
-        })),
-
-      setPulls: (id, val) =>
-        set(s => ({
-          state: {
-            ...s.state,
-            [id]: { ...s.state[id], pulls: val >= 0 ? val : 0 },
           },
         })),
 
@@ -227,10 +218,9 @@ export const useTrackerStore = create<TrackerStore>()(
           allEntries.forEach(e => {
             const d = pState[e.id] || pState[String(e.id)];
             state[e.id] = {
-              res: !!d?.res, sig: !!d?.sig,
+              res: !!d?.res,
               seq: typeof d?.seq === 'number' ? d.seq : 0,
               wep: typeof d?.wep === 'number' ? d.wep : 0,
-              pulls: typeof d?.pulls === 'number' ? d.pulls : undefined,
             };
           });
 
@@ -273,6 +263,7 @@ export const useTrackerStore = create<TrackerStore>()(
         upcoming:         s.upcoming,
         releasedUpcoming: s.releasedUpcoming,
         uidCounter:       s.uidCounter,
+        weaponState:      s.weaponState,
       }),
       skipHydration: true,
       onRehydrateStorage: () => (s) => {

@@ -10,8 +10,6 @@ const TAB_LABELS: Record<SidebarTab, string> = {
   characters: 'Characters',
   weapons:    'Weapons',
   priority:   'Priority',
-  astrite:    'Astrite Cost',
-  astrite:    'Astrite Cost',
 };
 
 export default function TrackerHeader({ onOpen, onReset, tab }: Props) {

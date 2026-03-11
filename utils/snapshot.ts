@@ -147,7 +147,7 @@ async function gallerySnapshot(opts: SnapshotOptions): Promise<boolean> {
 
     for (let i = 0; i < sec.entries.length; i++) {
       const e  = sec.entries[i];
-      const s  = state[e.id] ?? { res: false, seq: 0, wep: 0, sig: false };
+      const s  = state[e.id] ?? { res: false, seq: 0, wep: 0 };
       const cx = PAD + (i % COLS) * (CARD_W + CARD_GAP);
       const cy = yOff + Math.floor(i / COLS) * (CARD_H + CARD_GAP);
 
@@ -269,7 +269,7 @@ async function regionsSnapshot(opts: SnapshotOptions): Promise<boolean> {
 
     let yRow = yBase + LABEL_H;
     for (const e of col.entries) {
-      const s = state[e.id] ?? { res: false, seq: 0, wep: 0, sig: false };
+      const s = state[e.id] ?? { res: false, seq: 0, wep: 0 };
       if (s.res) {
         rr(ctx, xOff, yRow, COL_W, ROW_H, 5);
         ctx.fillStyle   = 'rgba(126,184,247,0.05)'; ctx.fill();

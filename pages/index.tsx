@@ -83,7 +83,7 @@ export default function Home() {
   return (
     <>
       <Head>
-        <title>WuWa Tracker</title>
+        <title>Wuwa Index</title>
         <meta name="description" content="Wuthering Waves limited resonator tracker" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <link rel="icon" href="favicon.ico" />

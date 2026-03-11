@@ -39,7 +39,7 @@ export default function TrackerEntry({ entry }: Props) {
   const isMaxS = s.seq === 6;
   const isMaxR = s.wep === 5;
 
-  const borderColor = s.res ? 'rgba(76,123,214,0.3)' : 'rgba(30,34,44,0.95)';
+  const borderColor = s.res ? 'rgba(76,123,214,0.6)' : 'rgba(42,48,62,1)';
   const glowColor   = s.res ? 'rgba(76,123,214,0.06)' : 'none';
 
   return (

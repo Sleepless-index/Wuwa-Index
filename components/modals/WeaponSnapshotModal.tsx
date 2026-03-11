@@ -185,7 +185,7 @@ function WeaponCards({ entries, getRank }: { entries: Weapon[]; getRank: (w: Wea
             <div className="absolute inset-0" style={{ background: 'linear-gradient(to bottom, transparent 35%, rgba(8,10,14,0.93) 100%)' }} />
             <div className="absolute bottom-0 inset-x-0 px-1.5 pb-1.5">
               {w.owner && (
-                <p className="text-[8px] font-mono leading-none mb-0.5 truncate" style={{ color: 'rgba(76,123,214,0.55)' }}>
+                <p className="text-[8px] font-mono leading-none mb-0.5 truncate" style={{ color: 'rgba(255,255,255,0.55)' }}>
                   {w.owner.replace(/_/g, ' ')}
                 </p>
               )}

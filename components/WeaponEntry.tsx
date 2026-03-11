@@ -55,7 +55,7 @@ export default function WeaponEntry({ weapon }: Props) {
         className="relative rounded-xl overflow-hidden cursor-pointer transition-all duration-150 select-none"
         style={{
           height: 196,
-          border: `1px solid ${owned ? 'rgba(76,123,214,0.38)' : 'rgba(54,60,71,0.6)'}`,
+          border: `1px solid ${owned ? 'rgba(76,123,214,0.6)' : 'rgba(42,48,62,1)'}`,
           boxShadow: owned ? '0 0 10px rgba(76,123,214,0.08)' : 'none',
         }}
       >

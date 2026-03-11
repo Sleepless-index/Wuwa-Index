@@ -12,6 +12,7 @@ export interface Resonator {
   ver: string;
   name: string;
   element: Element;
+  weaponType?: WeaponType;
 }
 
 export interface VersionGroup {

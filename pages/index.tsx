@@ -67,7 +67,7 @@ export default function Home() {
         ) : (
           <>
             {versions.map(group => (
-              <TrackerSection key={group.label} group={group} forceOpen={true} forceKey={0} />
+              <TrackerSection key={group.label} group={group} />
             ))}
             <UpcomingSection onOpenRelease={handleOpenRelease} onOpenEdit={handleOpenEdit} />
           </>

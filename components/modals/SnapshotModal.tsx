@@ -136,7 +136,6 @@ function GalleryPreview({ owned, stateMap }: any) {
 function CardGroup({ label, entries, stateMap }: any) {
   return (
     <div className="mb-5">
-      <p className="text-[10px] font-mono text-[var(--subtext)] uppercase tracking-wider mb-2">{label}</p>
       <div className="flex flex-wrap gap-2">
         {entries.map((e: any) => <SnapCard key={e.id} entry={e} s={stateMap[e.id]} />)}
       </div>
@@ -153,7 +152,7 @@ function SnapCard({ entry, s }: any) {
   return (
     <div
       className={`relative rounded-xl overflow-hidden flex-shrink-0 transition-all`}
-      style={{ width: 90, height: 130, border: `1px solid ${obtained ? 'rgba(245,216,138,0.38)' : 'rgba(54,60,71,0.7)'}` }}
+      style={{ width: 90, height: 130, border: `1px solid ${obtained ? 'rgba(245,216,138,0.38)' : 'rgba(54,60,71,0.6)'}` }}
     >
       {/* Art image */}
       {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -231,8 +230,8 @@ function RegionsPreview({ versions, ownedOnly, stateMap }: any) {
                     className="flex items-center gap-1.5 px-1.5 rounded-lg"
                     style={{
                       height: 28,
-                      background: s?.res ? 'rgba(126,184,247,0.05)' : 'transparent',
-                      border:     s?.res ? '0.75px solid rgba(126,184,247,0.18)' : '0.75px solid transparent',
+                      background: s?.res ? 'rgba(245,216,138,0.04)' : 'transparent',
+                      border:     s?.res ? '0.75px solid rgba(245,216,138,0.2)' : '0.75px solid transparent',
                     }}
                   >
                     {/* Head icon */}

@@ -1,13 +1,13 @@
 import { useRef, useState, useEffect, useCallback } from 'react';
 import { useTrackerStore } from '@/store/trackerStore';
-import { EL_COLORS } from '@/data/resonators';
+import { EL_COLORS, WEP_ICONS } from '@/data/resonators';
 import { toImageSlug } from '@/utils/helpers';
 import type { Resonator } from '@/types';
 
 interface Props { entry: Resonator; }
 
 export default function TrackerEntry({ entry }: Props) {
-  const { id, name, element } = entry;
+  const { id, name, element, weaponType } = entry;
   const entryState     = useTrackerStore(s => s.state[id]);
   const isPrioritized  = useTrackerStore(s => s.priority.includes(id));
   const setRes         = useTrackerStore(s => s.setRes);
@@ -97,8 +97,17 @@ export default function TrackerEntry({ entry }: Props) {
           P
         </button>
 
-        {/* Name — bottom */}
+        {/* Name + weapon type icon — bottom */}
         <div className="absolute bottom-0 inset-x-0 px-1.5 pb-1.5 z-10">
+          {weaponType && WEP_ICONS[weaponType] && (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img
+              src={WEP_ICONS[weaponType]}
+              alt={weaponType}
+              className="w-3.5 h-3.5 object-contain mb-0.5 opacity-60"
+              onError={e => (e.currentTarget.style.display = 'none')}
+            />
+          )}
           <p
             className="text-[9px] font-semibold leading-tight truncate"
             style={{ color: s.res ? '#f5f0e8' : 'rgba(255,255,255,0.22)' }}
@@ -160,7 +169,7 @@ export default function TrackerEntry({ entry }: Props) {
           </button>
           {s.res && (
             <div className={`wep-panel ${wepOpen ? 'open' : ''}`} style={{ bottom: 'calc(100% + 4px)', top: 'auto', left: 0, right: 'auto' }}>
-              <span className="text-[9px] font-mono text-sig mr-1">rank</span>
+              <span className="text-[9px] font-mono text-wish mr-1">rank</span>
               {Array.from({ length: 5 }, (_, i) => i + 1).map(i => (
                 <button
                   key={i}

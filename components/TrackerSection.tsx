@@ -1,24 +1,12 @@
-import { useState, useEffect, useRef } from 'react';
 import { useTrackerStore } from '@/store/trackerStore';
 import TrackerEntry from './TrackerEntry';
 import type { VersionGroup } from '@/types';
 
-interface Props {
-  group:     VersionGroup;
-  forceOpen: boolean;
-  forceKey:  number;
-}
+interface Props { group: VersionGroup; }
 
-export default function TrackerSection({ group, forceOpen, forceKey }: Props) {
-  const [open, setOpen] = useState(true);
+export default function TrackerSection({ group }: Props) {
   const stateMap = useTrackerStore(s => s.state);
   const filter   = useTrackerStore(s => s.activeFilter);
-  const bodyRef  = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    setOpen(forceOpen);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [forceKey]);
 
   const visibleEntries = group.entries.filter(e =>
     filter === 'All' || e.element === filter
@@ -28,38 +16,24 @@ export default function TrackerSection({ group, forceOpen, forceKey }: Props) {
   const got   = group.entries.filter(e => stateMap[e.id]?.res).length;
   const total = group.entries.length;
 
-  const isFiltered = filter !== 'All';
-
   return (
     <div className="mb-6">
-      {/* ── Section divider header ── */}
-      <button
-        onClick={() => setOpen(v => !v)}
-        className="w-full flex items-center gap-3 mb-3 group"
-      >
-        <span className="text-[10px] font-mono font-bold tracking-[0.18em] uppercase whitespace-nowrap flex-shrink-0"
+      {/* Static section label */}
+      <div className="flex items-center gap-2 mb-3">
+        <span className="text-[10px] font-mono font-bold tracking-[0.18em] uppercase whitespace-nowrap"
           style={{ color: 'var(--muted)' }}>
           {group.label}
         </span>
-        <span className="text-[10px] font-mono flex-shrink-0" style={{ color: 'var(--muted)', opacity: 0.6 }}>
+        <span className="text-[10px] font-mono" style={{ color: 'var(--muted)', opacity: 0.6 }}>
           {got}/{total}
         </span>
-        <span
-          className="text-[10px] flex-shrink-0 transition-transform duration-200"
-          style={{ color: 'var(--muted)', transform: open ? 'rotate(0deg)' : 'rotate(-90deg)' }}
-        >
-          ▾
-        </span>
-      </button>
+      </div>
 
-      {/* ── Cards grid ── */}
-      {(open || isFiltered) && (
-        <div ref={bodyRef} className="card-grid flex flex-wrap gap-2">
-          {visibleEntries.map(e => (
-            <TrackerEntry key={e.id} entry={e} />
-          ))}
-        </div>
-      )}
+      <div className="card-grid flex flex-wrap gap-2">
+        {visibleEntries.map(e => (
+          <TrackerEntry key={e.id} entry={e} />
+        ))}
+      </div>
     </div>
   );
 }

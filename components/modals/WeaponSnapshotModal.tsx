@@ -119,7 +119,6 @@ export default function WeaponSnapshotModal({ onClose }: { onClose: () => void }
 function GalleryPreview({ owned, getRank }: { owned: Weapon[]; getRank: (w: Weapon) => number }) {
   return (
     <div>
-      <p className="text-[10px] font-mono text-[var(--subtext)] uppercase tracking-wider mb-2">owned · {owned.length}</p>
       <div className="flex flex-wrap gap-2">
         {owned.map(w => {
           const rank  = getRank(w);
@@ -167,7 +166,6 @@ function GalleryPreview({ owned, getRank }: { owned: Weapon[]; getRank: (w: Weap
 function ListView({ owned, getRank }: { owned: Weapon[]; getRank: (w: Weapon) => number }) {
   return (
     <div>
-      <p className="text-[10px] font-mono text-[var(--subtext)] uppercase tracking-wider mb-2">owned · {owned.length}</p>
       <div className="flex flex-col gap-1.5">
         {owned.map(w => {
           const rank = getRank(w);
@@ -196,21 +194,16 @@ function ListView({ owned, getRank }: { owned: Weapon[]; getRank: (w: Weapon) =>
                   </p>
                 )}
               </div>
-              {/* Rank dots */}
-              <div className="flex items-center gap-1 flex-shrink-0">
-                {[1,2,3,4,5].map(i => (
-                  <div
-                    key={i}
-                    className="w-5 h-5 rounded text-[10px] font-mono font-bold flex items-center justify-center border"
-                    style={{
-                      background:  rank >= i ? 'rgba(245,216,138,0.15)' : 'transparent',
-                      borderColor: rank >= i ? 'rgba(245,216,138,0.45)' : 'var(--border)',
-                      color:       rank >= i ? '#f5d88a' : 'var(--muted)',
-                    }}
-                  >
-                    {i}
-                  </div>
-                ))}
+              {/* Rank badge */}
+              <div
+                className="flex-shrink-0 px-2 py-0.5 rounded border text-[11px] font-mono font-bold"
+                style={{
+                  background:  rank === 5 ? 'rgba(13,13,25,0.88)' : 'rgba(245,216,138,0.12)',
+                  borderColor: rank === 5 ? 'rgba(245,216,138,0.65)' : 'rgba(245,216,138,0.35)',
+                  color: '#f5d88a',
+                }}
+              >
+                R{rank}
               </div>
             </div>
           );

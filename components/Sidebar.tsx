@@ -23,7 +23,7 @@ export default function Sidebar({ tab, setTab, onOpen }: Props) {
             key={id}
             title={title}
             onClick={() => setTab(id)}
-            className="relative w-14 h-14 rounded-2xl flex items-center justify-center transition-all duration-150 flex-shrink-0"
+            className="relative w-11 h-11 rounded-xl flex items-center justify-center transition-all duration-150 flex-shrink-0"
             style={{
               background:  active ? 'rgba(122,168,212,0.12)' : 'rgba(255,255,255,0.03)',
               border:      active ? '1.5px solid var(--accent)' : '1.5px solid var(--border)',
@@ -34,7 +34,7 @@ export default function Sidebar({ tab, setTab, onOpen }: Props) {
             <img
               src={icon}
               alt={title}
-              className="w-7 h-7 object-contain"
+              className="w-5 h-5 object-contain"
               style={{ opacity: active ? 1 : 0.45 }}
               onError={e => {
                 // fallback text icon
@@ -52,10 +52,10 @@ export default function Sidebar({ tab, setTab, onOpen }: Props) {
       <button
         title="Import"
         onClick={() => onOpen('import')}
-        className="w-14 h-14 rounded-2xl flex items-center justify-center transition-all flex-shrink-0"
+        className="w-11 h-11 rounded-xl flex items-center justify-center transition-all flex-shrink-0"
         style={{ background: 'rgba(255,255,255,0.03)', border: '1.5px solid var(--border)' }}
       >
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" className="text-subtext">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" className="text-subtext">
           <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
           <polyline points="17 8 12 3 7 8"/>
           <line x1="12" y1="3" x2="12" y2="15"/>
@@ -66,10 +66,10 @@ export default function Sidebar({ tab, setTab, onOpen }: Props) {
       <button
         title="Export"
         onClick={() => onOpen('export')}
-        className="w-14 h-14 rounded-2xl flex items-center justify-center transition-all flex-shrink-0"
+        className="w-11 h-11 rounded-xl flex items-center justify-center transition-all flex-shrink-0"
         style={{ background: 'rgba(255,255,255,0.03)', border: '1.5px solid var(--border)' }}
       >
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" className="text-subtext">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" className="text-subtext">
           <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
           <polyline points="7 10 12 15 17 10"/>
           <line x1="12" y1="15" x2="12" y2="3"/>

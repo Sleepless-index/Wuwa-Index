@@ -70,8 +70,6 @@ export const EL_ORDER: Element[] = [
   'Spectro', 'Aero', 'Glacio', 'Fusion', 'Electro', 'Havoc',
 ];
 
-import type { WeaponType, WeaponCategory } from '@/types';
-
 export const WEP_ORDER: WeaponCategory[] = [
   'Broadblade', 'Sword', 'Pistol', 'Gauntlet', 'Rectifier',
 ];

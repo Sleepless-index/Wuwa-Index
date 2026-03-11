@@ -164,8 +164,8 @@ function SnapCard({ entry, s }: any) {
       className="relative rounded-xl overflow-hidden flex-shrink-0"
       style={{
         width: 90, height: 130,
-        border: `1px solid ${obtained ? (elColor ? `${elColor}55` : 'rgba(245,216,138,0.4)') : 'rgba(40,45,58,0.8)'}`,
-        boxShadow: obtained && elColor ? `0 2px 12px ${elColor}18` : 'none',
+        border: `1px solid ${obtained ? 'rgba(245,216,138,0.28)' : 'rgba(28,32,40,0.95)'}`,
+        boxShadow: obtained ? '0 2px 12px rgba(0,0,0,0.5)' : 'none',
       }}
     >
       {/* Art */}

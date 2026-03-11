@@ -39,11 +39,8 @@ export default function TrackerEntry({ entry }: Props) {
   const isMaxS = s.seq === 6;
   const isMaxR = s.wep === 5;
 
-  // Border glow: element color when owned, dim when not
-  const borderColor = s.res
-    ? elColor ? `${elColor}55` : 'rgba(245,216,138,0.4)'
-    : 'rgba(40,45,58,0.9)';
-  const glowColor = s.res && elColor ? `${elColor}18` : 'none';
+  const borderColor = s.res ? 'rgba(245,216,138,0.3)' : 'rgba(30,34,44,0.95)';
+  const glowColor   = s.res ? 'rgba(245,216,138,0.06)' : 'none';
 
   return (
     <div className="tracker-card-wrap flex flex-col" style={{ width: 128 }}>
@@ -54,7 +51,7 @@ export default function TrackerEntry({ entry }: Props) {
         style={{
           height: 196,
           border: `1px solid ${borderColor}`,
-          boxShadow: s.res ? `0 0 0 1px ${glowColor}, 0 4px 20px rgba(0,0,0,0.5)` : '0 2px 8px rgba(0,0,0,0.3)',
+          boxShadow: s.res ? `0 0 14px ${glowColor}, 0 4px 16px rgba(0,0,0,0.5)` : '0 2px 8px rgba(0,0,0,0.3)',
           transition: 'border-color 0.2s, box-shadow 0.2s',
         }}
       >

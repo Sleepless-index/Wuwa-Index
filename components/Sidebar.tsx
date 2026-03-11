@@ -10,6 +10,7 @@ const NAV: { id: SidebarTab; icon: string; title: string }[] = [
   { id: 'characters', icon: 'icons/bt_iconcharacter.webp', title: 'Characters' },
   { id: 'weapons',    icon: 'icons/bt_iconweapon.webp',    title: 'Weapons'    },
   { id: 'priority',   icon: 'icons/bt_iconpriority.webp',  title: 'Priority'   },
+  { id: 'astrite',    icon: '',                             title: 'Astrite'    },
 ];
 
 export default function Sidebar({ tab, setTab, onOpen }: Props) {
@@ -46,13 +47,20 @@ export default function Sidebar({ tab, setTab, onOpen }: Props) {
                 style={{ background: 'rgba(76,123,214,0.7)' }} />
             )}
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src={icon}
-              alt={title}
-              className="w-5 h-5 object-contain transition-opacity duration-150"
-              style={{ opacity: active ? 1 : 0.35, filter: active ? 'drop-shadow(0 0 4px rgba(76,123,214,0.4))' : 'none' }}
-              onError={e => { (e.currentTarget as HTMLImageElement).style.display = 'none'; }}
-            />
+            {id === 'astrite' ? (
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"
+                style={{ color: active ? '#4c7bd6' : 'rgba(255,255,255,0.35)', filter: active ? 'drop-shadow(0 0 4px rgba(76,123,214,0.4))' : 'none' }}>
+                <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+              </svg>
+            ) : (
+              <img
+                src={icon}
+                alt={title}
+                className="w-5 h-5 object-contain transition-opacity duration-150"
+                style={{ opacity: active ? 1 : 0.35, filter: active ? 'drop-shadow(0 0 4px rgba(76,123,214,0.4))' : 'none' }}
+                onError={e => { (e.currentTarget as HTMLImageElement).style.display = 'none'; }}
+              />
+            )}
           </button>
         );
       })}

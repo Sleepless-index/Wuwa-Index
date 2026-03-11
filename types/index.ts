@@ -29,6 +29,7 @@ export interface ResonatorState {
   sig: boolean;
   seq: number; // 0–6
   wep: number; // 0–5
+  pulls?: number; // pulls spent to obtain
 }
 
 export interface UpcomingEntry {
@@ -48,4 +49,4 @@ export type ModalType =
   | 'release'
   | null;
 
-export type SidebarTab = 'characters' | 'weapons' | 'priority';
+export type SidebarTab = 'characters' | 'weapons' | 'priority' | 'astrite';

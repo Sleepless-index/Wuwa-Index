@@ -25,6 +25,7 @@ interface TrackerStore {
   setRes:  (id: number, val: boolean) => void;
   setSeq:  (id: number, val: number) => void;
   setWep:  (id: number, val: number) => void;
+  setPulls:(id: number, val: number) => void;
 
   // Standard weapon action
   setStdWeaponRank: (slug: string, rank: number) => void;
@@ -128,6 +129,14 @@ export const useTrackerStore = create<TrackerStore>()(
           },
         })),
 
+      setPulls: (id, val) =>
+        set(s => ({
+          state: {
+            ...s.state,
+            [id]: { ...s.state[id], pulls: val >= 0 ? val : 0 },
+          },
+        })),
+
       // ── Priority ──
       togglePriority: (id) =>
         set(s => {
@@ -221,6 +230,7 @@ export const useTrackerStore = create<TrackerStore>()(
               res: !!d?.res, sig: !!d?.sig,
               seq: typeof d?.seq === 'number' ? d.seq : 0,
               wep: typeof d?.wep === 'number' ? d.wep : 0,
+              pulls: typeof d?.pulls === 'number' ? d.pulls : undefined,
             };
           });
 

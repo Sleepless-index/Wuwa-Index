@@ -17,7 +17,6 @@ export const SIG_WEAPONS: Weapon[] = [
   { file: 'T_IconWeapon21020016_UI', name: 'Blazing Brilliance',    category: 'Sword',    owner: 'Changli'       },
   { file: 'T_IconWeapon21020017_UI', name: 'Red Spring',            category: 'Sword',            owner: 'Camellya'      },
   { file: 'T_IconWeapon21020025_UI', name: 'Unflickering Valor',    category: 'Sword',    owner: 'Brant'         },
-  { file: 'T_IconWeapon21020026_UI', name: "Bloodpact's Pledge",    category: 'Sword',    owner: 'Rover (Aero)'  },
   { file: 'T_IconWeapon21020056_UI', name: "Defier's Thorn",        category: 'Sword',        owner: 'Cartethyia'    },
   { file: 'T_IconWeapon21020066_UI', name: 'Emerald Sentence',      category: 'Sword',      owner: 'Qiuyuan'       },
   { file: 'T_IconWeapon21020076_UI', name: 'Everbright Polestar',   category: 'Sword',   owner: 'Aemeath'       },

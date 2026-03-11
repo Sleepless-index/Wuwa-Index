@@ -51,7 +51,7 @@ export default function SnapshotModal({ onClose }: { onClose: () => void }) {
                 <button
                   key={v}
                   onClick={() => setSnapView(v === 'list' ? 'regions' : 'gallery')}
-                  className={`text-[11px] font-mono px-3 py-1.5 transition-all ${active ? 'bg-[var(--accent)]/15 text-[var(--accent)]' : 'text-[var(--subtext)] hover:text-[var(--text)]'}`}
+                  className={`text-[11px] font-mono px-3 py-1.5 transition-all`" style={{ background: active ? 'rgba(245,216,138,0.1)' : 'transparent', color: active ? '#f5d88a' : 'var(--subtext)' }}}
                 >
                   {v}
                 </button>
@@ -77,7 +77,7 @@ export default function SnapshotModal({ onClose }: { onClose: () => void }) {
             <button
               onClick={handleExport}
               disabled={exporting}
-              className="text-[11px] font-mono font-semibold px-3 py-1.5 rounded-lg border border-[var(--accent)]/40 text-[var(--accent)] bg-[var(--accent)]/10 hover:bg-[var(--accent)]/20 transition-all disabled:opacity-50"
+              className="text-[11px] font-mono font-semibold px-3 py-1.5 rounded-lg border transition-all disabled:opacity-50" style={{ borderColor: 'rgba(245,216,138,0.4)', color: '#f5d88a', background: 'rgba(245,216,138,0.08)' }}
             >
               {exporting ? 'generating…' : '⎘ copy + save'}
             </button>
@@ -182,10 +182,10 @@ function SnapCard({ entry, s }: any) {
               border: `0.75px solid ${isMaxS && isMaxR ? 'rgba(245,216,138,0.65)' : 'rgba(255,255,255,0.08)'}`,
             }}
           >
-            <span className="text-[8px] font-mono font-bold" style={{ color: isMaxS ? '#f5d88a' : '#b794f4' }}>
+            <span className="text-[8px] font-mono font-bold" style={{ color: '#f5d88a' }}>
               S{s?.seq ?? 0}
             </span>
-            <span className="text-[8px] font-mono" style={{ color: isMaxR ? '#f5d88a' : '#7eb8f7' }}>
+            <span className="text-[8px] font-mono" style={{ color: '#f5d88a' }}>
               R{s?.wep ?? 0}
             </span>
           </div>
@@ -256,10 +256,10 @@ function RegionsPreview({ versions, ownedOnly, stateMap }: any) {
                     {s?.res && (
                       <span
                         className="flex-shrink-0 flex rounded px-1 py-0.5"
-                        style={{ background: 'rgba(13,13,25,0.7)', border: '0.5px solid rgba(255,255,255,0.06)' }}
+                        style={{ background: 'rgba(13,13,25,0.7)', border: '0.5px solid rgba(245,216,138,0.2)' }}
                       >
-                        <span className="text-[8px] font-mono font-bold" style={{ color: s.seq === 6 ? '#f5d88a' : '#b794f4' }}>{seqTxt}</span>
-                        <span className="text-[8px] font-mono"           style={{ color: s.wep === 5 ? '#f5d88a' : '#7eb8f7' }}>{wepTxt}</span>
+                        <span className="text-[8px] font-mono font-bold" style={{ color: '#f5d88a' }}>{seqTxt}</span>
+                        <span className="text-[8px] font-mono"           style={{ color: '#f5d88a' }}>{wepTxt}</span>
                       </span>
                     )}
                   </div>

@@ -9,13 +9,14 @@ import type { Weapon } from '@/data/weapons';
 type WeaponView = 'gallery' | 'list';
 
 export default function WeaponSnapshotModal({ onClose }: { onClose: () => void }) {
-  const versions        = useTrackerStore(s => s.versions);
-  const state           = useTrackerStore(s => s.state);
-  const weaponState     = useTrackerStore(s => s.weaponState);
+  const versions     = useTrackerStore(s => s.versions);
+  const state        = useTrackerStore(s => s.state);
+  const weaponState  = useTrackerStore(s => s.weaponState);
 
-  const [view,      setView]      = useState<WeaponView>('gallery');
-  const [exporting, setExporting] = useState(false);
-  const [exportMsg, setExportMsg] = useState('');
+  const [view,        setView]        = useState<WeaponView>('gallery');
+  const [showNotOwned, setShowNotOwned] = useState(false);
+  const [exporting,   setExporting]   = useState(false);
+  const [exportMsg,   setExportMsg]   = useState('');
 
   const allEntries = versions.flatMap(g => g.entries);
   const allWeapons = [...SIG_WEAPONS, ...STD_WEAPONS];
@@ -28,12 +29,16 @@ export default function WeaponSnapshotModal({ onClose }: { onClose: () => void }
     return weaponState[w.file] ?? 0;
   };
 
-  const owned = allWeapons.filter(w => getRank(w) > 0);
+  const owned    = allWeapons.filter(w => getRank(w) > 0);
+  const notOwned = allWeapons.filter(w => getRank(w) === 0);
 
   const handleExport = useCallback(async () => {
     setExporting(true); setExportMsg('');
     try {
-      const copied = await generateWeaponSnapshot({ sigWeapons: SIG_WEAPONS, stdWeapons: STD_WEAPONS, state, weaponState, versions });
+      const copied = await generateWeaponSnapshot({
+        sigWeapons: SIG_WEAPONS, stdWeapons: STD_WEAPONS,
+        state, weaponState, versions,
+      });
       setExportMsg(copied ? '✓ copied + saved!' : '✓ saved!');
     } catch {
       setExportMsg('✕ failed');
@@ -54,6 +59,7 @@ export default function WeaponSnapshotModal({ onClose }: { onClose: () => void }
       >
         {/* Action bar */}
         <div className="flex flex-wrap items-center gap-2 px-4 py-3 bg-[var(--surface2)] border-b border-[var(--border)] rounded-t-2xl">
+          {/* View toggle */}
           <div className="flex bg-[var(--surface)] border border-[var(--border)] rounded-md overflow-hidden flex-shrink-0">
             {(['gallery', 'list'] as WeaponView[]).map(v => (
               <button
@@ -69,6 +75,21 @@ export default function WeaponSnapshotModal({ onClose }: { onClose: () => void }
               </button>
             ))}
           </div>
+
+          {/* Not owned toggle — list only */}
+          {view === 'list' && (
+            <button
+              onClick={() => setShowNotOwned(v => !v)}
+              className="text-[11px] font-mono px-2.5 py-1.5 rounded-md border transition-all flex-shrink-0"
+              style={{
+                background:  showNotOwned ? 'rgba(245,216,138,0.08)' : 'transparent',
+                borderColor: showNotOwned ? 'rgba(245,216,138,0.4)' : 'var(--border)',
+                color:       showNotOwned ? '#f5d88a' : 'var(--subtext)',
+              }}
+            >
+              not owned
+            </button>
+          )}
 
           <div className="flex items-center gap-2 ml-auto flex-shrink-0">
             {exportMsg && (
@@ -86,7 +107,7 @@ export default function WeaponSnapshotModal({ onClose }: { onClose: () => void }
             </button>
             <button
               onClick={onClose}
-              className="text-[11px] font-mono px-3 py-1.5 rounded-lg border border-[var(--border)] text-[var(--subtext)] hover:text-[var(--text)] hover:border-[var(--subtext)] transition-all"
+              className="text-[11px] font-mono px-3 py-1.5 rounded-lg border border-[var(--border)] text-[var(--subtext)] hover:text-[var(--text)] transition-all"
             >
               close
             </button>
@@ -96,98 +117,113 @@ export default function WeaponSnapshotModal({ onClose }: { onClose: () => void }
         {/* Stats */}
         <div className="flex items-center gap-6 px-4 py-2.5 border-b border-[var(--border)]">
           <div className="flex items-baseline gap-1.5">
-            <span className="text-sm font-mono font-semibold" style={{ color: '#f5d88a' }}>{owned.length}/{allWeapons.length}</span>
+            <span className="text-sm font-mono font-semibold" style={{ color: '#f5d88a' }}>
+              {owned.length}/{allWeapons.length}
+            </span>
             <span className="text-[10px] font-mono text-[var(--muted)] uppercase tracking-wide">weapons owned</span>
           </div>
         </div>
 
         {/* Preview */}
         <div className="overflow-y-auto p-4">
-          {view === 'gallery'
-            ? <GalleryPreview allWeapons={allWeapons} getRank={getRank} />
-            : <ListView owned={owned} getRank={getRank} />
-          }
+          {view === 'gallery' ? (
+            <GalleryPreview owned={owned} getRank={getRank} />
+          ) : (
+            <ListView owned={owned} notOwned={showNotOwned ? notOwned : []} getRank={getRank} />
+          )}
         </div>
       </div>
     </div>
   );
 }
 
-// Gallery — shows all weapons, owned highlighted
-function GalleryPreview({ allWeapons, getRank }: { allWeapons: Weapon[]; getRank: (w: Weapon) => number }) {
-  const sections = [
-    { label: 'Signature', entries: SIG_WEAPONS },
-    { label: 'Standard',  entries: STD_WEAPONS },
-  ];
+/* ── Gallery — owned only ── */
+function GalleryPreview({ owned, getRank }: { owned: Weapon[]; getRank: (w: Weapon) => number }) {
+  if (owned.length === 0) return <p className="text-xs text-[var(--subtext)] font-mono">No weapons owned yet.</p>;
+
+  const sigOwned = owned.filter(w => w.owner !== null);
+  const stdOwned = owned.filter(w => w.owner === null);
+
   return (
     <div className="flex flex-col gap-6">
-      {sections.map(({ label, entries }) => (
-        <div key={label}>
-          <p className="text-[10px] font-mono font-semibold text-[var(--subtext)] uppercase tracking-widest mb-2">{label}</p>
-          <div className="flex flex-wrap gap-2">
-            {entries.map(w => {
-              const rank  = getRank(w);
-              const owned = rank > 0;
-              return (
-                <div
-                  key={w.file}
-                  className="relative rounded-xl overflow-hidden flex-shrink-0"
-                  style={{ width: 90, height: 130, border: `1px solid ${owned ? 'rgba(245,216,138,0.38)' : 'rgba(54,60,71,0.5)'}` }}
-                >
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
-                    src={`weapons/${w.file}.avif`}
-                    alt={w.name}
-                    className="absolute inset-0 w-full h-full object-contain"
-                    style={{ opacity: owned ? 1 : 0.2 }}
-                    onError={e => { (e.currentTarget as HTMLImageElement).style.opacity = '0.05'; }}
-                  />
-                  <div className="absolute inset-0" style={{ background: 'linear-gradient(to bottom, transparent 35%, rgba(8,10,14,0.93) 100%)' }} />
-                  <div className="absolute bottom-0 inset-x-0 px-1.5 pb-1.5">
-                    {w.owner && (
-                      <p className="text-[8px] font-mono leading-none mb-0.5 truncate" style={{ color: owned ? 'rgba(245,216,138,0.55)' : 'rgba(255,255,255,0.2)' }}>
-                        {w.owner.replace(/_/g, ' ')}
-                      </p>
-                    )}
-                    <div className="flex items-center gap-1">
-                      <p className="text-[9px] font-semibold leading-tight truncate flex-1 min-w-0" style={{ color: owned ? '#f5f0e8' : 'rgba(255,255,255,0.2)' }}>
-                        {w.name}
-                      </p>
-                      {owned && (
-                        <div
-                          className="flex rounded px-1 py-0.5 flex-shrink-0"
-                          style={{ background: 'rgba(13,13,25,0.88)', border: `0.75px solid ${rank === 5 ? 'rgba(245,216,138,0.65)' : 'rgba(245,216,138,0.2)'}` }}
-                        >
-                          <span className="text-[8px] font-mono font-bold" style={{ color: '#f5d88a' }}>R{rank}</span>
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
+      {sigOwned.length > 0 && (
+        <div>
+          <p className="text-[10px] font-mono font-semibold text-[var(--subtext)] uppercase tracking-widest mb-2">Signature</p>
+          <WeaponCards entries={sigOwned} getRank={getRank} />
         </div>
-      ))}
+      )}
+      {stdOwned.length > 0 && (
+        <div>
+          <p className="text-[10px] font-mono font-semibold text-[var(--subtext)] uppercase tracking-widest mb-2">Standard</p>
+          <WeaponCards entries={stdOwned} getRank={getRank} />
+        </div>
+      )}
     </div>
   );
 }
 
-// List — owned only, styled like character list view columns grouped by weapon type
-function ListView({ owned, getRank }: { owned: Weapon[]; getRank: (w: Weapon) => number }) {
-  const categories = ['Broadblade', 'Sword', 'Pistol', 'Gauntlet', 'Rectifier'] as const;
+function WeaponCards({ entries, getRank }: { entries: Weapon[]; getRank: (w: Weapon) => number }) {
+  return (
+    <div className="flex flex-wrap gap-2">
+      {entries.map(w => {
+        const rank = getRank(w);
+        return (
+          <div
+            key={w.file}
+            className="relative rounded-xl overflow-hidden flex-shrink-0"
+            style={{ width: 90, height: 130, border: '1px solid rgba(245,216,138,0.38)' }}
+          >
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={`weapons/${w.file}.avif`}
+              alt={w.name}
+              className="absolute inset-0 w-full h-full object-contain"
+              onError={e => { (e.currentTarget as HTMLImageElement).style.opacity = '0.05'; }}
+            />
+            <div className="absolute inset-0" style={{ background: 'linear-gradient(to bottom, transparent 35%, rgba(8,10,14,0.93) 100%)' }} />
+            <div className="absolute bottom-0 inset-x-0 px-1.5 pb-1.5">
+              {w.owner && (
+                <p className="text-[8px] font-mono leading-none mb-0.5 truncate" style={{ color: 'rgba(245,216,138,0.55)' }}>
+                  {w.owner.replace(/_/g, ' ')}
+                </p>
+              )}
+              <div className="flex items-center gap-1">
+                <p className="text-[9px] font-semibold leading-tight truncate flex-1 min-w-0" style={{ color: '#f5f0e8' }}>
+                  {w.name}
+                </p>
+                <div
+                  className="flex rounded px-1 py-0.5 flex-shrink-0"
+                  style={{ background: 'rgba(13,13,25,0.88)', border: `0.75px solid ${rank === 5 ? 'rgba(245,216,138,0.65)' : 'rgba(245,216,138,0.2)'}` }}
+                >
+                  <span className="text-[8px] font-mono font-bold" style={{ color: '#f5d88a' }}>R{rank}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        );
+      })}
+    </div>
+  );
+}
 
-  const cols = categories.map(cat => ({
-    label: cat,
-    icon:  WEP_ICONS[cat],
-    entries: owned.filter(w => w.category === cat),
-  })).filter(c => c.entries.length > 0);
+/* ── List — columns by weapon type, owned + optional not-owned ── */
+const CATEGORIES = ['Broadblade', 'Sword', 'Pistol', 'Gauntlet', 'Rectifier'] as const;
+
+function ListView({ owned, notOwned, getRank }: { owned: Weapon[]; notOwned: Weapon[]; getRank: (w: Weapon) => number }) {
+  const showNotOwned = notOwned.length > 0;
+
+  const cols = CATEGORIES.map(cat => ({
+    label:      cat,
+    icon:       WEP_ICONS[cat],
+    owned:      owned.filter(w => w.category === cat),
+    notOwned:   notOwned.filter(w => w.category === cat),
+  })).filter(c => c.owned.length > 0 || (showNotOwned && c.notOwned.length > 0));
 
   if (cols.length === 0) return <p className="text-xs text-[var(--subtext)] font-mono">No weapons owned yet.</p>;
 
   return (
     <div className="flex gap-1 overflow-x-auto pb-2">
-      {cols.map(({ label, icon, entries }, ci) => (
+      {cols.map(({ label, icon, owned: ownedInCat, notOwned: notOwnedInCat }, ci) => (
         <div
           key={label}
           className="flex-shrink-0 min-w-[150px]"
@@ -197,55 +233,54 @@ function ListView({ owned, getRank }: { owned: Weapon[]; getRank: (w: Weapon) =>
             paddingLeft: ci === 0 ? 0 : 12,
           }}
         >
-          {/* Column label */}
+          {/* Column header */}
           <div className="flex items-center gap-1.5 mb-2">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src={icon} alt={label} className="w-3.5 h-3.5 object-contain opacity-60"
               onError={e => (e.currentTarget.style.display = 'none')} />
             <span className="text-[9px] font-mono font-bold text-[var(--subtext)] uppercase tracking-wider">{label}</span>
-            <span className="text-[9px] font-mono text-[var(--muted)]">{entries.length}</span>
+            <span className="text-[9px] font-mono text-[var(--muted)]">{ownedInCat.length}/{ownedInCat.length + notOwnedInCat.length}</span>
           </div>
 
-          {/* Rows */}
           <div className="flex flex-col gap-0.5">
-            {entries.map(w => {
-              const rank = getRank(w);
-              return (
-                <div
-                  key={w.file}
-                  className="flex items-center gap-1.5 px-1.5 rounded-lg"
-                  style={{
-                    height: 28,
-                    background: 'rgba(245,216,138,0.04)',
-                    border: '0.75px solid rgba(245,216,138,0.2)',
-                  }}
-                >
-                  {/* Thumb */}
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
-                    src={`weapons/${w.file}.avif`}
-                    alt=""
-                    className="object-contain flex-shrink-0 rounded"
-                    style={{ width: 20, height: 20 }}
-                    onError={e => (e.currentTarget.style.display = 'none')}
-                  />
-                  {/* Name */}
-                  <span className="flex-1 truncate text-[10px] font-medium" style={{ color: 'var(--text)' }}>
-                    {w.name}
-                  </span>
-                  {/* R badge */}
-                  <span
-                    className="flex-shrink-0 flex rounded px-1 py-0.5"
-                    style={{ background: 'rgba(13,13,25,0.7)', border: `0.5px solid ${rank === 5 ? 'rgba(245,216,138,0.5)' : 'rgba(245,216,138,0.15)'}` }}
-                  >
-                    <span className="text-[8px] font-mono font-bold" style={{ color: '#f5d88a' }}>R{rank}</span>
-                  </span>
-                </div>
-              );
-            })}
+            {ownedInCat.map(w => <WeaponRow key={w.file} weapon={w} rank={getRank(w)} owned />)}
+            {notOwnedInCat.map(w => <WeaponRow key={w.file} weapon={w} rank={0} owned={false} />)}
           </div>
         </div>
       ))}
+    </div>
+  );
+}
+
+function WeaponRow({ weapon, rank, owned }: { weapon: Weapon; rank: number; owned: boolean }) {
+  return (
+    <div
+      className="flex items-center gap-1.5 px-1.5 rounded-lg"
+      style={{
+        height:     28,
+        background: owned ? 'rgba(245,216,138,0.04)' : 'transparent',
+        border:     owned ? '0.75px solid rgba(245,216,138,0.2)' : '0.75px solid transparent',
+      }}
+    >
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
+        src={`weapons/${weapon.file}.avif`}
+        alt=""
+        className="object-contain flex-shrink-0 rounded"
+        style={{ width: 20, height: 20, opacity: owned ? 1 : 0.3 }}
+        onError={e => (e.currentTarget.style.display = 'none')}
+      />
+      <span className="flex-1 truncate text-[10px] font-medium" style={{ color: owned ? 'var(--text)' : 'var(--muted)' }}>
+        {weapon.name}
+      </span>
+      {owned && (
+        <span
+          className="flex-shrink-0 flex rounded px-1 py-0.5"
+          style={{ background: 'rgba(13,13,25,0.7)', border: `0.5px solid ${rank === 5 ? 'rgba(245,216,138,0.5)' : 'rgba(245,216,138,0.15)'}` }}
+        >
+          <span className="text-[8px] font-mono font-bold" style={{ color: '#f5d88a' }}>R{rank}</span>
+        </span>
+      )}
     </div>
   );
 }

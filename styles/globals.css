@@ -83,6 +83,11 @@ body::after {
   .card-grid > .tracker-card-wrap {
     width: 100% !important;
   }
+  /* Cap card height so art fits on screen */
+  .card-grid > .tracker-card-wrap > div:first-child {
+    height: 22vw !important;
+    max-height: 140px !important;
+  }
 }
 
 /* ─── Custom checkbox ─── */

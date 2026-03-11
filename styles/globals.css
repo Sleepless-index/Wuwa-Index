@@ -146,8 +146,8 @@ body::after {
   align-items: center;
   gap: 4px;
 }
-.seq-panel.open  { display: flex; border-color: rgba(196,160,245,0.5); box-shadow: 0 0 12px rgba(196,160,245,0.15); }
-.wep-panel.open  { display: flex; border-color: rgba(126,184,247,0.5); box-shadow: 0 0 12px rgba(126,184,247,0.15); }
+.seq-panel.open  { display: flex; border-color: rgba(245,216,138,0.5); box-shadow: 0 0 12px rgba(245,216,138,0.12); }
+.wep-panel.open  { display: flex; border-color: rgba(245,216,138,0.5); box-shadow: 0 0 12px rgba(245,216,138,0.12); }
 
 /* ─── Filter popover slide-in ─── */
 @keyframes fadeSlideIn {

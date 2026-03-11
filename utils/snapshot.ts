@@ -211,9 +211,9 @@ async function gallerySnapshot(opts: SnapshotOptions): Promise<boolean> {
         ctx.strokeStyle = (isMaxS && isMaxR) ? 'rgba(245,216,138,0.7)' : 'rgba(255,255,255,0.08)';
         ctx.lineWidth = 0.75; rr(ctx, bX, bY, bW, bH, 3); ctx.stroke();
         ctx.textAlign = 'left'; ctx.textBaseline = 'middle';
-        ctx.fillStyle = isMaxS ? '#f5d88a' : '#b794f4'; ctx.font = BFONT;
+        ctx.fillStyle = '#f5d88a'; ctx.font = BFONT;
         ctx.fillText(sText, bX + 2, bY + bH / 2);
-        ctx.fillStyle = isMaxR ? '#f5d88a' : '#7eb8f7'; ctx.font = RFONT;
+        ctx.fillStyle = '#f5d88a'; ctx.font = RFONT;
         ctx.fillText(rText, bX + sW + 2, bY + bH / 2);
         ctx.textBaseline = 'alphabetic';
       }
@@ -313,10 +313,10 @@ async function regionsSnapshot(opts: SnapshotOptions): Promise<boolean> {
         rr(ctx, tagX, tagY, tagW, tagH, 3); ctx.stroke();
         ctx.textBaseline = 'middle';
         const sW = ctx.measureText(seqTxt).width;
-        ctx.fillStyle = s.seq === 6 ? '#f5d88a' : '#b794f4';
+        ctx.fillStyle = '#f5d88a';
         ctx.textAlign = 'left';
         ctx.fillText(seqTxt, tagX + 5, tagY + tagH / 2);
-        ctx.fillStyle = s.wep === 5 ? '#f5d88a' : '#7eb8f7';
+        ctx.fillStyle = '#f5d88a';
         ctx.fillText(wepTxt, tagX + 5 + sW + 2, tagY + tagH / 2);
       }
       ctx.textBaseline = 'alphabetic';
@@ -376,7 +376,6 @@ async function weaponGallerySnapshot(opts: WeaponSnapshotOptions): Promise<boole
 
   const sections = [
     { label: `owned · ${owned.length}`, entries: owned },
-    ...(notOwned.length ? [{ label: `not owned · ${notOwned.length}`, entries: notOwned }] : []),
   ];
 
   const totalW = PAD * 2 + COLS * CARD_W + (COLS - 1) * CARD_GAP;

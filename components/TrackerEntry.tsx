@@ -117,9 +117,9 @@ export default function TrackerEntry({ entry }: Props) {
             onClick={(e) => { e.stopPropagation(); setWepOpen(false); setSeqOpen(v => !v); }}
             className="w-full h-5 rounded text-[8px] font-mono font-semibold border flex items-center justify-center transition-all"
             style={{
-              background:  s.seq > 0 ? (isMaxS ? 'rgba(13,13,25,0.88)' : 'rgba(196,160,245,0.15)') : 'var(--surface2)',
-              borderColor: s.seq > 0 ? (isMaxS ? 'rgba(245,216,138,0.65)' : 'rgba(196,160,245,0.45)') : 'var(--border)',
-              color:       s.seq > 0 ? (isMaxS ? '#f5d88a' : '#c4a0f5') : 'var(--subtext)',
+              background:  s.seq > 0 ? 'rgba(13,13,25,0.88)' : 'var(--surface2)',
+              borderColor: s.seq > 0 ? (isMaxS ? 'rgba(245,216,138,0.65)' : 'rgba(245,216,138,0.35)') : 'var(--border)',
+              color:       s.seq > 0 ? '#f5d88a' : 'var(--subtext)',
             }}
           >
             S{s.seq > 0 ? s.seq : ''}
@@ -133,9 +133,9 @@ export default function TrackerEntry({ entry }: Props) {
                   onClick={() => handleSeq(i)}
                   className="w-6 h-6 rounded text-[10px] font-mono font-semibold transition-all border"
                   style={{
-                    background:  s.seq === i ? 'rgba(196,160,245,0.2)' : 'transparent',
-                    color:       s.seq === i ? '#c4a0f5'               : 'var(--subtext)',
-                    borderColor: s.seq === i ? 'rgba(196,160,245,0.5)' : 'transparent',
+                    background:  s.seq === i ? 'rgba(245,216,138,0.15)' : 'transparent',
+                    color:       s.seq === i ? '#f5d88a'               : 'var(--subtext)',
+                    borderColor: s.seq === i ? 'rgba(245,216,138,0.5)' : 'transparent',
                   }}
                 >
                   {i}
@@ -151,9 +151,9 @@ export default function TrackerEntry({ entry }: Props) {
             onClick={(e) => { e.stopPropagation(); setSeqOpen(false); setWepOpen(v => !v); }}
             className="w-full h-5 rounded text-[8px] font-mono font-semibold border flex items-center justify-center transition-all"
             style={{
-              background:  s.wep > 0 ? (isMaxR ? 'rgba(13,13,25,0.88)' : 'rgba(126,184,247,0.15)') : 'var(--surface2)',
-              borderColor: s.wep > 0 ? (isMaxR ? 'rgba(245,216,138,0.65)' : 'rgba(126,184,247,0.45)') : 'var(--border)',
-              color:       s.wep > 0 ? (isMaxR ? '#f5d88a' : '#7eb8f7') : 'var(--subtext)',
+              background:  s.wep > 0 ? 'rgba(13,13,25,0.88)' : 'var(--surface2)',
+              borderColor: s.wep > 0 ? (isMaxR ? 'rgba(245,216,138,0.65)' : 'rgba(245,216,138,0.35)') : 'var(--border)',
+              color:       s.wep > 0 ? '#f5d88a' : 'var(--subtext)',
             }}
           >
             R{s.wep > 0 ? s.wep : ''}
@@ -167,9 +167,9 @@ export default function TrackerEntry({ entry }: Props) {
                   onClick={() => handleWep(i)}
                   className="w-6 h-6 rounded text-[10px] font-mono font-semibold transition-all border"
                   style={{
-                    background:  s.wep === i ? 'rgba(126,184,247,0.2)' : 'transparent',
-                    color:       s.wep === i ? '#7eb8f7'               : 'var(--subtext)',
-                    borderColor: s.wep === i ? 'rgba(126,184,247,0.5)' : 'transparent',
+                    background:  s.wep === i ? 'rgba(245,216,138,0.15)' : 'transparent',
+                    color:       s.wep === i ? '#f5d88a'               : 'var(--subtext)',
+                    borderColor: s.wep === i ? 'rgba(245,216,138,0.5)' : 'transparent',
                   }}
                 >
                   {i}

@@ -49,12 +49,12 @@ export default function WeaponEntry({ weapon }: Props) {
   };
 
   return (
-    <div className="tracker-card-wrap flex flex-col" style={{ width: 128 }}>
+    <div className="tracker-card-wrap flex flex-col" style={{ width: 256 }}>
       <div
         onClick={handleToggle}
         className="relative rounded-xl overflow-hidden cursor-pointer transition-all duration-150 select-none"
         style={{
-          height: 196,
+          height: 256,
           border: `1px solid ${owned ? 'rgba(245,216,138,0.38)' : 'rgba(54,60,71,0.6)'}`,
           boxShadow: owned ? '0 0 10px rgba(245,216,138,0.08)' : 'none',
         }}

@@ -80,10 +80,7 @@ export default function WeaponSnapshotModal({ onClose }: { onClose: () => void }
             <span className="text-sm font-mono font-semibold text-[var(--wish)]">{owned.length}/{allWeapons.length}</span>
             <span className="text-[10px] font-mono text-[var(--muted)] uppercase tracking-wide">weapons owned</span>
           </div>
-          <div className="flex items-baseline gap-1.5">
-            <span className="text-sm font-mono font-semibold text-[var(--sig)]">{owned.filter(w => w.owner).length}</span>
-            <span className="text-[10px] font-mono text-[var(--muted)] uppercase tracking-wide">sig weapons</span>
-          </div>
+
         </div>
 
         {/* Gallery preview */}

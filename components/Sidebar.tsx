@@ -18,8 +18,8 @@ export default function Sidebar({ tab, setTab, onOpen }: Props) {
 
       {/* Logo mark */}
       <div className="w-9 h-9 rounded-xl flex items-center justify-center mb-1 flex-shrink-0"
-        style={{ background: 'rgba(245,216,138,0.06)', border: '1px solid rgba(245,216,138,0.15)' }}>
-        <span className="text-[10px] font-mono font-bold" style={{ color: 'rgba(245,216,138,0.7)', letterSpacing: '0.05em' }}>WW</span>
+        style={{ background: 'rgba(76,123,214,0.06)', border: '1px solid rgba(76,123,214,0.15)' }}>
+        <span className="text-[10px] font-mono font-bold" style={{ color: 'rgba(76,123,214,0.7)', letterSpacing: '0.05em' }}>WW</span>
       </div>
 
       {/* Separator */}
@@ -35,22 +35,22 @@ export default function Sidebar({ tab, setTab, onOpen }: Props) {
             onClick={() => setTab(id)}
             className="relative w-11 h-11 rounded-xl flex items-center justify-center transition-all duration-150 flex-shrink-0 group"
             style={{
-              background:  active ? 'rgba(245,216,138,0.1)'  : 'transparent',
-              border:      active ? '1px solid rgba(245,216,138,0.35)' : '1px solid transparent',
-              boxShadow:   active ? '0 0 16px rgba(245,216,138,0.1)' : 'none',
+              background:  active ? 'rgba(76,123,214,0.1)'  : 'transparent',
+              border:      active ? '1px solid rgba(76,123,214,0.35)' : '1px solid transparent',
+              boxShadow:   active ? '0 0 16px rgba(76,123,214,0.1)' : 'none',
             }}
           >
             {/* Active left bar */}
             {active && (
               <span className="absolute left-0 top-2 bottom-2 w-0.5 rounded-r-full"
-                style={{ background: 'rgba(245,216,138,0.7)' }} />
+                style={{ background: 'rgba(76,123,214,0.7)' }} />
             )}
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src={icon}
               alt={title}
               className="w-5 h-5 object-contain transition-opacity duration-150"
-              style={{ opacity: active ? 1 : 0.35, filter: active ? 'drop-shadow(0 0 4px rgba(245,216,138,0.4))' : 'none' }}
+              style={{ opacity: active ? 1 : 0.35, filter: active ? 'drop-shadow(0 0 4px rgba(76,123,214,0.4))' : 'none' }}
               onError={e => { (e.currentTarget as HTMLImageElement).style.display = 'none'; }}
             />
           </button>

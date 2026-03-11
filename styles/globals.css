@@ -10,13 +10,13 @@
   --surface:  #171920;
   --surface2: #1e2029;
   --border:   #272b38;
-  --accent:   #f5d88a;
+  --accent:   #4c7bd6;
   --text:     #dddbe8;
   --subtext:  #5c5a72;
   --muted:    #3e4154;
   --got:      #89d9a0;
-  --sig:      #f5d88a;
-  --wish:     #f5d88a;
+  --sig:      #4c7bd6;
+  --wish:     #4c7bd6;
   --upcoming: #7ed4c4;
   --spectro:  #fde68a;
   --aero:     #5eead4;
@@ -51,12 +51,12 @@ body::after {
 }
 body::before {
   width: 700px; height: 700px;
-  background: radial-gradient(circle, rgba(192,132,252,0.055), transparent 70%);
+  background: radial-gradient(circle, rgba(44,76,156,0.09), transparent 70%);
   top: -200px; left: -150px;
 }
 body::after {
   width: 600px; height: 600px;
-  background: radial-gradient(circle, rgba(245,216,138,0.04), transparent 70%);
+  background: radial-gradient(circle, rgba(76,123,214,0.04), transparent 70%);
   bottom: -100px; right: -100px;
 }
 
@@ -126,8 +126,8 @@ body::after {
 .seq-panel.open,
 .wep-panel.open {
   display: flex;
-  border-color: rgba(245,216,138,0.45);
-  box-shadow: 0 4px 24px rgba(0,0,0,0.4), 0 0 12px rgba(245,216,138,0.08);
+  border-color: rgba(76,123,214,0.45);
+  box-shadow: 0 4px 24px rgba(0,0,0,0.4), 0 0 12px rgba(76,123,214,0.08);
 }
 
 /* ─── Scrollbar ─── */

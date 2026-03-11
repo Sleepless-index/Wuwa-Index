@@ -54,8 +54,8 @@ export default function SnapshotModal({ onClose }: { onClose: () => void }) {
                   onClick={() => setSnapView(v === 'list' ? 'regions' : 'gallery')}
                   className="text-[11px] font-mono px-3 py-1.5 transition-all"
                   style={{
-                    background: active ? 'rgba(245,216,138,0.1)' : 'transparent',
-                    color:      active ? '#f5d88a' : 'var(--subtext)',
+                    background: active ? 'rgba(76,123,214,0.1)' : 'transparent',
+                    color:      active ? '#4c7bd6' : 'var(--subtext)',
                   }}
                 >
                   {v}
@@ -83,7 +83,7 @@ export default function SnapshotModal({ onClose }: { onClose: () => void }) {
               onClick={handleExport}
               disabled={exporting}
               className="text-[11px] font-mono font-semibold px-3 py-1.5 rounded-lg border transition-all disabled:opacity-50"
-              style={{ borderColor: 'rgba(245,216,138,0.4)', color: '#f5d88a', background: 'rgba(245,216,138,0.08)' }}
+              style={{ borderColor: 'rgba(76,123,214,0.4)', color: '#4c7bd6', background: 'rgba(76,123,214,0.08)' }}
             >
               {exporting ? 'generating…' : '⎘ copy + save'}
             </button>
@@ -164,7 +164,7 @@ function SnapCard({ entry, s }: any) {
       className="relative rounded-xl overflow-hidden flex-shrink-0"
       style={{
         width: 90, height: 130,
-        border: `1px solid ${obtained ? 'rgba(245,216,138,0.28)' : 'rgba(28,32,40,0.95)'}`,
+        border: `1px solid ${obtained ? 'rgba(76,123,214,0.28)' : 'rgba(28,32,40,0.95)'}`,
         boxShadow: obtained ? '0 2px 12px rgba(0,0,0,0.5)' : 'none',
       }}
     >
@@ -180,12 +180,6 @@ function SnapCard({ entry, s }: any) {
 
       {/* Not-owned dim overlay */}
       {!obtained && <div className="absolute inset-0" style={{ background: 'rgba(8,10,14,0.5)' }} />}
-
-      {/* Element accent bar */}
-      {obtained && elColor && (
-        <div className="absolute top-0 inset-x-0 h-0.5 pointer-events-none"
-          style={{ background: `linear-gradient(to right, transparent, ${elColor}90, transparent)` }} />
-      )}
 
       {/* Bottom gradient */}
       <div className="absolute inset-0 pointer-events-none"
@@ -211,11 +205,11 @@ function SnapCard({ entry, s }: any) {
         {obtained && (
           <div className="flex rounded px-1 py-0.5 w-fit"
             style={{
-              background: 'rgba(10,10,18,0.9)',
-              border: `0.75px solid ${allMax ? 'rgba(245,216,138,0.6)' : 'rgba(245,216,138,0.2)'}`,
+              background: 'rgba(8,12,24,0.92)',
+              border: `0.75px solid ${allMax ? 'rgba(76,123,214,0.6)' : 'rgba(76,123,214,0.2)'}`,
             }}
           >
-            <span className="text-[8px] font-mono font-bold" style={{ color: '#f5d88a' }}>S{s?.seq ?? 0} R{s?.wep ?? 0}</span>
+            <span className="text-[8px] font-mono font-bold" style={{ color: '#4c7bd6' }}>S{s?.seq ?? 0} R{s?.wep ?? 0}</span>
           </div>
         )}
       </div>
@@ -260,8 +254,8 @@ function RegionsPreview({ versions, ownedOnly, stateMap }: any) {
                     className="flex items-center gap-1.5 px-1.5 rounded-lg"
                     style={{
                       height: 28,
-                      background: s?.res ? 'rgba(245,216,138,0.04)' : 'transparent',
-                      border:     s?.res ? '0.75px solid rgba(245,216,138,0.2)' : '0.75px solid transparent',
+                      background: s?.res ? 'rgba(76,123,214,0.04)' : 'transparent',
+                      border:     s?.res ? '0.75px solid rgba(76,123,214,0.2)' : '0.75px solid transparent',
                     }}
                   >
                     {/* Head icon */}
@@ -284,10 +278,10 @@ function RegionsPreview({ versions, ownedOnly, stateMap }: any) {
                     {s?.res && (
                       <span
                         className="flex-shrink-0 flex rounded px-1 py-0.5"
-                        style={{ background: 'rgba(13,13,25,0.7)', border: '0.5px solid rgba(245,216,138,0.2)' }}
+                        style={{ background: 'rgba(13,13,25,0.7)', border: '0.5px solid rgba(76,123,214,0.2)' }}
                       >
-                        <span className="text-[8px] font-mono font-bold" style={{ color: '#f5d88a' }}>{seqTxt}</span>
-                        <span className="text-[8px] font-mono"           style={{ color: '#f5d88a' }}>{wepTxt}</span>
+                        <span className="text-[8px] font-mono font-bold" style={{ color: '#4c7bd6' }}>{seqTxt}</span>
+                        <span className="text-[8px] font-mono"           style={{ color: '#4c7bd6' }}>{wepTxt}</span>
                       </span>
                     )}
                   </div>

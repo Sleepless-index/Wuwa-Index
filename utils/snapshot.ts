@@ -170,7 +170,7 @@ async function gallerySnapshot(opts: SnapshotOptions): Promise<boolean> {
       ctx.restore();
 
       rr(ctx, cx + 0.75, cy + 0.75, CARD_W - 1.5, CARD_H - 1.5, CARD_R);
-      ctx.strokeStyle = s.res ? 'rgba(245,216,138,0.45)' : 'rgba(54,60,71,0.8)';
+      ctx.strokeStyle = s.res ? 'rgba(76,123,214,0.45)' : 'rgba(54,60,71,0.8)';
       ctx.lineWidth = s.res ? 1.5 : 1;
       ctx.stroke();
 
@@ -200,13 +200,13 @@ async function gallerySnapshot(opts: SnapshotOptions): Promise<boolean> {
         const bX = cx + CARD_W - bW - 4;
         const bY = cy + CARD_H - bH - 4;
         rr(ctx, bX, bY, bW, bH, 3);
-        ctx.fillStyle = 'rgba(13,13,25,0.88)'; ctx.fill();
-        ctx.strokeStyle = (isMaxS && isMaxR) ? 'rgba(245,216,138,0.7)' : 'rgba(255,255,255,0.08)';
+        ctx.fillStyle = 'rgba(8,12,24,0.92)'; ctx.fill();
+        ctx.strokeStyle = (isMaxS && isMaxR) ? 'rgba(76,123,214,0.7)' : 'rgba(255,255,255,0.08)';
         ctx.lineWidth = 0.75; rr(ctx, bX, bY, bW, bH, 3); ctx.stroke();
         ctx.textAlign = 'left'; ctx.textBaseline = 'middle';
-        ctx.fillStyle = '#f5d88a'; ctx.font = BFONT;
+        ctx.fillStyle = '#4c7bd6'; ctx.font = BFONT;
         ctx.fillText(sText, bX + 2, bY + bH / 2);
-        ctx.fillStyle = '#f5d88a'; ctx.font = RFONT;
+        ctx.fillStyle = '#4c7bd6'; ctx.font = RFONT;
         ctx.fillText(rText, bX + sW + 2, bY + bH / 2);
         ctx.textBaseline = 'alphabetic';
       }
@@ -301,15 +301,15 @@ async function regionsSnapshot(opts: SnapshotOptions): Promise<boolean> {
         const tagW = ctx.measureText(seqTxt + wepTxt).width + 12;
         const tagH = 14, tagX = xOff + COL_W - tagW - 4, tagY = yRow + (ROW_H - tagH) / 2;
         rr(ctx, tagX, tagY, tagW, tagH, 3);
-        ctx.fillStyle = 'rgba(13,13,25,0.85)'; ctx.fill();
+        ctx.fillStyle = 'rgba(8,12,24,0.9)'; ctx.fill();
         ctx.strokeStyle = 'rgba(255,255,255,0.08)'; ctx.lineWidth = 0.75;
         rr(ctx, tagX, tagY, tagW, tagH, 3); ctx.stroke();
         ctx.textBaseline = 'middle';
         const sW = ctx.measureText(seqTxt).width;
-        ctx.fillStyle = '#f5d88a';
+        ctx.fillStyle = '#4c7bd6';
         ctx.textAlign = 'left';
         ctx.fillText(seqTxt, tagX + 5, tagY + tagH / 2);
-        ctx.fillStyle = '#f5d88a';
+        ctx.fillStyle = '#4c7bd6';
         ctx.fillText(wepTxt, tagX + 5 + sW + 2, tagY + tagH / 2);
       }
       ctx.textBaseline = 'alphabetic';
@@ -388,7 +388,7 @@ async function weaponGallerySnapshot(opts: WeaponSnapshotOptions): Promise<boole
   const total      = allWeapons.length;
   ctx.textAlign = 'left';
   ctx.font = '600 14px "JetBrains Mono",monospace';
-  ctx.fillStyle = '#f5d88a';
+  ctx.fillStyle = '#4c7bd6';
   ctx.fillText(`${totalOwned}/${total}`, PAD, PAD + 16);
   ctx.font = '500 9px "JetBrains Mono",monospace';
   ctx.fillStyle = '#45495a';
@@ -437,14 +437,14 @@ async function weaponGallerySnapshot(opts: WeaponSnapshotOptions): Promise<boole
 
       // Border
       rr(ctx, cx + 0.75, cy + 0.75, CARD_W - 1.5, CARD_H - 1.5, CARD_R);
-      ctx.strokeStyle = isOwned ? 'rgba(245,216,138,0.45)' : 'rgba(54,60,71,0.8)';
+      ctx.strokeStyle = isOwned ? 'rgba(76,123,214,0.45)' : 'rgba(54,60,71,0.8)';
       ctx.lineWidth = isOwned ? 1.5 : 1;
       ctx.stroke();
 
       // Owner label
       if (w.owner) {
         ctx.font = '500 8px "JetBrains Mono",monospace';
-        ctx.fillStyle = 'rgba(245,216,138,0.5)';
+        ctx.fillStyle = 'rgba(76,123,214,0.5)';
         ctx.textAlign = 'left';
         ctx.textBaseline = 'alphabetic';
         let ownerTxt = w.owner.replace(/_/g, ' ');
@@ -476,12 +476,12 @@ async function weaponGallerySnapshot(opts: WeaponSnapshotOptions): Promise<boole
         const bX = cx + CARD_W - rW - 4;
         const bY = cy + CARD_H - bH - 4;
         rr(ctx, bX, bY, rW, bH, 3);
-        ctx.fillStyle = 'rgba(13,13,25,0.88)'; ctx.fill();
-        ctx.strokeStyle = isMax ? 'rgba(245,216,138,0.7)' : 'rgba(245,216,138,0.3)';
+        ctx.fillStyle = 'rgba(8,12,24,0.92)'; ctx.fill();
+        ctx.strokeStyle = isMax ? 'rgba(76,123,214,0.7)' : 'rgba(76,123,214,0.3)';
         ctx.lineWidth = 0.75;
         rr(ctx, bX, bY, rW, bH, 3); ctx.stroke();
         ctx.textAlign = 'left'; ctx.textBaseline = 'middle';
-        ctx.fillStyle = '#f5d88a'; ctx.font = RFONT;
+        ctx.fillStyle = '#4c7bd6'; ctx.font = RFONT;
         ctx.fillText(rText, bX + 3, bY + bH / 2);
         ctx.textBaseline = 'alphabetic';
       }
@@ -539,7 +539,7 @@ async function weaponListSnapshot(opts: WeaponSnapshotOptions): Promise<boolean>
   // Header
   ctx.textAlign = 'left';
   ctx.font = '600 14px "JetBrains Mono",monospace';
-  ctx.fillStyle = '#f5d88a';
+  ctx.fillStyle = '#4c7bd6';
   ctx.fillText(`${totalOwned}/${total}`, PAD, PAD + 16);
   ctx.font = '500 9px "JetBrains Mono",monospace';
   ctx.fillStyle = '#45495a';
@@ -576,8 +576,8 @@ async function weaponListSnapshot(opts: WeaponSnapshotOptions): Promise<boolean>
       const rank = getRank(w);
       if (owned) {
         rr(ctx, xOff, yRow, COL_W, ROW_H, 5);
-        ctx.fillStyle = 'rgba(245,216,138,0.04)'; ctx.fill();
-        ctx.strokeStyle = 'rgba(245,216,138,0.2)'; ctx.lineWidth = 0.75;
+        ctx.fillStyle = 'rgba(76,123,214,0.04)'; ctx.fill();
+        ctx.strokeStyle = 'rgba(76,123,214,0.2)'; ctx.lineWidth = 0.75;
         rr(ctx, xOff + 0.5, yRow + 0.5, COL_W - 1, ROW_H - 1, 5); ctx.stroke();
       }
 
@@ -607,12 +607,12 @@ async function weaponListSnapshot(opts: WeaponSnapshotOptions): Promise<boolean>
         const rW = ctx.measureText(rText).width + 6;
         const bH = 14, bX = xOff + COL_W - rW - 4, bY = yRow + (ROW_H - bH) / 2;
         rr(ctx, bX, bY, rW, bH, 3);
-        ctx.fillStyle = 'rgba(13,13,25,0.85)'; ctx.fill();
-        ctx.strokeStyle = rank === 5 ? 'rgba(245,216,138,0.5)' : 'rgba(245,216,138,0.15)';
+        ctx.fillStyle = 'rgba(8,12,24,0.9)'; ctx.fill();
+        ctx.strokeStyle = rank === 5 ? 'rgba(76,123,214,0.5)' : 'rgba(76,123,214,0.15)';
         ctx.lineWidth = 0.75;
         rr(ctx, bX, bY, rW, bH, 3); ctx.stroke();
         ctx.textBaseline = 'middle';
-        ctx.fillStyle = '#f5d88a';
+        ctx.fillStyle = '#4c7bd6';
         ctx.fillText(rText, bX + 3, bY + bH / 2);
       }
       ctx.textBaseline = 'alphabetic';

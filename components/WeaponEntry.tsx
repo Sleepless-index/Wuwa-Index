@@ -55,8 +55,8 @@ export default function WeaponEntry({ weapon }: Props) {
         className="relative rounded-xl overflow-hidden cursor-pointer transition-all duration-150 select-none"
         style={{
           height: 196,
-          border: `1px solid ${owned ? 'rgba(245,216,138,0.38)' : 'rgba(54,60,71,0.6)'}`,
-          boxShadow: owned ? '0 0 10px rgba(245,216,138,0.08)' : 'none',
+          border: `1px solid ${owned ? 'rgba(76,123,214,0.38)' : 'rgba(54,60,71,0.6)'}`,
+          boxShadow: owned ? '0 0 10px rgba(76,123,214,0.08)' : 'none',
         }}
       >
         {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -91,9 +91,9 @@ export default function WeaponEntry({ weapon }: Props) {
               onClick={e => { e.stopPropagation(); setRankOpen(v => !v); }}
               className="w-full h-5 rounded text-[8px] font-mono font-semibold border flex items-center justify-center transition-all"
               style={{
-                background:  isMaxR ? 'rgba(13,13,25,0.88)' : 'rgba(245,216,138,0.12)',
-                borderColor: isMaxR ? 'rgba(245,216,138,0.65)' : 'rgba(245,216,138,0.35)',
-                color: '#f5d88a',
+                background:  isMaxR ? 'rgba(8,12,24,0.92)' : 'rgba(76,123,214,0.12)',
+                borderColor: isMaxR ? 'rgba(76,123,214,0.65)' : 'rgba(76,123,214,0.35)',
+                color: '#4c7bd6',
               }}
             >
               R{rank}
@@ -105,9 +105,9 @@ export default function WeaponEntry({ weapon }: Props) {
                 <button key={i} onClick={() => handleRank(i)}
                   className="w-6 h-6 rounded text-[10px] font-mono font-semibold transition-all border"
                   style={{
-                    background:  rank === i ? 'rgba(245,216,138,0.2)' : 'transparent',
-                    color:       rank === i ? '#f5d88a' : 'var(--subtext)',
-                    borderColor: rank === i ? 'rgba(245,216,138,0.5)' : 'transparent',
+                    background:  rank === i ? 'rgba(76,123,214,0.2)' : 'transparent',
+                    color:       rank === i ? '#4c7bd6' : 'var(--subtext)',
+                    borderColor: rank === i ? 'rgba(76,123,214,0.5)' : 'transparent',
                   }}
                 >{i}</button>
               ))}

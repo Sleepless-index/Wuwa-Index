@@ -22,9 +22,9 @@ export default function WeaponsView() {
               onClick={() => setActiveFilter(active ? 'All' : wt)}
               className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg border text-[11px] font-mono font-semibold transition-all"
               style={{
-                background:  active ? 'rgba(245,216,138,0.12)' : 'transparent',
-                borderColor: active ? 'rgba(245,216,138,0.55)' : 'var(--border)',
-                color:       active ? '#f5d88a'                : 'var(--subtext)',
+                background:  active ? 'rgba(76,123,214,0.12)' : 'transparent',
+                borderColor: active ? 'rgba(76,123,214,0.55)' : 'var(--border)',
+                color:       active ? '#4c7bd6'                : 'var(--subtext)',
               }}
             >
               {/* eslint-disable-next-line @next/next/no-img-element */}

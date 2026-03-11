@@ -18,11 +18,11 @@ export default function PriorityPanel() {
     return (
       <div className="px-4 py-4 flex flex-col items-center justify-center min-h-[200px] gap-3">
         <div className="w-12 h-12 rounded-2xl flex items-center justify-center"
-          style={{ background: 'rgba(245,216,138,0.06)', border: '1px solid rgba(245,216,138,0.12)' }}>
-          <span className="text-lg" style={{ color: 'rgba(245,216,138,0.4)' }}>★</span>
+          style={{ background: 'rgba(76,123,214,0.06)', border: '1px solid rgba(76,123,214,0.12)' }}>
+          <span className="text-lg" style={{ color: 'rgba(76,123,214,0.4)' }}>★</span>
         </div>
         <p className="text-xs font-mono text-center" style={{ color: 'var(--subtext)', maxWidth: 200 }}>
-          Tap <span style={{ color: 'rgba(245,216,138,0.6)' }}>P</span> on any unowned character card to add it here.
+          Tap <span style={{ color: 'rgba(76,123,214,0.6)' }}>P</span> on any unowned character card to add it here.
         </p>
       </div>
     );
@@ -36,7 +36,7 @@ export default function PriorityPanel() {
           Pull Priority
         </span>
         <span className="text-[10px] font-mono px-1.5 py-0.5 rounded-md"
-          style={{ color: 'rgba(245,216,138,0.7)', background: 'rgba(245,216,138,0.08)', border: '1px solid rgba(245,216,138,0.15)' }}>
+          style={{ color: 'rgba(76,123,214,0.7)', background: 'rgba(76,123,214,0.08)', border: '1px solid rgba(76,123,214,0.15)' }}>
           {priority.length}
         </span>
       </div>
@@ -66,9 +66,9 @@ export default function PriorityPanel() {
               }}
               className="flex items-center gap-3 px-3 py-2.5 rounded-xl cursor-grab active:cursor-grabbing transition-all"
               style={{
-                background:  isTarget ? 'rgba(245,216,138,0.06)' : color ? `${color}08` : 'var(--surface)',
+                background:  isTarget ? 'rgba(76,123,214,0.06)' : color ? `${color}08` : 'var(--surface)',
                 border:      isTarget
-                  ? '1px solid rgba(245,216,138,0.35)'
+                  ? '1px solid rgba(76,123,214,0.35)'
                   : color ? `1px solid ${color}28` : '1px solid var(--border)',
                 opacity:     isDragging ? 0.4 : 1,
                 transform:   isTarget ? 'translateX(4px)' : 'none',
@@ -76,7 +76,7 @@ export default function PriorityPanel() {
             >
               {/* Rank number */}
               <span className="text-[10px] font-mono font-bold w-5 text-center flex-shrink-0 tabular-nums"
-                style={{ color: idx === 0 ? 'rgba(245,216,138,0.8)' : 'var(--muted)' }}>
+                style={{ color: idx === 0 ? 'rgba(76,123,214,0.8)' : 'var(--muted)' }}>
                 {idx === 0 ? '★' : idx + 1}
               </span>
 

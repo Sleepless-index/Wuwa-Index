@@ -26,9 +26,9 @@ export default function TrackerHeader({ onOpen, onReset, tab }: Props) {
           onClick={() => onOpen(tab === 'weapons' ? 'weapon-snapshot' : 'snapshot')}
           title="Snapshot"
           className="h-7 px-2.5 rounded-lg border text-[11px] font-mono flex items-center gap-1.5 transition-all"
-          style={{ borderColor: 'rgba(245,216,138,0.25)', color: 'rgba(245,216,138,0.7)', background: 'rgba(245,216,138,0.05)' }}
-          onMouseEnter={e => { const el = e.currentTarget as HTMLElement; el.style.borderColor = 'rgba(245,216,138,0.5)'; el.style.color = '#f5d88a'; el.style.background = 'rgba(245,216,138,0.1)'; }}
-          onMouseLeave={e => { const el = e.currentTarget as HTMLElement; el.style.borderColor = 'rgba(245,216,138,0.25)'; el.style.color = 'rgba(245,216,138,0.7)'; el.style.background = 'rgba(245,216,138,0.05)'; }}
+          style={{ borderColor: 'rgba(76,123,214,0.25)', color: 'rgba(76,123,214,0.7)', background: 'rgba(76,123,214,0.05)' }}
+          onMouseEnter={e => { const el = e.currentTarget as HTMLElement; el.style.borderColor = 'rgba(76,123,214,0.5)'; el.style.color = '#4c7bd6'; el.style.background = 'rgba(76,123,214,0.1)'; }}
+          onMouseLeave={e => { const el = e.currentTarget as HTMLElement; el.style.borderColor = 'rgba(76,123,214,0.25)'; el.style.color = 'rgba(76,123,214,0.7)'; el.style.background = 'rgba(76,123,214,0.05)'; }}
         >
           <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
             <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>

@@ -69,8 +69,8 @@ export default function WeaponSnapshotModal({ onClose }: { onClose: () => void }
                 onClick={() => setView(v)}
                 className="text-[11px] font-mono px-3 py-1.5 transition-all"
                 style={{
-                  background: view === v ? 'rgba(245,216,138,0.1)' : 'transparent',
-                  color:      view === v ? '#f5d88a' : 'var(--subtext)',
+                  background: view === v ? 'rgba(76,123,214,0.1)' : 'transparent',
+                  color:      view === v ? '#4c7bd6' : 'var(--subtext)',
                 }}
               >
                 {v}
@@ -84,9 +84,9 @@ export default function WeaponSnapshotModal({ onClose }: { onClose: () => void }
               onClick={() => setShowNotOwned(v => !v)}
               className="text-[11px] font-mono px-2.5 py-1.5 rounded-md border transition-all flex-shrink-0"
               style={{
-                background:  showNotOwned ? 'rgba(245,216,138,0.08)' : 'transparent',
-                borderColor: showNotOwned ? 'rgba(245,216,138,0.4)' : 'var(--border)',
-                color:       showNotOwned ? '#f5d88a' : 'var(--subtext)',
+                background:  showNotOwned ? 'rgba(76,123,214,0.08)' : 'transparent',
+                borderColor: showNotOwned ? 'rgba(76,123,214,0.4)' : 'var(--border)',
+                color:       showNotOwned ? '#4c7bd6' : 'var(--subtext)',
               }}
             >
               not owned
@@ -103,7 +103,7 @@ export default function WeaponSnapshotModal({ onClose }: { onClose: () => void }
               onClick={handleExport}
               disabled={exporting}
               className="text-[11px] font-mono font-semibold px-3 py-1.5 rounded-lg border transition-all disabled:opacity-50"
-              style={{ borderColor: 'rgba(245,216,138,0.4)', color: '#f5d88a', background: 'rgba(245,216,138,0.08)' }}
+              style={{ borderColor: 'rgba(76,123,214,0.4)', color: '#4c7bd6', background: 'rgba(76,123,214,0.08)' }}
             >
               {exporting ? 'generating…' : '⎘ copy + save'}
             </button>
@@ -119,7 +119,7 @@ export default function WeaponSnapshotModal({ onClose }: { onClose: () => void }
         {/* Stats */}
         <div className="flex items-center gap-6 px-4 py-2.5 border-b border-[var(--border)]">
           <div className="flex items-baseline gap-1.5">
-            <span className="text-sm font-mono font-semibold" style={{ color: '#f5d88a' }}>
+            <span className="text-sm font-mono font-semibold" style={{ color: '#4c7bd6' }}>
               {owned.length}/{allWeapons.length}
             </span>
             <span className="text-[10px] font-mono text-[var(--muted)] uppercase tracking-wide">weapons owned</span>
@@ -173,7 +173,7 @@ function WeaponCards({ entries, getRank }: { entries: Weapon[]; getRank: (w: Wea
           <div
             key={w.file}
             className="relative rounded-xl overflow-hidden flex-shrink-0"
-            style={{ width: 90, height: 130, border: '1px solid rgba(245,216,138,0.38)' }}
+            style={{ width: 90, height: 130, border: '1px solid rgba(76,123,214,0.38)' }}
           >
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
@@ -185,7 +185,7 @@ function WeaponCards({ entries, getRank }: { entries: Weapon[]; getRank: (w: Wea
             <div className="absolute inset-0" style={{ background: 'linear-gradient(to bottom, transparent 35%, rgba(8,10,14,0.93) 100%)' }} />
             <div className="absolute bottom-0 inset-x-0 px-1.5 pb-1.5">
               {w.owner && (
-                <p className="text-[8px] font-mono leading-none mb-0.5 truncate" style={{ color: 'rgba(245,216,138,0.55)' }}>
+                <p className="text-[8px] font-mono leading-none mb-0.5 truncate" style={{ color: 'rgba(76,123,214,0.55)' }}>
                   {w.owner.replace(/_/g, ' ')}
                 </p>
               )}
@@ -195,9 +195,9 @@ function WeaponCards({ entries, getRank }: { entries: Weapon[]; getRank: (w: Wea
                 </p>
                 <div
                   className="flex rounded px-1 py-0.5 flex-shrink-0"
-                  style={{ background: 'rgba(13,13,25,0.88)', border: `0.75px solid ${rank === 5 ? 'rgba(245,216,138,0.65)' : 'rgba(245,216,138,0.2)'}` }}
+                  style={{ background: 'rgba(8,12,24,0.92)', border: `0.75px solid ${rank === 5 ? 'rgba(76,123,214,0.65)' : 'rgba(76,123,214,0.2)'}` }}
                 >
-                  <span className="text-[8px] font-mono font-bold" style={{ color: '#f5d88a' }}>R{rank}</span>
+                  <span className="text-[8px] font-mono font-bold" style={{ color: '#4c7bd6' }}>R{rank}</span>
                 </div>
               </div>
             </div>
@@ -260,8 +260,8 @@ function WeaponRow({ weapon, rank, owned }: { weapon: Weapon; rank: number; owne
       className="flex items-center gap-1.5 px-1.5 rounded-lg"
       style={{
         height:     28,
-        background: owned ? 'rgba(245,216,138,0.04)' : 'transparent',
-        border:     owned ? '0.75px solid rgba(245,216,138,0.2)' : '0.75px solid transparent',
+        background: owned ? 'rgba(76,123,214,0.04)' : 'transparent',
+        border:     owned ? '0.75px solid rgba(76,123,214,0.2)' : '0.75px solid transparent',
       }}
     >
       {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -278,9 +278,9 @@ function WeaponRow({ weapon, rank, owned }: { weapon: Weapon; rank: number; owne
       {owned && (
         <span
           className="flex-shrink-0 flex rounded px-1 py-0.5"
-          style={{ background: 'rgba(13,13,25,0.7)', border: `0.5px solid ${rank === 5 ? 'rgba(245,216,138,0.5)' : 'rgba(245,216,138,0.15)'}` }}
+          style={{ background: 'rgba(13,13,25,0.7)', border: `0.5px solid ${rank === 5 ? 'rgba(76,123,214,0.5)' : 'rgba(76,123,214,0.15)'}` }}
         >
-          <span className="text-[8px] font-mono font-bold" style={{ color: '#f5d88a' }}>R{rank}</span>
+          <span className="text-[8px] font-mono font-bold" style={{ color: '#4c7bd6' }}>R{rank}</span>
         </span>
       )}
     </div>

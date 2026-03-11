@@ -51,7 +51,11 @@ export default function SnapshotModal({ onClose }: { onClose: () => void }) {
                 <button
                   key={v}
                   onClick={() => setSnapView(v === 'list' ? 'regions' : 'gallery')}
-                  className={`text-[11px] font-mono px-3 py-1.5 transition-all`" style={{ background: active ? 'rgba(245,216,138,0.1)' : 'transparent', color: active ? '#f5d88a' : 'var(--subtext)' }}}
+                  className="text-[11px] font-mono px-3 py-1.5 transition-all"
+                  style={{
+                    background: active ? 'rgba(245,216,138,0.1)' : 'transparent',
+                    color:      active ? '#f5d88a' : 'var(--subtext)',
+                  }}
                 >
                   {v}
                 </button>
@@ -77,7 +81,8 @@ export default function SnapshotModal({ onClose }: { onClose: () => void }) {
             <button
               onClick={handleExport}
               disabled={exporting}
-              className="text-[11px] font-mono font-semibold px-3 py-1.5 rounded-lg border transition-all disabled:opacity-50" style={{ borderColor: 'rgba(245,216,138,0.4)', color: '#f5d88a', background: 'rgba(245,216,138,0.08)' }}
+              className="text-[11px] font-mono font-semibold px-3 py-1.5 rounded-lg border transition-all disabled:opacity-50"
+              style={{ borderColor: 'rgba(245,216,138,0.4)', color: '#f5d88a', background: 'rgba(245,216,138,0.08)' }}
             >
               {exporting ? 'generating…' : '⎘ copy + save'}
             </button>

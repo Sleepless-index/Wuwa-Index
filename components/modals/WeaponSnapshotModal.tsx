@@ -48,7 +48,7 @@ export default function WeaponSnapshotModal({ onClose }: { onClose: () => void }
       setExporting(false);
       setTimeout(() => setExportMsg(''), 2500);
     }
-  }, [state, weaponState, versions]);
+  }, [state, weaponState, versions, view, showNotOwned]);
 
   return (
     <div

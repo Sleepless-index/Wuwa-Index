@@ -361,7 +361,6 @@ async function weaponGallerySnapshot(opts: WeaponSnapshotOptions): Promise<boole
 
   const allWeapons = [...sigWeapons, ...stdWeapons];
   const owned      = allWeapons.filter(w => getRank(w) > 0);
-  const notOwned   = allWeapons.filter(w => getRank(w) === 0);
 
   // Preload weapon images
   const imgMap: Record<string, HTMLImageElement | null> = {};

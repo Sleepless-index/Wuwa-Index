@@ -1,6 +1,7 @@
 import { useState, useCallback } from 'react';
 import { useTrackerStore } from '@/store/trackerStore';
 import { generateSnapshot } from '@/utils/snapshot';
+import { EL_COLORS } from '@/data/resonators';
 import { toImageSlug } from '@/utils/helpers';
 import type { SnapView } from '@/types';
 
@@ -153,46 +154,68 @@ function CardGroup({ label, entries, stateMap }: any) {
 function SnapCard({ entry, s }: any) {
   const slug     = toImageSlug(entry.name);
   const obtained = s?.res;
+  const elColor  = entry.element ? EL_COLORS[entry.element] : undefined;
   const isMaxS   = s?.seq === 6;
   const isMaxR   = s?.wep === 5;
+  const allMax   = isMaxS && isMaxR;
 
   return (
     <div
-      className={`relative rounded-xl overflow-hidden flex-shrink-0 transition-all`}
-      style={{ width: 90, height: 130, border: `1px solid ${obtained ? 'rgba(245,216,138,0.38)' : 'rgba(54,60,71,0.6)'}` }}
+      className="relative rounded-xl overflow-hidden flex-shrink-0"
+      style={{
+        width: 90, height: 130,
+        border: `1px solid ${obtained ? (elColor ? `${elColor}55` : 'rgba(245,216,138,0.4)') : 'rgba(40,45,58,0.8)'}`,
+        boxShadow: obtained && elColor ? `0 2px 12px ${elColor}18` : 'none',
+      }}
     >
-      {/* Art image */}
+      {/* Art */}
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
         src={`art/art_${slug}.avif`}
         alt={entry.name}
         className="absolute inset-0 w-full h-full object-cover"
-        style={{ opacity: obtained ? 1 : 0.28 }}
+        style={{ opacity: obtained ? 1 : 0.15 }}
         onError={e => { (e.currentTarget as HTMLImageElement).src = `icons/head_${slug}.webp`; }}
       />
 
-      {/* Dark gradient overlay */}
-      <div className="absolute inset-0" style={{ background: 'linear-gradient(to bottom, transparent 35%, rgba(8,10,14,0.93) 100%)' }} />
+      {/* Not-owned dim overlay */}
+      {!obtained && <div className="absolute inset-0" style={{ background: 'rgba(8,10,14,0.5)' }} />}
 
-      {/* Name + S/R badge inline at bottom */}
-      <div className="absolute bottom-0 inset-x-0 px-1.5 pb-1.5 flex items-center gap-1">
-        <p className="text-[9px] font-semibold leading-tight truncate flex-1 min-w-0" style={{ color: obtained ? '#f5f0e8' : '#45495a' }}>
+      {/* Element accent bar */}
+      {obtained && elColor && (
+        <div className="absolute top-0 inset-x-0 h-0.5 pointer-events-none"
+          style={{ background: `linear-gradient(to right, transparent, ${elColor}90, transparent)` }} />
+      )}
+
+      {/* Bottom gradient */}
+      <div className="absolute inset-0 pointer-events-none"
+        style={{ background: 'linear-gradient(to bottom, transparent 20%, rgba(5,6,10,0.6) 55%, rgba(4,5,10,0.97) 100%)' }} />
+
+      {/* Element icon */}
+      {entry.element && (
+        <div className="absolute top-1.5 left-1.5 z-10">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src={`icons/icon_${entry.element}.webp`} alt=""
+            className="w-3.5 h-3.5 object-contain"
+            style={{ filter: obtained && elColor ? `drop-shadow(0 0 3px ${elColor}aa)` : 'grayscale(1) opacity(0.3)' }}
+            onError={e => (e.currentTarget.style.display = 'none')} />
+        </div>
+      )}
+
+      {/* Bottom info */}
+      <div className="absolute bottom-0 inset-x-0 px-1.5 pb-1.5 z-10">
+        <p className="text-[8.5px] font-semibold leading-tight truncate mb-1"
+          style={{ color: obtained ? '#f0ede8' : 'rgba(255,255,255,0.18)' }}>
           {entry.name}
         </p>
         {obtained && (
-          <div
-            className="flex rounded px-1 py-0.5 flex-shrink-0"
+          <div className="flex rounded px-1 py-0.5 w-fit"
             style={{
-              background: 'rgba(13,13,25,0.88)',
-              border: `0.75px solid ${isMaxS && isMaxR ? 'rgba(245,216,138,0.65)' : 'rgba(255,255,255,0.08)'}`,
+              background: 'rgba(10,10,18,0.9)',
+              border: `0.75px solid ${allMax ? 'rgba(245,216,138,0.6)' : 'rgba(245,216,138,0.2)'}`,
             }}
           >
-            <span className="text-[8px] font-mono font-bold" style={{ color: '#f5d88a' }}>
-              S{s?.seq ?? 0}
-            </span>
-            <span className="text-[8px] font-mono" style={{ color: '#f5d88a' }}>
-              R{s?.wep ?? 0}
-            </span>
+            <span className="text-[8px] font-mono font-bold" style={{ color: '#f5d88a' }}>S{s?.seq ?? 0} R{s?.wep ?? 0}</span>
           </div>
         )}
       </div>

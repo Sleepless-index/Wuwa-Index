@@ -122,10 +122,8 @@ async function gallerySnapshot(opts: SnapshotOptions): Promise<boolean> {
   }));
 
   const owned    = allEntries.filter(e =>  state[e.id]?.res);
-  const notOwned = allEntries.filter(e => !state[e.id]?.res);
   const sections: { label: string; entries: Resonator[] }[] = [];
   if (owned.length)                sections.push({ label: `owned · ${owned.length}`,        entries: owned });
-  if (!ownedOnly && notOwned.length) sections.push({ label: `not owned · ${notOwned.length}`, entries: notOwned });
 
   const total = allEntries.length;
   const got   = owned.length;
@@ -134,7 +132,7 @@ async function gallerySnapshot(opts: SnapshotOptions): Promise<boolean> {
   const totalW = PAD * 2 + COLS * CARD_W + (COLS - 1) * CARD_GAP;
   let totalH   = PAD + HEADER_H;
   sections.forEach(s => {
-    totalH += SEC_GAP + LABEL_H + Math.ceil(s.entries.length / COLS) * (CARD_H + CARD_GAP) - CARD_GAP;
+    totalH += SEC_GAP + Math.ceil(s.entries.length / COLS) * (CARD_H + CARD_GAP) - CARD_GAP;
   });
   totalH += PAD;
 
@@ -146,11 +144,6 @@ async function gallerySnapshot(opts: SnapshotOptions): Promise<boolean> {
   let yOff = PAD + HEADER_H;
   for (const sec of sections) {
     yOff += SEC_GAP;
-    ctx.textAlign = 'left';
-    ctx.font      = '500 9px "JetBrains Mono",monospace';
-    ctx.fillStyle = '#45495a';
-    ctx.fillText(sec.label.toUpperCase(), PAD, yOff + 13);
-    yOff += LABEL_H;
 
     for (let i = 0; i < sec.entries.length; i++) {
       const e  = sec.entries[i];
@@ -381,7 +374,7 @@ async function weaponGallerySnapshot(opts: WeaponSnapshotOptions): Promise<boole
   const totalW = PAD * 2 + COLS * CARD_W + (COLS - 1) * CARD_GAP;
   let totalH   = PAD + HEADER_H;
   sections.forEach(s => {
-    totalH += SEC_GAP + LABEL_H + Math.ceil(s.entries.length / COLS) * (CARD_H + CARD_GAP) - CARD_GAP;
+    totalH += SEC_GAP + Math.ceil(s.entries.length / COLS) * (CARD_H + CARD_GAP) - CARD_GAP;
   });
   totalH += PAD;
 
@@ -409,12 +402,6 @@ async function weaponGallerySnapshot(opts: WeaponSnapshotOptions): Promise<boole
   let yOff = PAD + HEADER_H;
   for (const sec of sections) {
     yOff += SEC_GAP;
-    ctx.textAlign = 'left';
-    ctx.font = '500 9px "JetBrains Mono",monospace';
-    ctx.fillStyle = '#45495a';
-    ctx.fillText(sec.label.toUpperCase(), PAD, yOff + 13);
-    yOff += LABEL_H;
-
     for (let i = 0; i < sec.entries.length; i++) {
       const w    = sec.entries[i];
       const rank = getRank(w);
@@ -431,7 +418,13 @@ async function weaponGallerySnapshot(opts: WeaponSnapshotOptions): Promise<boole
       const img = imgMap[w.file];
       if (img) {
         ctx.globalAlpha = isOwned ? 1 : 0.22;
-        ctx.drawImage(img, cx, cy, CARD_W, CARD_H);
+        // contain-fit: scale to fit within card preserving aspect ratio
+        const iw = img.naturalWidth  > 0 ? img.naturalWidth  : img.width;
+        const ih = img.naturalHeight > 0 ? img.naturalHeight : img.height;
+        const scale = iw > 0 && ih > 0 ? Math.min(CARD_W / iw, CARD_H / ih) : 1;
+        const dw = iw * scale, dh = ih * scale;
+        const dx = cx + (CARD_W - dw) / 2, dy = cy + (CARD_H - dh) / 2;
+        ctx.drawImage(img, dx, dy, dw, dh);
         ctx.globalAlpha = 1;
       }
       const grad = ctx.createLinearGradient(cx, cy + CARD_H * 0.35, cx, cy + CARD_H);

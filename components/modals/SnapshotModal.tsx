@@ -59,11 +59,13 @@ export default function SnapshotModal({ onClose }: { onClose: () => void }) {
             })}
           </div>
 
-          {/* Owned only */}
-          <label className="flex items-center gap-1.5 cursor-pointer flex-shrink-0">
-            <input type="checkbox" checked={ownedOnly} onChange={e => setOwnedOnly(e.target.checked)} className="cb" />
-            <span className="text-[11px] font-mono text-[var(--subtext)]">owned only</span>
-          </label>
+          {/* Owned only — only in list view */}
+          {snapView === 'regions' && (
+            <label className="flex items-center gap-1.5 cursor-pointer flex-shrink-0">
+              <input type="checkbox" checked={ownedOnly} onChange={e => setOwnedOnly(e.target.checked)} className="cb" />
+              <span className="text-[11px] font-mono text-[var(--subtext)]">owned only</span>
+            </label>
+          )}
 
           {/* Export + close — pushed to the right */}
           <div className="flex items-center gap-2 ml-auto flex-shrink-0">

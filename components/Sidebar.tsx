@@ -29,7 +29,7 @@ const NAV: NavItem[] = [
         className="object-contain"
         style={{ opacity: a ? 1 : 0.35, filter: a ? 'drop-shadow(0 0 4px rgba(76,123,214,0.4))' : 'none' }}
         onError={e => (e.currentTarget.style.display = 'none')} />
-    ), title: 'Astrite Cost' },
+    ), title: 'Gacha Cost' },
 ];
 
 export default function Sidebar({ tab, setTab, onOpen }: Props) {

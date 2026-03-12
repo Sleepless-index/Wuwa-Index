@@ -252,9 +252,7 @@ function RankedRow({
   return (
     <div className="relative flex items-center gap-3 px-3 py-2.5 rounded-xl overflow-hidden"
       style={{ background: 'var(--surface)', border: `1px solid ${rowBorder ?? 'var(--border)'}` }}>
-      {/* Fill bar */}
-      <div className="absolute left-0 top-0 bottom-0 pointer-events-none"
-        style={{ width: `${barPct}%`, background: barColor ?? 'rgba(76,123,214,0.04)', transition: 'width 0.5s cubic-bezier(0.4,0,0.2,1)' }} />
+      {/* Fill bar removed */}
 
       {/* Medal badge */}
       <div className="w-6 h-6 rounded-md flex items-center justify-center flex-shrink-0 z-10"

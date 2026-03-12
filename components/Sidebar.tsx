@@ -7,10 +7,10 @@ interface Props {
 }
 
 const NAV: { id: SidebarTab; icon: string; title: string }[] = [
-  { id: 'characters', icon: 'icons/bt_iconcharacter.webp', title: 'Characters' },
-  { id: 'weapons',    icon: 'icons/bt_iconweapon.webp',    title: 'Weapons'    },
-  { id: 'priority',   icon: 'icons/bt_iconpriority.webp',  title: 'Priority'   },
-  { id: 'leaderboard', icon: 'icons/bt_iconleaderboard.webp', title: 'Astrite Cost' },
+  { id: 'characters',  icon: 'icons/bt_iconcharacter.webp',  title: 'Characters'   },
+  { id: 'weapons',     icon: 'icons/bt_iconweapon.webp',     title: 'Weapons'      },
+  { id: 'priority',    icon: 'icons/bt_iconpriority.webp',   title: 'Priority'     },
+  { id: 'leaderboard', icon: 'icons/T_IconA_zcpq_UI.webp',   title: 'Astrite Cost' },
 ];
 
 export default function Sidebar({ tab, setTab, onOpen }: Props) {

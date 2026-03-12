@@ -209,7 +209,7 @@ function SnapCard({ entry, s }: any) {
               border: `0.75px solid ${allMax ? 'rgba(76,123,214,0.6)' : 'rgba(76,123,214,0.2)'}`,
             }}
           >
-            <span className="text-[8px] font-mono font-bold" style={{ color: '#4c7bd6' }}>S{s?.seq ?? 0} R{s?.wep ?? 0}</span>
+            <span className="text-[8px] font-mono font-bold" style={{ color: '#e8e3f0' }}>S{s?.seq ?? 0} R{s?.wep ?? 0}</span>
           </div>
         )}
       </div>
@@ -280,8 +280,8 @@ function RegionsPreview({ versions, ownedOnly, stateMap }: any) {
                         className="flex-shrink-0 flex rounded px-1 py-0.5"
                         style={{ background: 'rgba(13,13,25,0.7)', border: '0.5px solid rgba(76,123,214,0.2)' }}
                       >
-                        <span className="text-[8px] font-mono font-bold" style={{ color: '#4c7bd6' }}>{seqTxt}</span>
-                        <span className="text-[8px] font-mono"           style={{ color: '#4c7bd6' }}>{wepTxt}</span>
+                        <span className="text-[8px] font-mono font-bold" style={{ color: '#e8e3f0' }}>{seqTxt}</span>
+                        <span className="text-[8px] font-mono"           style={{ color: '#e8e3f0' }}>{wepTxt}</span>
                       </span>
                     )}
                   </div>

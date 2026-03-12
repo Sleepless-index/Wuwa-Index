@@ -19,10 +19,6 @@ interface TrackerStore {
   weaponState: Record<string, number>; // slug → rank 0-5 for standard weapons
   pullCounts: Record<string, number>;  // id or "wep-{file}" → pulls spent
 
-  // Pity counters (persisted)
-  limitedPity:  number;
-  standardPity: number;
-
   // Derived helpers (computed on access)
   allEntries: () => Resonator[];
 
@@ -36,12 +32,6 @@ interface TrackerStore {
 
   // Pull count action
   setPulls: (id: string | number, pulls: number) => void;
-
-  // Pity
-  setPity: (limited: number, standard: number) => void;
-
-  // Apply full gacha import
-  applyGachaImport: (result: import('@/utils/gachaImport').GachaImportResult) => void;
 
   // Priority actions
   togglePriority:    (id: number) => void;
@@ -109,8 +99,6 @@ export const useTrackerStore = create<TrackerStore>()(
       activeFilter:     'All',
       weaponState:      {},
       pullCounts:       {},
-      limitedPity:      0,
-      standardPity:     0,
 
       // ── Derived ──
       allEntries: () => get().versions.flatMap(g => g.entries),
@@ -224,40 +212,6 @@ export const useTrackerStore = create<TrackerStore>()(
           pullCounts: { ...s.pullCounts, [String(id)]: pulls < 0 ? 0 : pulls },
         })),
 
-      // ── Pity ──
-      setPity: (limited, standard) =>
-        set({ limitedPity: limited, standardPity: standard }),
-
-      // ── Apply full gacha import ──
-      applyGachaImport: (result) =>
-        set(s => {
-          const nextState = { ...s.state };
-          const nextPulls = { ...s.pullCounts };
-
-          for (const [idStr, copyCount] of Object.entries(result.copies)) {
-            const id = Number(idStr);
-            // Mark as owned
-            nextState[id] = {
-              ...nextState[id],
-              res: true,
-              // seq = extra copies beyond first (capped at 6)
-              seq: Math.min(6, copyCount - 1),
-              wep: nextState[id]?.wep ?? 0,
-            };
-          }
-
-          for (const [idStr, pullCount] of Object.entries(result.pulls)) {
-            nextPulls[idStr] = pullCount;
-          }
-
-          return {
-            state:        nextState,
-            pullCounts:   nextPulls,
-            limitedPity:  result.limitedPity,
-            standardPity: result.standardPity,
-          };
-        }),
-
       // ── Import ──
       importData: (raw) => {
         try {
@@ -322,8 +276,6 @@ export const useTrackerStore = create<TrackerStore>()(
         uidCounter:       s.uidCounter,
         weaponState:      s.weaponState,
         pullCounts:       s.pullCounts,
-        limitedPity:      s.limitedPity,
-        standardPity:     s.standardPity,
       }),
       skipHydration: true,
       onRehydrateStorage: () => (s) => {

@@ -15,7 +15,6 @@ import UpcomingSection  from '@/components/UpcomingSection';
 
 import ExportModal       from '@/components/modals/ExportModal';
 import ImportModal       from '@/components/modals/ImportModal';
-import GachaImportModal  from '@/components/modals/GachaImportModal';
 import SnapshotModal       from '@/components/modals/SnapshotModal';
 import WeaponSnapshotModal from '@/components/modals/WeaponSnapshotModal';
 import EditUpcomingModal from '@/components/modals/EditUpcomingModal';
@@ -143,7 +142,6 @@ export default function Home() {
       {/* Modals */}
       {openModal === 'export'        && <ExportModal onClose={close} />}
       {openModal === 'import'        && <ImportModal onClose={close} />}
-      {openModal === 'gacha-import'  && <GachaImportModal onClose={close} />}
       {openModal === 'snapshot'        && <SnapshotModal onClose={close} />}
       {openModal === 'weapon-snapshot' && <WeaponSnapshotModal onClose={close} />}
       {openModal === 'edit-upcoming' && editingUid   !== null && <EditUpcomingModal uid={editingUid}   onClose={close} />}

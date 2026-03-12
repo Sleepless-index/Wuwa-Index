@@ -112,12 +112,12 @@ async function gallerySnapshot(opts: SnapshotOptions): Promise<boolean> {
 
   const headMap: Record<number, HTMLImageElement | null> = {};
   await Promise.all(allEntries.map(async e => {
-    headMap[e.id] = await loadImg(`icons/head_${toImageSlug(e.name)}.webp`);
+    headMap[e.id] = await loadImg(`characters/Heads/head_${toImageSlug(e.name)}.webp`);
   }));
 
   const imgMap: Record<number, HTMLImageElement | null> = {};
   await Promise.all(allEntries.map(async e => {
-    const art = await loadImg(`art/art_${toImageSlug(e.name)}.avif`);
+    const art = await loadImg(`characters/${toImageSlug(e.name)}.avif`);
     imgMap[e.id] = art || headMap[e.id];
   }));
 
@@ -227,7 +227,7 @@ async function regionsSnapshot(opts: SnapshotOptions): Promise<boolean> {
 
   const headMap: Record<number, HTMLImageElement | null> = {};
   await Promise.all(allEntries.map(async e => {
-    headMap[e.id] = await loadImg(`icons/head_${toImageSlug(e.name)}.webp`);
+    headMap[e.id] = await loadImg(`characters/Heads/head_${toImageSlug(e.name)}.webp`);
   }));
 
   const visCols = versions.map(({ label, entries }) => {

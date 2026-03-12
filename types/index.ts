@@ -41,7 +41,6 @@ export type SnapView = 'gallery' | 'regions';
 export type ModalType =
   | 'export'
   | 'import'
-  | 'gacha-import'
   | 'snapshot'
   | 'weapon-snapshot'
   | 'edit-upcoming'

@@ -66,7 +66,7 @@ export default function TrackerEntry({ entry }: Props) {
             transition: 'opacity 0.2s',
             transform: s.res ? 'scale(1)' : 'scale(0.98)',
           }}
-          onError={e => { (e.currentTarget as HTMLImageElement).style.opacity = "0.05"; }}
+          onError={e => { (e.currentTarget as HTMLImageElement).src = `characters/Heads/head_${slug}.webp`; }}
         />
 
         {/* Dark vignette overlay (not-owned state) */}

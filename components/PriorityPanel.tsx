@@ -84,7 +84,7 @@ export default function PriorityPanel() {
               <div className="relative flex-shrink-0">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
-                  src={`characters/${slug}.avif`}
+                  src={`characters/Heads/head_${slug}.webp`}
                   alt=""
                   className="w-9 h-9 rounded-xl object-cover"
                   style={{

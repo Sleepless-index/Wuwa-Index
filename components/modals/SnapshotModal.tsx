@@ -261,7 +261,7 @@ function RegionsPreview({ versions, ownedOnly, stateMap }: any) {
                     {/* Head icon */}
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img
-                      src={`characters/${slug}.avif`}
+                      src={`characters/Heads/head_${slug}.webp`}
                       alt=""
                       className="rounded object-cover flex-shrink-0"
                       style={{ width: 20, height: 20, opacity: s?.res ? 1 : 0.3, borderRadius: 4 }}

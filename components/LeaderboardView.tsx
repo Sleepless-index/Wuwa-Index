@@ -128,7 +128,7 @@ export default function LeaderboardView() {
                   </div>
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
-                    src={isWepView && sigWep ? `weapons/${sigWep.file}.avif` : `characters/${slug}.avif`}
+                    src={isWepView && sigWep ? `weapons/${sigWep.file}.avif` : `characters/Heads/head_${slug}.webp`}
                     alt="" className="w-9 h-9 rounded-xl flex-shrink-0"
                     style={{ objectFit: isWepView ? 'contain' : 'cover', border: `1.5px solid ${!isWepView && elColor ? `${elColor}44` : 'var(--border)'}`, background: isWepView ? 'rgba(255,255,255,0.02)' : 'transparent' }}
                     onError={e => (e.currentTarget.style.opacity = '0.1')} />
@@ -177,7 +177,7 @@ export default function LeaderboardView() {
                     <span className="text-[10px] font-mono font-bold" style={{ color: medal ?? 'var(--muted)' }}>{idx + 1}</span>
                   </div>
                   {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src={`characters/${slug}.avif`} alt="" className="w-9 h-9 rounded-xl object-cover flex-shrink-0"
+                  <img src={`characters/Heads/head_${slug}.webp`} alt="" className="w-9 h-9 rounded-xl object-cover flex-shrink-0"
                     style={{ border: `1.5px solid ${elColor ? `${elColor}44` : 'var(--border)'}` }}
                     onError={e => (e.currentTarget.style.display = 'none')} />
                   <div className="flex-1 min-w-0">
@@ -241,7 +241,7 @@ export default function LeaderboardView() {
                 <div key={entry.id} className="flex items-center gap-3 px-3 py-2 rounded-xl"
                   style={{ background: 'transparent', border: '1px solid var(--border)', opacity: 0.55 }}>
                   {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src={`characters/${slug}.avif`} alt=""
+                  <img src={`characters/Heads/head_${slug}.webp`} alt=""
                     className="w-7 h-7 rounded-lg object-cover flex-shrink-0"
                     style={{ filter: 'grayscale(0.4)', border: `1px solid ${elColor ? `${elColor}30` : 'var(--border)'}` }}
                     onError={e => (e.currentTarget.style.display = 'none')} />

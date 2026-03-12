@@ -47,4 +47,4 @@ export type ModalType =
   | 'release'
   | null;
 
-export type SidebarTab = 'characters' | 'weapons' | 'priority';
+export type SidebarTab = 'characters' | 'weapons' | 'priority' | 'leaderboard';

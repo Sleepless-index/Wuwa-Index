@@ -17,6 +17,7 @@ interface TrackerStore {
   // UI state (not persisted)
   activeFilter: string;
   weaponState: Record<string, number>; // slug → rank 0-5 for standard weapons
+  pullCounts: Record<number, number>;  // id → pulls spent
 
   // Derived helpers (computed on access)
   allEntries: () => Resonator[];
@@ -28,6 +29,9 @@ interface TrackerStore {
 
   // Standard weapon action
   setStdWeaponRank: (slug: string, rank: number) => void;
+
+  // Pull count action
+  setPulls: (id: number, pulls: number) => void;
 
   // Priority actions
   togglePriority:    (id: number) => void;
@@ -94,6 +98,7 @@ export const useTrackerStore = create<TrackerStore>()(
       uidCounter:       200,
       activeFilter:     'All',
       weaponState:      {},
+      pullCounts:       {},
 
       // ── Derived ──
       allEntries: () => get().versions.flatMap(g => g.entries),
@@ -201,6 +206,12 @@ export const useTrackerStore = create<TrackerStore>()(
           weaponState: { ...s.weaponState, [slug]: s.weaponState[slug] === rank ? 0 : rank },
         })),
 
+      // ── Pull counts ──
+      setPulls: (id, pulls) =>
+        set(s => ({
+          pullCounts: { ...s.pullCounts, [id]: pulls < 0 ? 0 : pulls },
+        })),
+
       // ── Import ──
       importData: (raw) => {
         try {
@@ -264,6 +275,7 @@ export const useTrackerStore = create<TrackerStore>()(
         releasedUpcoming: s.releasedUpcoming,
         uidCounter:       s.uidCounter,
         weaponState:      s.weaponState,
+        pullCounts:       s.pullCounts,
       }),
       skipHydration: true,
       onRehydrateStorage: () => (s) => {

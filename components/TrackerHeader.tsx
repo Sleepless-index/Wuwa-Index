@@ -7,9 +7,10 @@ interface Props {
 }
 
 const TAB_LABELS: Record<SidebarTab, string> = {
-  characters: 'Characters',
-  weapons:    'Weapons',
-  priority:   'Priority',
+  characters:  'Characters',
+  weapons:     'Weapons',
+  priority:    'Priority',
+  leaderboard: 'Astrite Cost',
 };
 
 export default function TrackerHeader({ onOpen, onReset, tab }: Props) {
@@ -21,8 +22,9 @@ export default function TrackerHeader({ onOpen, onReset, tab }: Props) {
       </h1>
 
       <div className="flex items-center gap-1 flex-shrink-0">
-        {/* Snapshot */}
-        <button
+        {/* Snapshot — hidden on leaderboard */}
+        {tab !== 'leaderboard' && (
+          <button
           onClick={() => onOpen(tab === 'weapons' ? 'weapon-snapshot' : 'snapshot')}
           title="Snapshot"
           className="h-7 px-2.5 rounded-lg border text-[11px] font-mono flex items-center gap-1.5 transition-all"
@@ -36,6 +38,7 @@ export default function TrackerHeader({ onOpen, onReset, tab }: Props) {
           </svg>
           snapshot
         </button>
+        )}
 
         {/* Reset — icon only, danger */}
         <button

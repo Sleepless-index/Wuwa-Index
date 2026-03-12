@@ -45,6 +45,7 @@ export type ModalType =
   | 'weapon-snapshot'
   | 'edit-upcoming'
   | 'release'
+  | 'gacha-import'
   | null;
 
 export type SidebarTab = 'characters' | 'weapons' | 'priority' | 'leaderboard';

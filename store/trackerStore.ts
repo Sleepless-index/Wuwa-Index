@@ -48,8 +48,9 @@ interface TrackerStore {
   setFilter: (el: string) => void;
 
   // Import / Reset
-  importData: (raw: string) => string; // returns error message or ''
-  resetAll:   () => void;
+  importData:        (raw: string) => string; // returns error message or ''
+  applyGachaImport:  (counts: Record<string, number>) => void; // merge pull counts from gacha history
+  resetAll:          () => void;
 }
 
 // ─── Default resonator state ─────────────────────────────────────────────────
@@ -246,6 +247,12 @@ export const useTrackerStore = create<TrackerStore>()(
           return 'Invalid data — please paste a valid export.';
         }
       },
+
+      // ── Gacha import ──
+      applyGachaImport: (counts) =>
+        set(s => ({
+          pullCounts: { ...s.pullCounts, ...counts },
+        })),
 
       // ── Reset ──
       resetAll: () => {

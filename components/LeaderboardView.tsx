@@ -3,8 +3,6 @@ import { useTrackerStore } from '@/store/trackerStore';
 import { EL_COLORS } from '@/data/resonators';
 import { SIG_WEAPONS } from '@/data/weapons';
 import { toImageSlug } from '@/utils/helpers';
-import type { Resonator } from '@/types';
-import type { Weapon } from '@/data/weapons';
 
 const ASTRITES_PER_PULL = 160;
 const ASTRITE_ICON = 'icons/T_IconA_zcpq_UI.webp';
@@ -54,33 +52,27 @@ export default function LeaderboardView() {
   const totalAstrites = totalPulls * ASTRITES_PER_PULL;
   const avgAstrites   = withPulls.length > 0 ? Math.round(totalAstrites / withPulls.length) : 0;
 
-  const startEdit = (key: string, current?: number) => {
-    setEditing(key);
-    setDraft(current ? String(current) : '');
-  };
+  const startEdit  = (key: string, current?: number) => { setEditing(key); setDraft(current ? String(current) : ''); };
   const commitEdit = (key: string) => {
     const val = parseInt(draft, 10);
     setPulls(key as any, isNaN(val) ? 0 : val);
-    setEditing(null);
-    setDraft('');
+    setEditing(null); setDraft('');
   };
   const cancelEdit = () => { setEditing(null); setDraft(''); };
 
   return (
     <div className="px-4 py-4 pb-24 max-w-2xl mx-auto">
 
-      {/* ── Summary ── */}
+      {/* Summary */}
       {totalPulls > 0 && (
         <div className="grid grid-cols-3 gap-2 mb-5">
-          <StatCard label="total astrites" value={totalAstrites.toLocaleString()}
-            icon={<AstriteIcon size={15} />} highlight />
-          <StatCard label="total pulls"  value={totalPulls.toLocaleString()} />
-          <StatCard label="avg per char" value={avgAstrites.toLocaleString()}
-            icon={<AstriteIcon size={13} />} />
+          <StatCard label="total astrites" value={totalAstrites.toLocaleString()} icon={<AstriteIcon size={15} />} highlight />
+          <StatCard label="total pulls"    value={totalPulls.toLocaleString()} />
+          <StatCard label="avg per char"   value={avgAstrites.toLocaleString()} icon={<AstriteIcon size={13} />} />
         </div>
       )}
 
-      {/* ── Empty state ── */}
+      {/* Empty state */}
       {owned.length === 0 && (
         <div className="flex flex-col items-center justify-center min-h-[160px] gap-3">
           <AstriteIcon size={28} className="opacity-20" />
@@ -90,7 +82,7 @@ export default function LeaderboardView() {
         </div>
       )}
 
-      {/* ── Column headers (only on desktop when there's content) ── */}
+      {/* Column headers — desktop only */}
       {sorted.length > 0 && (
         <div className="hidden md:grid grid-cols-2 gap-3 mb-1.5 px-1">
           <span className="text-[9px] font-mono uppercase tracking-widest" style={{ color: 'var(--muted)' }}>Character</span>
@@ -98,19 +90,18 @@ export default function LeaderboardView() {
         </div>
       )}
 
-      {/* ── Ranked rows ── */}
+      {/* Ranked rows */}
       {sorted.length > 0 && (
         <div className="flex flex-col gap-1.5 mb-4">
           {sorted.map((entry, idx) => {
-            const resKey   = String(entry.id);
-            const resPulls = pullCounts[resKey] ?? 0;
-            const elColor  = entry.element ? EL_COLORS[entry.element] : undefined;
-            const slug     = toImageSlug(entry.name);
-            const sigWep   = sigByOwner[slug];
-            const wepKey   = sigWep ? `wep-${sigWep.file}` : null;
-            const wepPulls = wepKey ? (pullCounts[wepKey] ?? 0) : 0;
-            const medal    = idx === 0 ? '#f0c060' : idx === 1 ? '#b0b0b8' : idx === 2 ? '#cd8050' : null;
-
+            const resKey    = String(entry.id);
+            const resPulls  = pullCounts[resKey] ?? 0;
+            const elColor   = entry.element ? EL_COLORS[entry.element] : undefined;
+            const slug      = toImageSlug(entry.name);
+            const sigWep    = sigByOwner[slug];
+            const wepKey    = sigWep ? `wep-${sigWep.file}` : null;
+            const wepPulls  = wepKey ? (pullCounts[wepKey] ?? 0) : 0;
+            const medal     = idx === 0 ? '#f0c060' : idx === 1 ? '#b0b0b8' : idx === 2 ? '#cd8050' : null;
             const isWepView = showWep.has(entry.id);
             const activeKey    = isWepView && wepKey ? wepKey : resKey;
             const activePulls  = isWepView && wepKey ? wepPulls : resPulls;
@@ -118,10 +109,9 @@ export default function LeaderboardView() {
             return (
               <div key={entry.id} className="grid grid-cols-1 md:grid-cols-2 gap-2">
 
-                {/* ── Mobile: single card with char/wep toggle ── */}
+                {/* Mobile: single card with toggle */}
                 <div className="flex items-center gap-2.5 px-3 py-2.5 rounded-xl md:hidden"
                   style={{ background: 'var(--surface)', border: `1px solid ${!isWepView && elColor ? `${elColor}22` : 'var(--border)'}` }}>
-                  {/* Medal */}
                   <div className="w-6 h-6 rounded-md flex items-center justify-center flex-shrink-0"
                     style={{ background: medal ? `${medal}18` : 'transparent', border: medal ? `1px solid ${medal}40` : '1px solid transparent' }}>
                     <span className="text-[10px] font-mono font-bold" style={{ color: medal ?? 'var(--muted)' }}>{idx + 1}</span>
@@ -131,7 +121,7 @@ export default function LeaderboardView() {
                     src={isWepView && sigWep ? `weapons/${sigWep.file}.avif` : `characters/Heads/head_${slug}.webp`}
                     alt="" className="w-9 h-9 rounded-xl flex-shrink-0"
                     style={{ objectFit: isWepView ? 'contain' : 'cover', border: `1.5px solid ${!isWepView && elColor ? `${elColor}44` : 'var(--border)'}`, background: isWepView ? 'rgba(255,255,255,0.02)' : 'transparent' }}
-                    onError={e => (e.currentTarget.style.opacity = '0.1')} />
+                    onError={e => { (e.currentTarget as HTMLImageElement).style.opacity = '0.1'; }} />
                   <div className="flex-1 min-w-0">
                     <p className="text-sm font-medium truncate" style={{ color: 'var(--text)' }}>
                       {isWepView && sigWep ? sigWep.name : entry.name}
@@ -143,33 +133,27 @@ export default function LeaderboardView() {
                       <span className="text-[9px] font-mono" style={{ color: 'var(--muted)' }}>{sigWep.category}</span>
                     ) : null}
                   </div>
-                  {/* Weapon toggle button */}
                   {sigWep && (
                     <button onClick={() => toggleWep(entry.id)}
                       className="flex-shrink-0 w-7 h-7 rounded-lg flex items-center justify-center transition-all mr-1"
                       title={isWepView ? 'Show character' : 'Show weapon'}
                       style={{ background: isWepView ? 'rgba(76,123,214,0.15)' : 'var(--surface2)', border: `1px solid ${isWepView ? 'rgba(76,123,214,0.4)' : 'var(--border)'}` }}>
                       {isWepView ? (
-                        // person icon
                         <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ color: '#4c7bd6' }}>
                           <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
                         </svg>
                       ) : (
-                        // sword icon
                         <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ color: 'var(--subtext)' }}>
                           <polyline points="14.5 17.5 3 6 3 3 6 3 17.5 14.5"/><line x1="13" y1="19" x2="19" y2="13"/><line x1="16" y1="16" x2="20" y2="20"/>
                         </svg>
                       )}
                     </button>
                   )}
-                  <PullButton pulls={activePulls} isEditing={editing === activeKey} draft={draft}
-                    setDraft={setDraft}
-                    onEdit={() => startEdit(activeKey, activePulls)}
-                    onCommit={() => commitEdit(activeKey)}
-                    onCancel={cancelEdit} />
+                  <PullButton pulls={activePulls} isEditing={editing === activeKey} draft={draft} setDraft={setDraft}
+                    onEdit={() => startEdit(activeKey, activePulls)} onCommit={() => commitEdit(activeKey)} onCancel={cancelEdit} />
                 </div>
 
-                {/* ── Desktop: character cell ── */}
+                {/* Desktop: character cell */}
                 <div className="hidden md:flex items-center gap-2.5 px-3 py-2.5 rounded-xl"
                   style={{ background: 'var(--surface)', border: `1px solid ${elColor ? `${elColor}22` : 'var(--border)'}` }}>
                   <div className="w-6 h-6 rounded-md flex items-center justify-center flex-shrink-0"
@@ -187,14 +171,11 @@ export default function LeaderboardView() {
                         style={{ color: elColor, background: `${elColor}16` }}>{entry.element}</span>
                     )}
                   </div>
-                  <PullButton pulls={resPulls} isEditing={editing === resKey} draft={draft}
-                    setDraft={setDraft}
-                    onEdit={() => startEdit(resKey, resPulls)}
-                    onCommit={() => commitEdit(resKey)}
-                    onCancel={cancelEdit} />
+                  <PullButton pulls={resPulls} isEditing={editing === resKey} draft={draft} setDraft={setDraft}
+                    onEdit={() => startEdit(resKey, resPulls)} onCommit={() => commitEdit(resKey)} onCancel={cancelEdit} />
                 </div>
 
-                {/* ── Desktop: weapon cell ── */}
+                {/* Desktop: weapon cell */}
                 {sigWep && wepKey ? (
                   <div className="hidden md:flex items-center gap-2.5 px-3 py-2.5 rounded-xl"
                     style={{ background: 'var(--surface)', border: '1px solid var(--border)' }}>
@@ -206,15 +187,11 @@ export default function LeaderboardView() {
                       <p className="text-sm font-medium truncate" style={{ color: 'var(--text)' }}>{sigWep.name}</p>
                       <span className="text-[9px] font-mono" style={{ color: 'var(--muted)' }}>{sigWep.category}</span>
                     </div>
-                    <PullButton pulls={wepPulls} isEditing={editing === wepKey} draft={draft}
-                      setDraft={setDraft}
-                      onEdit={() => startEdit(wepKey, wepPulls)}
-                      onCommit={() => commitEdit(wepKey)}
-                      onCancel={cancelEdit} />
+                    <PullButton pulls={wepPulls} isEditing={editing === wepKey} draft={draft} setDraft={setDraft}
+                      onEdit={() => startEdit(wepKey, wepPulls)} onCommit={() => commitEdit(wepKey)} onCancel={cancelEdit} />
                   </div>
                 ) : (
-                  <div className="hidden md:block rounded-xl"
-                    style={{ border: '1px dashed var(--border)', opacity: 0.3 }} />
+                  <div className="hidden md:block rounded-xl" style={{ border: '1px dashed var(--border)', opacity: 0.3 }} />
                 )}
               </div>
             );
@@ -222,7 +199,7 @@ export default function LeaderboardView() {
         </div>
       )}
 
-      {/* ── Not set ── */}
+      {/* Not set */}
       {withoutPulls.length > 0 && owned.length > 0 && (
         <>
           {withPulls.length > 0 && (
@@ -245,18 +222,15 @@ export default function LeaderboardView() {
                     className="w-7 h-7 rounded-lg object-cover flex-shrink-0"
                     style={{ filter: 'grayscale(0.4)', border: `1px solid ${elColor ? `${elColor}30` : 'var(--border)'}` }}
                     onError={e => (e.currentTarget.style.display = 'none')} />
-                  <span className="flex-1 text-[12px] font-medium truncate" style={{ color: 'var(--subtext)' }}>
-                    {entry.name}
-                  </span>
+                  <span className="flex-1 text-[12px] font-medium truncate" style={{ color: 'var(--subtext)' }}>{entry.name}</span>
                   {editing === key ? (
-                    <EditInput draft={draft} setDraft={setDraft} small
-                      onCommit={() => commitEdit(key)} onCancel={cancelEdit} />
+                    <EditInput draft={draft} setDraft={setDraft} small onCommit={() => commitEdit(key)} onCancel={cancelEdit} />
                   ) : (
                     <button onClick={() => startEdit(key)}
                       className="flex items-center gap-1 px-2 py-1 rounded-lg text-[10px] font-mono transition-all"
                       style={{ color: 'var(--muted)', border: '1px dashed var(--border)', background: 'transparent', opacity: 1 }}
-                      onMouseEnter={e => { const el = e.currentTarget as HTMLElement; el.style.color = 'var(--subtext)'; el.style.borderColor = 'var(--subtext)'; }}
-                      onMouseLeave={e => { const el = e.currentTarget as HTMLElement; el.style.color = 'var(--muted)'; el.style.borderColor = 'var(--border)'; }}
+                      onMouseEnter={e => { const el = e.currentTarget as HTMLElement; el.style.color='var(--subtext)'; el.style.borderColor='var(--subtext)'; }}
+                      onMouseLeave={e => { const el = e.currentTarget as HTMLElement; el.style.color='var(--muted)'; el.style.borderColor='var(--border)'; }}
                     >+ set pulls</button>
                   )}
                 </div>
@@ -268,8 +242,6 @@ export default function LeaderboardView() {
     </div>
   );
 }
-
-// ── Pull button ───────────────────────────────────────────────────────────────
 
 function PullButton({ pulls, isEditing, draft, setDraft, onEdit, onCommit, onCancel }: {
   pulls: number; isEditing: boolean; draft: string; setDraft: (v: string) => void;
@@ -302,27 +274,21 @@ function PullButton({ pulls, isEditing, draft, setDraft, onEdit, onCommit, onCan
   );
 }
 
-// ── Edit input ────────────────────────────────────────────────────────────────
-
 function EditInput({ draft, setDraft, onCommit, onCancel, small }: {
-  draft: string; setDraft: (v: string) => void;
-  onCommit: () => void; onCancel: () => void; small?: boolean;
+  draft: string; setDraft: (v: string) => void; onCommit: () => void; onCancel: () => void; small?: boolean;
 }) {
   return (
     <div className="flex items-center gap-1.5 flex-shrink-0">
       <input autoFocus type="number" min={0} value={draft} placeholder="pulls"
         onChange={e => setDraft(e.target.value)}
         onBlur={onCommit}
-        onKeyDown={e => { if (e.key === 'Enter') onCommit(); if (e.key === 'Escape') onCancel(); }}
+        onKeyDown={e => { if (e.key==='Enter') onCommit(); if (e.key==='Escape') onCancel(); }}
         className={`text-center font-mono rounded-lg border outline-none ${small ? 'w-14 h-6 text-[11px]' : 'w-16 h-7 text-[12px]'}`}
-        style={{ background: 'var(--surface2)', borderColor: 'rgba(76,123,214,0.5)', color: 'var(--text)' }}
-      />
+        style={{ background: 'var(--surface2)', borderColor: 'rgba(76,123,214,0.5)', color: 'var(--text)' }} />
       <span className="text-[10px] font-mono" style={{ color: 'var(--muted)' }}>pulls</span>
     </div>
   );
 }
-
-// ── Stat card ─────────────────────────────────────────────────────────────────
 
 function StatCard({ label, value, icon, highlight = false }: {
   label: string; value: string; icon?: React.ReactNode; highlight?: boolean;

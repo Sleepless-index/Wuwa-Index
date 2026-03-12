@@ -164,8 +164,8 @@ function SnapCard({ entry, s }: any) {
       className="relative rounded-xl overflow-hidden flex-shrink-0"
       style={{
         width: 90, height: 130,
-        border: `1px solid ${obtained && elColor ? `${elColor}55` : 'rgba(28,32,40,0.95)'}`,
-        boxShadow: obtained && elColor ? `0 2px 12px ${elColor}18` : 'none',
+        border: `1px solid ${obtained ? 'rgba(76,123,214,0.28)' : 'rgba(28,32,40,0.95)'}`,
+        boxShadow: obtained ? '0 2px 12px rgba(0,0,0,0.5)' : 'none',
       }}
     >
       {/* Art */}
@@ -206,7 +206,7 @@ function SnapCard({ entry, s }: any) {
           <div className="flex rounded px-1 py-0.5 w-fit"
             style={{
               background: 'rgba(8,12,24,0.92)',
-              border: `0.75px solid ${elColor ? `${elColor}55` : 'rgba(76,123,214,0.3)'}`,
+              border: `0.75px solid ${allMax ? 'rgba(76,123,214,0.6)' : 'rgba(76,123,214,0.2)'}`,
             }}
           >
             <span className="text-[8px] font-mono font-bold" style={{ color: '#8bb4f0' }}>S{s?.seq ?? 0} R{s?.wep ?? 0}</span>
@@ -246,7 +246,6 @@ function RegionsPreview({ versions, ownedOnly, stateMap }: any) {
               {filtered.map((e: any) => {
                 const s       = stateMap[e.id];
                 const slug    = toImageSlug(e.name);
-                const elColor = e.element ? EL_COLORS[e.element] : undefined;
                 const seqTxt  = s?.res ? `S${s.seq ?? 0}` : '';
                 const wepTxt  = s?.res ? `R${s.wep ?? 0}` : '';
                 return (
@@ -255,8 +254,8 @@ function RegionsPreview({ versions, ownedOnly, stateMap }: any) {
                     className="flex items-center gap-1.5 px-1.5 rounded-lg"
                     style={{
                       height: 28,
-                      background: s?.res && elColor ? `${elColor}08` : 'transparent',
-                      border:     s?.res && elColor ? `0.75px solid ${elColor}33` : '0.75px solid transparent',
+                      background: s?.res ? 'rgba(76,123,214,0.04)' : 'transparent',
+                      border:     s?.res ? '0.75px solid rgba(76,123,214,0.2)' : '0.75px solid transparent',
                     }}
                   >
                     {/* Head icon */}
@@ -279,7 +278,7 @@ function RegionsPreview({ versions, ownedOnly, stateMap }: any) {
                     {s?.res && (
                       <span
                         className="flex-shrink-0 flex rounded px-1 py-0.5"
-                        style={{ background: 'rgba(13,13,25,0.7)', border: `0.5px solid ${elColor ? `${elColor}44` : 'rgba(76,123,214,0.2)'}` }}
+                        style={{ background: 'rgba(13,13,25,0.7)', border: '0.5px solid rgba(76,123,214,0.2)' }}
                       >
                         <span className="text-[8px] font-mono font-bold" style={{ color: '#8bb4f0' }}>{seqTxt}</span>
                         <span className="text-[8px] font-mono"           style={{ color: '#8bb4f0' }}>{wepTxt}</span>

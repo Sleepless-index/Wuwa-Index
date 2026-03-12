@@ -204,9 +204,9 @@ async function gallerySnapshot(opts: SnapshotOptions): Promise<boolean> {
         ctx.strokeStyle = (isMaxS && isMaxR) ? 'rgba(76,123,214,0.7)' : 'rgba(255,255,255,0.08)';
         ctx.lineWidth = 0.75; rr(ctx, bX, bY, bW, bH, 3); ctx.stroke();
         ctx.textAlign = 'left'; ctx.textBaseline = 'middle';
-        ctx.fillStyle = '#4c7bd6'; ctx.font = BFONT;
+        ctx.fillStyle = '#8bb4f0'; ctx.font = BFONT;
         ctx.fillText(sText, bX + 2, bY + bH / 2);
-        ctx.fillStyle = '#4c7bd6'; ctx.font = RFONT;
+        ctx.fillStyle = '#8bb4f0'; ctx.font = RFONT;
         ctx.fillText(rText, bX + sW + 2, bY + bH / 2);
         ctx.textBaseline = 'alphabetic';
       }
@@ -306,10 +306,10 @@ async function regionsSnapshot(opts: SnapshotOptions): Promise<boolean> {
         rr(ctx, tagX, tagY, tagW, tagH, 3); ctx.stroke();
         ctx.textBaseline = 'middle';
         const sW = ctx.measureText(seqTxt).width;
-        ctx.fillStyle = '#4c7bd6';
+        ctx.fillStyle = '#8bb4f0';
         ctx.textAlign = 'left';
         ctx.fillText(seqTxt, tagX + 5, tagY + tagH / 2);
-        ctx.fillStyle = '#4c7bd6';
+        ctx.fillStyle = '#8bb4f0';
         ctx.fillText(wepTxt, tagX + 5 + sW + 2, tagY + tagH / 2);
       }
       ctx.textBaseline = 'alphabetic';
@@ -481,7 +481,7 @@ async function weaponGallerySnapshot(opts: WeaponSnapshotOptions): Promise<boole
         ctx.lineWidth = 0.75;
         rr(ctx, bX, bY, rW, bH, 3); ctx.stroke();
         ctx.textAlign = 'left'; ctx.textBaseline = 'middle';
-        ctx.fillStyle = '#4c7bd6'; ctx.font = RFONT;
+        ctx.fillStyle = '#8bb4f0'; ctx.font = RFONT;
         ctx.fillText(rText, bX + 3, bY + bH / 2);
         ctx.textBaseline = 'alphabetic';
       }
@@ -612,8 +612,7 @@ async function weaponListSnapshot(opts: WeaponSnapshotOptions): Promise<boolean>
         ctx.lineWidth = 0.75;
         rr(ctx, bX, bY, rW, bH, 3); ctx.stroke();
         ctx.textBaseline = 'middle';
-        ctx.fillStyle = '#4c7bd6';
-        ctx.fillText(rText, bX + 3, bY + bH / 2);
+        ctx.fillStyle = '#8bb4f0';
       }
       ctx.textBaseline = 'alphabetic';
       yRow += ROW_H + ROW_GAP;

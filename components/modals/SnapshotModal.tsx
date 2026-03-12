@@ -171,11 +171,11 @@ function SnapCard({ entry, s }: any) {
       {/* Art */}
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
-        src={`art/art_${slug}.avif`}
+        src={`characters/${slug}.avif`}
         alt={entry.name}
         className="absolute inset-0 w-full h-full object-cover"
         style={{ opacity: obtained ? 1 : 0.15 }}
-        onError={e => { (e.currentTarget as HTMLImageElement).src = `icons/head_${slug}.webp`; }}
+        onError={e => { (e.currentTarget as HTMLImageElement).style.opacity = "0.05"; }}
       />
 
       {/* Not-owned dim overlay */}
@@ -189,7 +189,7 @@ function SnapCard({ entry, s }: any) {
       {entry.element && (
         <div className="absolute top-1.5 left-1.5 z-10">
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={`icons/icon_${entry.element}.webp`} alt=""
+          <img src={`icons/Elements/icon_${entry.element}.webp`} alt=""
             className="w-3.5 h-3.5 object-contain"
             style={{ filter: obtained && elColor ? `drop-shadow(0 0 3px ${elColor}aa)` : 'grayscale(1) opacity(0.3)' }}
             onError={e => (e.currentTarget.style.display = 'none')} />
@@ -261,7 +261,7 @@ function RegionsPreview({ versions, ownedOnly, stateMap }: any) {
                     {/* Head icon */}
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img
-                      src={`icons/head_${slug}.webp`}
+                      src={`characters/${slug}.avif`}
                       alt=""
                       className="rounded object-cover flex-shrink-0"
                       style={{ width: 20, height: 20, opacity: s?.res ? 1 : 0.3, borderRadius: 4 }}

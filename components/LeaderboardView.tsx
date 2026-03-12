@@ -24,8 +24,11 @@ export default function LeaderboardView() {
   const pullCounts  = useTrackerStore(s => s.pullCounts);
   const setPulls    = useTrackerStore(s => s.setPulls);
 
-  const [editing, setEditing] = useState<string | null>(null);
-  const [draft,   setDraft]   = useState('');
+  const [editing,  setEditing]  = useState<string | null>(null);
+  const [draft,    setDraft]    = useState('');
+  const [showWep,  setShowWep]  = useState<Set<number>>(new Set());
+  const toggleWep  = (id: number) =>
+    setShowWep(prev => { const s = new Set(prev); s.has(id) ? s.delete(id) : s.add(id); return s; });
 
   // Exclude standard banner
   const allEntries = versions.filter(g => !g.standard).flatMap(g => g.entries);
@@ -108,20 +111,73 @@ export default function LeaderboardView() {
             const wepPulls = wepKey ? (pullCounts[wepKey] ?? 0) : 0;
             const medal    = idx === 0 ? '#f0c060' : idx === 1 ? '#b0b0b8' : idx === 2 ? '#cd8050' : null;
 
+            const isWepView = showWep.has(entry.id);
+            const activeKey    = isWepView && wepKey ? wepKey : resKey;
+            const activePulls  = isWepView && wepKey ? wepPulls : resPulls;
+
             return (
-              <div key={entry.id}
-                className="grid grid-cols-1 md:grid-cols-2 gap-2"
-              >
-                {/* ── Character cell ── */}
-                <div className="flex items-center gap-2.5 px-3 py-2.5 rounded-xl"
-                  style={{ background: 'var(--surface)', border: `1px solid ${elColor ? `${elColor}22` : 'var(--border)'}` }}>
+              <div key={entry.id} className="grid grid-cols-1 md:grid-cols-2 gap-2">
+
+                {/* ── Mobile: single card with char/wep toggle ── */}
+                <div className="flex items-center gap-2.5 px-3 py-2.5 rounded-xl md:hidden"
+                  style={{ background: 'var(--surface)', border: `1px solid ${!isWepView && elColor ? `${elColor}22` : 'var(--border)'}` }}>
                   {/* Medal */}
                   <div className="w-6 h-6 rounded-md flex items-center justify-center flex-shrink-0"
                     style={{ background: medal ? `${medal}18` : 'transparent', border: medal ? `1px solid ${medal}40` : '1px solid transparent' }}>
                     <span className="text-[10px] font-mono font-bold" style={{ color: medal ?? 'var(--muted)' }}>{idx + 1}</span>
                   </div>
                   {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src={`icons/head_${slug}.webp`} alt="" className="w-9 h-9 rounded-xl object-cover flex-shrink-0"
+                  <img
+                    src={isWepView && sigWep ? `weapons/${sigWep.file}.avif` : `characters/${slug}.avif`}
+                    alt="" className="w-9 h-9 rounded-xl flex-shrink-0"
+                    style={{ objectFit: isWepView ? 'contain' : 'cover', border: `1.5px solid ${!isWepView && elColor ? `${elColor}44` : 'var(--border)'}`, background: isWepView ? 'rgba(255,255,255,0.02)' : 'transparent' }}
+                    onError={e => (e.currentTarget.style.opacity = '0.1')} />
+                  <div className="flex-1 min-w-0">
+                    <p className="text-sm font-medium truncate" style={{ color: 'var(--text)' }}>
+                      {isWepView && sigWep ? sigWep.name : entry.name}
+                    </p>
+                    {!isWepView && elColor && entry.element ? (
+                      <span className="text-[9px] font-mono font-semibold px-1.5 py-0.5 rounded-md inline-block mt-0.5"
+                        style={{ color: elColor, background: `${elColor}16` }}>{entry.element}</span>
+                    ) : isWepView && sigWep ? (
+                      <span className="text-[9px] font-mono" style={{ color: 'var(--muted)' }}>{sigWep.category}</span>
+                    ) : null}
+                  </div>
+                  {/* Weapon toggle button */}
+                  {sigWep && (
+                    <button onClick={() => toggleWep(entry.id)}
+                      className="flex-shrink-0 w-7 h-7 rounded-lg flex items-center justify-center transition-all mr-1"
+                      title={isWepView ? 'Show character' : 'Show weapon'}
+                      style={{ background: isWepView ? 'rgba(76,123,214,0.15)' : 'var(--surface2)', border: `1px solid ${isWepView ? 'rgba(76,123,214,0.4)' : 'var(--border)'}` }}>
+                      {isWepView ? (
+                        // person icon
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ color: '#4c7bd6' }}>
+                          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
+                        </svg>
+                      ) : (
+                        // sword icon
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ color: 'var(--subtext)' }}>
+                          <polyline points="14.5 17.5 3 6 3 3 6 3 17.5 14.5"/><line x1="13" y1="19" x2="19" y2="13"/><line x1="16" y1="16" x2="20" y2="20"/>
+                        </svg>
+                      )}
+                    </button>
+                  )}
+                  <PullButton pulls={activePulls} isEditing={editing === activeKey} draft={draft}
+                    setDraft={setDraft}
+                    onEdit={() => startEdit(activeKey, activePulls)}
+                    onCommit={() => commitEdit(activeKey)}
+                    onCancel={cancelEdit} />
+                </div>
+
+                {/* ── Desktop: character cell ── */}
+                <div className="hidden md:flex items-center gap-2.5 px-3 py-2.5 rounded-xl"
+                  style={{ background: 'var(--surface)', border: `1px solid ${elColor ? `${elColor}22` : 'var(--border)'}` }}>
+                  <div className="w-6 h-6 rounded-md flex items-center justify-center flex-shrink-0"
+                    style={{ background: medal ? `${medal}18` : 'transparent', border: medal ? `1px solid ${medal}40` : '1px solid transparent' }}>
+                    <span className="text-[10px] font-mono font-bold" style={{ color: medal ?? 'var(--muted)' }}>{idx + 1}</span>
+                  </div>
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img src={`characters/${slug}.avif`} alt="" className="w-9 h-9 rounded-xl object-cover flex-shrink-0"
                     style={{ border: `1.5px solid ${elColor ? `${elColor}44` : 'var(--border)'}` }}
                     onError={e => (e.currentTarget.style.display = 'none')} />
                   <div className="flex-1 min-w-0">
@@ -138,7 +194,7 @@ export default function LeaderboardView() {
                     onCancel={cancelEdit} />
                 </div>
 
-                {/* ── Weapon cell — desktop only ── */}
+                {/* ── Desktop: weapon cell ── */}
                 {sigWep && wepKey ? (
                   <div className="hidden md:flex items-center gap-2.5 px-3 py-2.5 rounded-xl"
                     style={{ background: 'var(--surface)', border: '1px solid var(--border)' }}>
@@ -157,7 +213,6 @@ export default function LeaderboardView() {
                       onCancel={cancelEdit} />
                   </div>
                 ) : (
-                  /* Empty placeholder to preserve grid alignment */
                   <div className="hidden md:block rounded-xl"
                     style={{ border: '1px dashed var(--border)', opacity: 0.3 }} />
                 )}
@@ -186,7 +241,7 @@ export default function LeaderboardView() {
                 <div key={entry.id} className="flex items-center gap-3 px-3 py-2 rounded-xl"
                   style={{ background: 'transparent', border: '1px solid var(--border)', opacity: 0.55 }}>
                   {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src={`icons/head_${slug}.webp`} alt=""
+                  <img src={`characters/${slug}.avif`} alt=""
                     className="w-7 h-7 rounded-lg object-cover flex-shrink-0"
                     style={{ filter: 'grayscale(0.4)', border: `1px solid ${elColor ? `${elColor}30` : 'var(--border)'}` }}
                     onError={e => (e.currentTarget.style.display = 'none')} />

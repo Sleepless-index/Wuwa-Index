@@ -23,7 +23,7 @@ export default function FilterPopover() {
           >
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
-              src={`icons/icon_${el}.webp`}
+              src={`icons/Elements/icon_${el}.webp`}
               alt={el}
               className="w-3.5 h-3.5 object-contain flex-shrink-0"
               onError={e => (e.currentTarget.style.display = 'none')}

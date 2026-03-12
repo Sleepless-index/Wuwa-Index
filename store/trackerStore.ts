@@ -19,6 +19,10 @@ interface TrackerStore {
   weaponState: Record<string, number>; // slug → rank 0-5 for standard weapons
   pullCounts: Record<string, number>;  // id or "wep-{file}" → pulls spent
 
+  // Pity counters (persisted)
+  limitedPity:  number;
+  standardPity: number;
+
   // Derived helpers (computed on access)
   allEntries: () => Resonator[];
 

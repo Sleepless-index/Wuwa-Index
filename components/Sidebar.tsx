@@ -15,14 +15,21 @@ type NavItem = { id: SidebarTab; title: string } & (
 const NAV: NavItem[] = [
   { id: 'characters',  kind: 'img',    src:  'icons/bt_iconcharacter.webp', title: 'Characters'   },
   { id: 'weapons',     kind: 'img',    src:  'icons/bt_iconweapon.webp',    title: 'Weapons'      },
-  { id: 'priority',    kind: 'img',    src:  'icons/bt_iconpriority.webp',  title: 'Priority'     },
+  { id: 'priority',    kind: 'lucide', icon: (a) => (
+      <svg width="18" height="18" viewBox="0 0 24 24"
+        fill={a ? 'rgba(76,123,214,0.8)' : 'none'}
+        stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"
+        style={{ opacity: a ? 1 : 0.35, filter: a ? 'drop-shadow(0 0 4px rgba(76,123,214,0.4))' : 'none' }}>
+        <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+      </svg>
+    ), title: 'Priority' },
   { id: 'leaderboard', kind: 'lucide', icon: (a) => (
       // eslint-disable-next-line @next/next/no-img-element
       <img src="icons/T_IconA_zcpq_UI.webp" alt="" width={22} height={22}
         className="object-contain"
         style={{ opacity: a ? 1 : 0.35, filter: a ? 'drop-shadow(0 0 4px rgba(76,123,214,0.4))' : 'none' }}
         onError={e => (e.currentTarget.style.display = 'none')} />
-    ), title: 'Gacha Cost' },
+    ), title: 'Astrite Cost' },
 ];
 
 export default function Sidebar({ tab, setTab, onOpen }: Props) {
@@ -81,8 +88,23 @@ export default function Sidebar({ tab, setTab, onOpen }: Props) {
       {/* Separator */}
       <div className="w-6 h-px mb-1 flex-shrink-0" style={{ background: 'var(--border)' }} />
 
+      {/* Gacha Import */}
+      <button title="Import from Game" onClick={() => onOpen('gacha-import')}
+        className="w-9 h-9 rounded-lg flex items-center justify-center transition-all flex-shrink-0"
+        style={{ color: 'rgba(76,123,214,0.7)', border: '1px solid rgba(76,123,214,0.2)', background: 'rgba(76,123,214,0.06)' }}
+        onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = 'rgba(76,123,214,0.15)'; (e.currentTarget as HTMLElement).style.borderColor = 'rgba(76,123,214,0.4)'; }}
+        onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = 'rgba(76,123,214,0.06)'; (e.currentTarget as HTMLElement).style.borderColor = 'rgba(76,123,214,0.2)'; }}
+      >
+        {/* Wand/sparkle icon */}
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M15 4V2"/><path d="M15 16v-2"/><path d="M8 9h2"/><path d="M20 9h2"/>
+          <path d="M17.8 11.8 19 13"/><path d="M15 9h.01"/><path d="M17.8 6.2 19 5"/>
+          <path d="m3 21 9-9"/><path d="M12.2 6.2 11 5"/>
+        </svg>
+      </button>
+
       {/* Import */}
-      <button title="Import" onClick={() => onOpen('import')}
+      <button title="Import Data" onClick={() => onOpen('import')}
         className="w-9 h-9 rounded-lg flex items-center justify-center transition-all flex-shrink-0 group"
         style={{ color: 'var(--subtext)', border: '1px solid transparent' }}
         onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = 'var(--text)'; (e.currentTarget as HTMLElement).style.borderColor = 'var(--border)'; (e.currentTarget as HTMLElement).style.background = 'var(--surface2)'; }}

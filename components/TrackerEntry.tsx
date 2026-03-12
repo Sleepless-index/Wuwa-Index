@@ -58,7 +58,7 @@ export default function TrackerEntry({ entry }: Props) {
         {/* Art */}
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
-          src={`characters/${slug}.avif`}
+          src={`art/art_${slug}.avif`}
           alt={name}
           className="absolute inset-0 w-full h-full object-cover pointer-events-none"
           style={{
@@ -66,7 +66,7 @@ export default function TrackerEntry({ entry }: Props) {
             transition: 'opacity 0.2s',
             transform: s.res ? 'scale(1)' : 'scale(0.98)',
           }}
-          onError={e => { (e.currentTarget as HTMLImageElement).src = `characters/Heads/head_${slug}.webp`; }}
+          onError={e => { (e.currentTarget as HTMLImageElement).src = `icons/head_${slug}.webp`; }}
         />
 
         {/* Dark vignette overlay (not-owned state) */}
@@ -85,7 +85,7 @@ export default function TrackerEntry({ entry }: Props) {
           <div className="absolute top-2 left-2 z-10">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
-              src={`icons/Elements/icon_${element}.webp`}
+              src={`icons/icon_${element}.webp`}
               alt={element}
               className="w-4 h-4 object-contain"
               style={{

@@ -41,11 +41,11 @@ export type SnapView = 'gallery' | 'regions';
 export type ModalType =
   | 'export'
   | 'import'
+  | 'gacha-import'
   | 'snapshot'
   | 'weapon-snapshot'
   | 'edit-upcoming'
   | 'release'
-  | 'gacha-import'
   | null;
 
 export type SidebarTab = 'characters' | 'weapons' | 'priority' | 'leaderboard';

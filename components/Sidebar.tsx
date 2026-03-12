@@ -15,14 +15,7 @@ type NavItem = { id: SidebarTab; title: string } & (
 const NAV: NavItem[] = [
   { id: 'characters',  kind: 'img',    src:  'icons/bt_iconcharacter.webp', title: 'Characters'   },
   { id: 'weapons',     kind: 'img',    src:  'icons/bt_iconweapon.webp',    title: 'Weapons'      },
-  { id: 'priority',    kind: 'lucide', icon: (a) => (
-      <svg width="18" height="18" viewBox="0 0 24 24"
-        fill={a ? 'rgba(76,123,214,0.8)' : 'none'}
-        stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"
-        style={{ opacity: a ? 1 : 0.35, filter: a ? 'drop-shadow(0 0 4px rgba(76,123,214,0.4))' : 'none' }}>
-        <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
-      </svg>
-    ), title: 'Priority' },
+  { id: 'priority',    kind: 'img',    src:  'icons/bt_iconpriority.webp',  title: 'Priority'     },
   { id: 'leaderboard', kind: 'lucide', icon: (a) => (
       // eslint-disable-next-line @next/next/no-img-element
       <img src="icons/T_IconA_zcpq_UI.webp" alt="" width={22} height={22}

@@ -11,7 +11,7 @@ export default function WeaponsView() {
   const stdFiltered = STD_WEAPONS.filter(w => activeFilter === 'All' || w.category === activeFilter);
 
   return (
-    <div className="px-4 py-4">
+    <div className="px-4 py-4 pb-24">
       {/* Weapon type filter */}
       <div className="flex items-center gap-1.5 mb-5 flex-wrap">
         {WEP_ORDER.map(wt => {

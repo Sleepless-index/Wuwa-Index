@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useTrackerStore } from '@/store/trackerStore';
 import { EL_COLORS } from '@/data/resonators';
-import { SIG_WEAPONS, STD_WEAPONS } from '@/data/weapons';
+import { SIG_WEAPONS } from '@/data/weapons';
 import { toImageSlug } from '@/utils/helpers';
 import type { Weapon } from '@/data/weapons';
 
@@ -40,7 +40,7 @@ export default function LeaderboardView() {
   const maxResPulls  = pullCounts[sortedRes[0]?.id] ?? 0;
 
   // ── Weapons ──
-  const allWeapons = [...SIG_WEAPONS, ...STD_WEAPONS];
+  const allWeapons = [...SIG_WEAPONS];
   const getRank = (w: Weapon) => {
     if (w.owner) {
       const e = versions.flatMap(g => g.entries).find(e => toImageSlug(e.name) === toImageSlug(w.owner!));
@@ -78,7 +78,7 @@ export default function LeaderboardView() {
   const isRes = section === 'resonators';
 
   return (
-    <div className="px-4 py-4 max-w-xl pb-24">
+    <div className="px-4 py-4 pb-24">
 
       {/* ── Summary cards ── */}
       {totalPulls > 0 && (

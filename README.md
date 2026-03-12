@@ -2,7 +2,7 @@
 
 A Next.js + React + TypeScript tracker for Wuthering Waves limited resonators.
 
-## ✨ Stack
+## Stack
 
 | Technology | Purpose |
 |---|---|
@@ -11,22 +11,6 @@ A Next.js + React + TypeScript tracker for Wuthering Waves limited resonators.
 | **TypeScript** | Type safety throughout |
 | **Tailwind CSS** | Styling + dark/light theme |
 | **Zustand** | Global state with localStorage persistence |
-
-## 🚀 Getting Started
-
-```bash
-npm install
-npm run dev        # http://localhost:3000
-npm run build      # generates /out for static hosting
-```
-
-## Deploy to GitHub Pages
-
-1. Push this repo to GitHub
-2. Go to **Settings → Pages → Source** and select **GitHub Actions**
-3. On the next push to `main` the workflow in `.github/workflows/deploy.yml` builds and deploys automatically
-
-> **Note:** If your repo is at `github.com/<you>/<repo>` (not a root user page), open `.github/workflows/deploy.yml` and set `NEXT_PUBLIC_BASE_PATH` to `/<repo>`. Also update `next.config.js` if you're running locally with a base path.
 
 ## Project Structure
 

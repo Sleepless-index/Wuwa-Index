@@ -1,3 +1,4 @@
+import type { ReactNode } from 'react';
 import type { ModalType, SidebarTab } from '@/types';
 
 interface Props {
@@ -6,11 +7,29 @@ interface Props {
   onOpen: (m: ModalType) => void;
 }
 
-const NAV: { id: SidebarTab; icon: string; title: string }[] = [
-  { id: 'characters',  icon: 'icons/bt_iconcharacter.webp',  title: 'Characters'   },
-  { id: 'weapons',     icon: 'icons/bt_iconweapon.webp',     title: 'Weapons'      },
-  { id: 'priority',    icon: 'icons/bt_iconpriority.webp',   title: 'Priority'     },
-  { id: 'leaderboard', icon: 'icons/T_IconA_zcpq_UI.webp',   title: 'Astrite Cost' },
+type NavItem = { id: SidebarTab; title: string } & (
+  | { kind: 'img';    src: string }
+  | { kind: 'lucide'; icon: (active: boolean) => ReactNode }
+);
+
+const NAV: NavItem[] = [
+  { id: 'characters',  kind: 'img',    src:  'icons/bt_iconcharacter.webp', title: 'Characters'   },
+  { id: 'weapons',     kind: 'img',    src:  'icons/bt_iconweapon.webp',    title: 'Weapons'      },
+  { id: 'priority',    kind: 'lucide', icon: (a) => (
+      <svg width="18" height="18" viewBox="0 0 24 24"
+        fill={a ? 'rgba(76,123,214,0.8)' : 'none'}
+        stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"
+        style={{ opacity: a ? 1 : 0.35, filter: a ? 'drop-shadow(0 0 4px rgba(76,123,214,0.4))' : 'none' }}>
+        <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+      </svg>
+    ), title: 'Priority' },
+  { id: 'leaderboard', kind: 'lucide', icon: (a) => (
+      // eslint-disable-next-line @next/next/no-img-element
+      <img src="icons/T_IconA_zcpq_UI.webp" alt="" width={22} height={22}
+        className="object-contain"
+        style={{ opacity: a ? 1 : 0.35, filter: a ? 'drop-shadow(0 0 4px rgba(76,123,214,0.4))' : 'none' }}
+        onError={e => (e.currentTarget.style.display = 'none')} />
+    ), title: 'Astrite Cost' },
 ];
 
 export default function Sidebar({ tab, setTab, onOpen }: Props) {
@@ -27,18 +46,19 @@ export default function Sidebar({ tab, setTab, onOpen }: Props) {
       <div className="w-6 h-px mb-1 flex-shrink-0" style={{ background: 'var(--border)' }} />
 
       {/* Nav icons */}
-      {NAV.map(({ id, icon, title }) => {
-        const active = tab === id;
+      {NAV.map((item) => {
+        const active = tab === item.id;
         return (
           <button
-            key={id}
-            title={title}
-            onClick={() => setTab(id)}
-            className="relative w-11 h-11 rounded-xl flex items-center justify-center transition-all duration-150 flex-shrink-0 group"
+            key={item.id}
+            title={item.title}
+            onClick={() => setTab(item.id)}
+            className="relative w-11 h-11 rounded-xl flex items-center justify-center transition-all duration-150 flex-shrink-0"
             style={{
-              background:  active ? 'rgba(76,123,214,0.1)'  : 'transparent',
-              border:      active ? '1px solid rgba(76,123,214,0.35)' : '1px solid transparent',
-              boxShadow:   active ? '0 0 16px rgba(76,123,214,0.1)' : 'none',
+              background: active ? 'rgba(76,123,214,0.1)'          : 'transparent',
+              border:     active ? '1px solid rgba(76,123,214,0.35)' : '1px solid transparent',
+              boxShadow:  active ? '0 0 16px rgba(76,123,214,0.1)'  : 'none',
+              color:      active ? '#4c7bd6' : 'var(--subtext)',
             }}
           >
             {/* Active left bar */}
@@ -46,14 +66,19 @@ export default function Sidebar({ tab, setTab, onOpen }: Props) {
               <span className="absolute left-0 top-2 bottom-2 w-0.5 rounded-r-full"
                 style={{ background: 'rgba(76,123,214,0.7)' }} />
             )}
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src={icon}
-              alt={title}
-              className="w-5 h-5 object-contain transition-opacity duration-150"
-              style={{ opacity: active ? 1 : 0.35, filter: active ? 'drop-shadow(0 0 4px rgba(76,123,214,0.4))' : 'none' }}
-              onError={e => { (e.currentTarget as HTMLImageElement).style.display = 'none'; }}
-            />
+
+            {item.kind === 'img' ? (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img
+                src={item.src}
+                alt={item.title}
+                className="w-5 h-5 object-contain transition-opacity duration-150"
+                style={{ opacity: active ? 1 : 0.35, filter: active ? 'drop-shadow(0 0 4px rgba(76,123,214,0.4))' : 'none' }}
+                onError={e => { (e.currentTarget as HTMLImageElement).style.display = 'none'; }}
+              />
+            ) : (
+              item.icon(active)
+            )}
           </button>
         );
       })}

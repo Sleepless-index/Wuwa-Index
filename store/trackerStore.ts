@@ -17,7 +17,7 @@ interface TrackerStore {
   // UI state (not persisted)
   activeFilter: string;
   weaponState: Record<string, number>; // slug → rank 0-5 for standard weapons
-  pullCounts: Record<number, number>;  // id → pulls spent
+  pullCounts: Record<string, number>;  // id or "wep-{file}" → pulls spent
 
   // Derived helpers (computed on access)
   allEntries: () => Resonator[];
@@ -31,7 +31,7 @@ interface TrackerStore {
   setStdWeaponRank: (slug: string, rank: number) => void;
 
   // Pull count action
-  setPulls: (id: number, pulls: number) => void;
+  setPulls: (id: string | number, pulls: number) => void;
 
   // Priority actions
   togglePriority:    (id: number) => void;
@@ -209,7 +209,7 @@ export const useTrackerStore = create<TrackerStore>()(
       // ── Pull counts ──
       setPulls: (id, pulls) =>
         set(s => ({
-          pullCounts: { ...s.pullCounts, [id]: pulls < 0 ? 0 : pulls },
+          pullCounts: { ...s.pullCounts, [String(id)]: pulls < 0 ? 0 : pulls },
         })),
 
       // ── Import ──

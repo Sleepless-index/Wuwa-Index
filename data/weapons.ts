@@ -29,6 +29,7 @@ export const SIG_WEAPONS: Weapon[] = [
   { file: 'T_IconWeapon21040019_UI', name: 'Blazing Justice',       category: 'Gauntlet',       owner: 'Zani'          },
   { file: 'T_IconWeapon21040046_UI', name: "Moongazer's Sigil",     category: 'Gauntlet',     owner: 'Iuno'          },
   { file: 'T_IconWeapon_21040056_UI', name: "Daybreaker's Spine",   category: 'Gauntlet',   owner: 'Luuk_Herssen'  },
+  { file: 'T_IconWeapon21040066_UI', name: 'Solsworn Ciphers',         category: 'Gauntlet',         owner: 'Sigrika'      },
   { file: 'T_IconWeapon21050016_UI', name: 'Stringmaster',          category: 'Rectifier',          owner: 'Yinlin'        },
   { file: 'T_IconWeapon21050026_UI', name: 'Rime-Draped Sprouts',   category: 'Rectifier',   owner: 'Zhezhi'        },
   { file: 'T_IconWeapon21050027_UI', name: 'Stellar Symphony',      category: 'Rectifier',      owner: 'Shorekeeper'   },
